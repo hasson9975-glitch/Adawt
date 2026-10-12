@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مولد التدرجات اللونية أونلاين مجاناً | أدواتي</title>
+<meta name="description" content="صمّم تدرجات لونية جميلة مجاناً — انسخ كود CSS أو حمّلها كصورة.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / مولد التدرجات</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>🌈 مولد التدرجات اللونية</h2>
+    <div class="desc">صمّم تدرجك الخاص — مثالي لخلفيات المواقع والتصاميم.</div>
+
+    <div id="grPreview" style="height:220px;border-radius:14px;border:1px solid #e5e9f2;margin-bottom:14px"></div>
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px">
+      <div><label for="grC1">اللون الأول</label><input type="color" id="grC1" value="#1a2a6c" style="width:60px;height:40px;padding:2px"></div>
+      <div><label for="grC2">اللون الثاني</label><input type="color" id="grC2" value="#b21f1f" style="width:60px;height:40px;padding:2px"></div>
+      <div><label for="grC3">اللون الثالث <small>(اختياري)</small></label><input type="color" id="grC3" value="#fdbb2d" style="width:60px;height:40px;padding:2px"></div>
+    </div>
+    <label><input type="checkbox" id="grUse3" style="width:auto"> استخدام 3 ألوان</label>
+
+    <label for="grAngle" style="margin-top:8px;display:block">الاتجاه: <span id="grAngleVal">90</span>°</label>
+    <input type="range" id="grAngle" min="0" max="360" value="90">
+
+    <label>تدرجات جاهزة</label>
+    <div id="grPresets" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;margin-bottom:14px"></div>
+
+    <label for="grCss">كود CSS</label>
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <input type="text" id="grCss" readonly style="flex:1;padding:12px;border:1px solid #d8dee9;border-radius:10px;font-family:monospace;direction:ltr">
+      <button class="btn" id="grCopy" style="white-space:nowrap">نسخ</button>
+    </div>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn" id="grRandom">تدرج عشوائي 🎲</button>
+      <button class="btn" id="grDownload" style="background:#eef1f7;color:var(--navy)">تحميل كصورة PNG</button>
+    </div>
+  </div>
+
+  <div class="tool-box how">
+    <h3>كيف تصمم تدرجاً؟</h3>
+    <ol>
+      <li>اختر الألوان والاتجاه، أو جرّب التدرجات الجاهزة.</li>
+      <li>انسخ كود CSS لموقعك أو حمّل التدرج كصورة.</li>
+    </ol>
+  </div>
+
+  <div class="tool-box faq">
+    <h3>أسئلة شائعة</h3>
+    <details><summary>كيف أستخدم الكود في موقعي؟</summary><p>الصق الكود في خاصية background لأي عنصر في ملف CSS.</p></details>
+    <details><summary>ما مقاس الصورة المحمّلة؟</summary><p>1920×1080 بكسل — مناسبة لخلفيات الشاشات.</p></details>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  var PRESETS = [
+    ['#1a2a6c', '#b21f1f', '#fdbb2d'], ['#0f2027', '#203a43', '#2c5364'],
+    ['#8e2de2', '#4a00e0', null], ['#f12711', '#f5af19', null],
+    ['#11998e', '#38ef7d', null], ['#232526', '#414345', null],
+    ['#fc4a1a', '#f7b733', null], ['#2193b0', '#6dd5ed', null],
+    ['#cc2b5e', '#753a88', null], ['#00b09b', '#96c93d', null],
+    ['#ff512f', '#dd2476', null], ['#134e5e', '#71b280', null]
+  ];
+
+  function css() {
+    var c1 = document.getElementById('grC1').value;
+    var c2 = document.getElementById('grC2').value;
+    var a = document.getElementById('grAngle').value;
+    var stops = c1 + ', ' + c2;
+    if (document.getElementById('grUse3').checked) stops += ', ' + document.getElementById('grC3').value;
+    return 'linear-gradient(' + a + 'deg, ' + stops + ')';
+  }
+  function render() {
+    var g = css();
+    document.getElementById('grPreview').style.background = g;
+    document.getElementById('grCss').value = 'background: ' + g + ';';
+  }
+
+  var box = document.getElementById('grPresets');
+  PRESETS.forEach(function (p) {
+    var d = document.createElement('div');
+    d.style.cssText = 'height:56px;border-radius:10px;cursor:pointer;border:1px solid #e5e9f2;background:linear-gradient(135deg,' + p[0] + ',' + p[1] + (p[2] ? ',' + p[2] : '') + ')';
+    d.title = 'تطبيق هذا التدرج';
+    d.addEventListener('click', function () {
+      document.getElementById('grC1').value = p[0];
+      document.getElementById('grC2').value = p[1];
+      document.getElementById('grUse3').checked = !!p[2];
+      if (p[2]) document.getElementById('grC3').value = p[2];
+      render();
+    });
+    box.appendChild(d);
+  });
+
+  ['grC1', 'grC2', 'grC3', 'grUse3'].forEach(function (id) {
+    document.getElementById(id).addEventListener('input', render);
+    document.getElementById(id).addEventListener('change', render);
+  });
+  document.getElementById('grAngle').addEventListener('input', function () {
+    document.getElementById('grAngleVal').textContent = this.value;
+    render();
+  });
+
+  document.getElementById('grCopy').addEventListener('click', function () {
+    var t = document.getElementById('grCss').value;
+    var b = this;
+    function done() { b.textContent = 'تم ✓'; setTimeout(function () { b.textContent = 'نسخ'; }, 1200); }
+    if (navigator.clipboard) navigator.clipboard.writeText(t).then(done, done);
+    else { document.getElementById('grCss').select(); try { document.execCommand('copy'); } catch (e) {} done(); }
+  });
+
+  document.getElementById('grRandom').addEventListener('click', function () {
+    function rc() { return '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0'); }
+    document.getElementById('grC1').value = rc();
+    document.getElementById('grC2').value = rc();
+    document.getElementById('grC3').value = rc();
+    render();
+  });
+
+  document.getElementById('grDownload').addEventListener('click', function () {
+    var c = document.createElement('canvas');
+    c.width = 1920; c.height = 1080;
+    var x = c.getContext('2d');
+    var a = parseInt(document.getElementById('grAngle').value, 10) * Math.PI / 180;
+    var g = x.createLinearGradient(
+      960 - Math.cos(a) * 960, 540 - Math.sin(a) * 540,
+      960 + Math.cos(a) * 960, 540 + Math.sin(a) * 540
+    );
+    var stops = [document.getElementById('grC1').value, document.getElementById('grC2').value];
+    if (document.getElementById('grUse3').checked) stops.push(document.getElementById('grC3').value);
+    stops.forEach(function (col, i) { g.addColorStop(i / (stops.length - 1), col); });
+    x.fillStyle = g;
+    x.fillRect(0, 0, 1920, 1080);
+    var l = document.createElement('a');
+    l.href = c.toDataURL('image/png');
+    l.download = 'adawati-gradient.png';
+    document.body.appendChild(l); l.click(); document.body.removeChild(l);
+  });
+
+  render();
+})();
+</script>
+
+</body>
+</html>
