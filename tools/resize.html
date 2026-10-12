@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تغيير حجم الصور أونلاين مجاناً | أدواتي</title>
+<meta name="description" content="غيّر أبعاد صورك بالبكسل أو بالنسبة المئوية مجاناً داخل المتصفح. سريع وآمن — صورك لا تغادر جهازك.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / تغيير حجم الصور</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>📐 تغيير حجم الصور</h2>
+    <div class="desc">غيّر أبعاد صورك بدقة — بالأبعاد المباشرة أو بالنسبة المئوية — مع الحفاظ على التناسب.</div>
+
+    <div class="drop-zone" onclick="document.getElementById('resizeFile').click()">
+      اضغط هنا لاختيار صورة
+      <input type="file" id="resizeFile" accept="image/*">
+    </div>
+    <div id="resizeInfo" style="color:var(--muted);font-size:.95rem;margin-bottom:10px"></div>
+
+    <label><input type="radio" name="resizeMode" value="dims" checked style="width:auto"> بالأبعاد (بكسل)</label>
+    <label><input type="radio" name="resizeMode" value="percent" style="width:auto"> بالنسبة المئوية</label>
+
+    <div id="resizeByDims">
+      <label for="resizeW">العرض (بكسل)</label>
+      <input type="number" id="resizeW" min="1">
+      <label for="resizeH">الارتفاع (بكسل)</label>
+      <input type="number" id="resizeH" min="1">
+      <label><input type="checkbox" id="keepRatio" checked style="width:auto"> الحفاظ على التناسب</label>
+    </div>
+
+    <div id="resizeByPercent" style="display:none">
+      <label for="resizePercent">النسبة: <span id="resizePercentVal">50%</span></label>
+      <input type="range" id="resizePercent" min="5" max="200" value="50">
+    </div>
+
+    <button class="btn" id="resizeBtn" disabled>تغيير الحجم وتحميل</button>
+  </div>
+
+  <div class="tool-box how">
+    <h3>كيف تغيّر حجم صورة؟</h3>
+    <ol>
+      <li>اختر الصورة من جهازك.</li>
+      <li>اختر الطريقة: أبعاد مباشرة أو نسبة مئوية.</li>
+      <li>اضغط "تغيير الحجم وتحميل".</li>
+    </ol>
+  </div>
+
+  <div class="tool-box faq">
+    <h3>أسئلة شائعة</h3>
+    <details><summary>هل تتأثر جودة الصورة عند التكبير؟</summary><p>تكبير الصورة فوق حجمها الأصلي قد يقلل حدّتها. التصغير آمن دائماً.</p></details>
+    <details><summary>هل تُرفع صوري إلى خادم؟</summary><p>لا. كل المعالجة تتم داخل متصفحك.</p></details>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+<script src="../assets/tools.js"></script>
+</body>
+</html>

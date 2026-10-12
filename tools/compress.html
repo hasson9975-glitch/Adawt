@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ضغط الصور أونلاين مجاناً | أدواتي</title>
+<meta name="description" content="اضغط حجم صورك JPG مجاناً داخل المتصفح مع التحكم بدرجة الجودة. سريع وآمن — صورك لا تغادر جهازك.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html" class="active">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / ضغط الصور</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>🗜️ ضغط الصور أونلاين</h2>
+    <div class="desc">صغّر حجم صورك مع التحكم الكامل بدرجة الجودة. مثالية لتسريع موقعك أو إرسال الصور عبر واتساب.</div>
+
+    <div class="drop-zone" onclick="document.getElementById('compressFile').click()">
+      اضغط هنا لاختيار صورة
+      <input type="file" id="compressFile" accept="image/*">
+    </div>
+    <div id="compressInfo" style="color:var(--muted);font-size:.95rem"></div>
+
+    <label for="compressQuality">درجة الجودة: <span id="compressQualityVal">70%</span></label>
+    <input type="range" id="compressQuality" min="10" max="95" value="70">
+
+    <button class="btn" id="compressBtn" disabled>اضغط الصورة</button>
+    <div class="result" id="compressResult"></div>
+  </div>
+
+  <div class="tool-box how">
+    <h3>كيف تضغط صورة؟</h3>
+    <ol>
+      <li>اختر الصورة من جهازك.</li>
+      <li>حرّك مؤشر الجودة (70% خيار متوازن بين الحجم والجودة).</li>
+      <li>اضغط "اضغط الصورة" ثم حمّل النتيجة.</li>
+    </ol>
+  </div>
+
+  <div class="tool-box faq">
+    <h3>أسئلة شائعة</h3>
+    <details><summary>هل تُرفع صوري إلى خادم؟</summary><p>لا. الضغط يتم بالكامل داخل متصفحك، وصورك لا تغادر جهازك أبداً.</p></details>
+    <details><summary>ما أفضل درجة جودة؟</summary><p>بين 60% و80% لصور الويب. أقل من ذلك قد تظهر تشوهات واضحة.</p></details>
+    <details><summary>ما الصيغ المدعومة للإدخال؟</summary><p>معظم الصيغ الشائعة (JPG, PNG, WebP...)، والناتج دائماً بصيغة JPG.</p></details>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+<script src="../assets/tools.js"></script>
+</body>
+</html>

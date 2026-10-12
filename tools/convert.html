@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تحويل صيغ الصور أونلاين (PNG / JPG / WebP) | أدواتي</title>
+<meta name="description" content="حوّل صورك بين صيغ PNG وJPG وWebP مجاناً داخل المتصفح. سريع وآمن — صورك لا تغادر جهازك.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / تحويل صيغ الصور</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>🔄 تحويل صيغ الصور</h2>
+    <div class="desc">حوّل صورك بين PNG وJPG وWebP بضغطة واحدة — مثلاً WebP لصور ويب أخف وأسرع.</div>
+
+    <div class="drop-zone" onclick="document.getElementById('convertFile').click()">
+      اضغط هنا لاختيار صورة
+      <input type="file" id="convertFile" accept="image/*">
+    </div>
+
+    <label for="convertFormat">الصيغة المطلوبة</label>
+    <select id="convertFormat">
+      <option value="webp">WebP (خفيف وسريع للويب)</option>
+      <option value="jpeg">JPG (متوافق مع الجميع)</option>
+      <option value="png">PNG (جودة عالية وشفافية)</option>
+    </select>
+
+    <button class="btn" id="convertBtn" disabled>تحويل وتحميل</button>
+    <div class="result" id="convertPreview"></div>
+  </div>
+
+  <div class="tool-box how">
+    <h3>كيف تحوّل صيغة صورة؟</h3>
+    <ol>
+      <li>اختر الصورة من جهازك.</li>
+      <li>اختر الصيغة المطلوبة من القائمة.</li>
+      <li>اضغط "تحويل وتحميل" وستُنزّل الصورة بالصيغة الجديدة.</li>
+    </ol>
+  </div>
+
+  <div class="tool-box faq">
+    <h3>أسئلة شائعة</h3>
+    <details><summary>ما الفرق بين الصيغ؟</summary><p>JPG مناسب للصور الفوتوغرافية، PNG يحافظ على الشفافية والجودة، وWebP أحدثها وأخفها حجماً للويب.</p></details>
+    <details><summary>هل تُرفع صوري إلى خادم؟</summary><p>لا. التحويل يتم بالكامل داخل متصفحك.</p></details>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+<script src="../assets/tools.js"></script>
+</body>
+</html>

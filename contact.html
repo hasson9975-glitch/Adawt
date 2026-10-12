@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>اتصل بنا | أدواتي</title>
+<meta name="description" content="تواصل مع فريق أدواتي — اقتراحات، بلاغات عن أخطاء، أو استفسارات حول الموقع.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="index.html">الرئيسية</a>
+      <a href="tools/compress.html">ضغط الصور</a>
+      <a href="tools/counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="index.html">الرئيسية</a> / اتصل بنا</div>
+
+  <!-- مساحة إعلانية: الصق كود AdSense هنا بعد قبول حسابك -->
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>اتصل بنا</h2>
+    <div class="desc">يسعدنا سماع رأيك — اقتراح أداة جديدة، بلاغ عن خطأ، أو أي استفسار.</div>
+    <p style="line-height:1.9; margin-bottom:18px">
+      راسلنا على البريد الإلكتروني:
+      <strong><a href="mailto:hasson.9975@gmail.com" style="color:var(--navy)">hasson.9975@gmail.com</a></strong>
+    </p>
+    <label for="cName">الاسم</label>
+    <input type="text" id="cName" placeholder="اسمك الكريم" style="display:block;width:100%;padding:12px;border:1px solid #d8dee9;border-radius:10px;font-family:inherit;margin-bottom:12px">
+    <label for="cMsg">رسالتك</label>
+    <textarea id="cMsg" placeholder="اكتب رسالتك هنا..." rows="6"></textarea>
+    <button class="btn" id="cSend" style="margin-top:14px">إرسال عبر البريد</button>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="index.html">الرئيسية</a> · <a href="about.html">من نحن</a> · <a href="privacy.html">سياسة الخصوصية</a> · <a href="contact.html">اتصل بنا</a></p></div></footer>
+
+<script>
+document.getElementById('cSend').addEventListener('click', function () {
+  var name = document.getElementById('cName').value.trim();
+  var msg = document.getElementById('cMsg').value.trim();
+  if (!msg) { alert('اكتب رسالتك أولاً.'); return; }
+  var subject = encodeURIComponent('رسالة من موقع أدواتي' + (name ? ' — ' + name : ''));
+  window.location.href = 'mailto:hasson.9975@gmail.com?subject=' + subject + '&body=' + encodeURIComponent(msg);
+});
+</script>
+
+</body>
+</html>
