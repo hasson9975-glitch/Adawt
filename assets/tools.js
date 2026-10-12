@@ -107,10 +107,29 @@
     });
   }
 
-  /* ---------- تغيير حجم الصور ---------- */
+  /* ---------- تغيير حجم الصور (بكسل / سم / ملم + DPI) ---------- */
   var rFile = $('resizeFile');
   if (rFile) {
-    var rImg = null, rName = '', rRatio = 1;
+    var rImg = null, rName = '', rRatio = 1, rUnit = 'px', rDpi = 96;
+    var rW = $('resizeW'), rH = $('resizeH');
+    function rToPx(v) {
+      v = parseFloat(v) || 0;
+      if (rUnit === 'cm') return v * rDpi / 2.54;
+      if (rUnit === 'mm') return v * rDpi / 25.4;
+      return v;
+    }
+    function rFromPx(px) {
+      if (rUnit === 'cm') return px * 2.54 / rDpi;
+      if (rUnit === 'mm') return px * 25.4 / rDpi;
+      return px;
+    }
+    function rFmt(v) { return Math.round(v * 100) / 100; }
+    function rRefreshInfo() {
+      if (!rImg) return;
+      var t = 'الأبعاد الأصلية: ' + rImg.naturalWidth + '×' + rImg.naturalHeight + ' بكسل';
+      if (rUnit !== 'px') t += ' (' + rFmt(rFromPx(rImg.naturalWidth)) + '×' + rFmt(rFromPx(rImg.naturalHeight)) + ' ' + rUnit + ' بدقة ' + rDpi + ' DPI)';
+      $('resizeInfo').textContent = t;
+    }
     rFile.addEventListener('change', function () {
       var f = rFile.files[0];
       if (!f) return;
@@ -118,17 +137,32 @@
       loadImage(f).then(function (img) {
         rImg = img;
         rRatio = img.naturalHeight / img.naturalWidth;
-        $('resizeW').value = img.naturalWidth;
-        $('resizeH').value = img.naturalHeight;
+        rW.value = rFmt(rFromPx(img.naturalWidth));
+        rH.value = rFmt(rFromPx(img.naturalHeight));
         $('resizeBtn').disabled = false;
-        $('resizeInfo').textContent = 'الأبعاد الأصلية: ' + img.naturalWidth + '×' + img.naturalHeight + ' بكسل';
+        rRefreshInfo();
       });
     });
-    $('resizeW').addEventListener('input', function () {
-      if ($('keepRatio').checked && rRatio) $('resizeH').value = Math.round($('resizeW').value * rRatio);
+    $('resizeUnit').addEventListener('change', function () {
+      var wPx = rToPx(rW.value), hPx = rToPx(rH.value);
+      rUnit = this.value;
+      rW.value = rFmt(rFromPx(wPx));
+      rH.value = rFmt(rFromPx(hPx));
+      $('dpiWrap').style.display = rUnit === 'px' ? 'none' : 'block';
+      rRefreshInfo();
     });
-    $('resizeH').addEventListener('input', function () {
-      if ($('keepRatio').checked && rRatio) $('resizeW').value = Math.round($('resizeH').value / rRatio);
+    $('resizeDpi').addEventListener('change', function () {
+      var wPx = rToPx(rW.value), hPx = rToPx(rH.value);
+      rDpi = parseInt(this.value, 10);
+      rW.value = rFmt(rFromPx(wPx));
+      rH.value = rFmt(rFromPx(hPx));
+      rRefreshInfo();
+    });
+    rW.addEventListener('input', function () {
+      if ($('keepRatio').checked && rRatio) rH.value = rFmt((parseFloat(rW.value) || 0) * rRatio);
+    });
+    rH.addEventListener('input', function () {
+      if ($('keepRatio').checked && rRatio) rW.value = rFmt((parseFloat(rH.value) || 0) / rRatio);
     });
     $('resizePercent').addEventListener('input', function () {
       $('resizePercentVal').textContent = $('resizePercent').value + '%';
@@ -149,8 +183,8 @@
         w = Math.max(1, Math.round(rImg.naturalWidth * p));
         h = Math.max(1, Math.round(rImg.naturalHeight * p));
       } else {
-        w = Math.max(1, parseInt($('resizeW').value, 10) || rImg.naturalWidth);
-        h = Math.max(1, parseInt($('resizeH').value, 10) || rImg.naturalHeight);
+        w = Math.max(1, Math.round(rToPx(rW.value))) || rImg.naturalWidth;
+        h = Math.max(1, Math.round(rToPx(rH.value))) || rImg.naturalHeight;
       }
       var canvas = document.createElement('canvas');
       canvas.width = w; canvas.height = h;
