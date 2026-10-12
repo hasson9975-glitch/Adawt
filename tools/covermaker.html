@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>صانع الأغلفة والمصغرات أونلاين مجاناً | أدواتي</title>
+<meta name="description" content="صمّم أغلفة يوتيوب ومنشورات سوشيال ميديا مجاناً داخل المتصفح — نصوص عربية وخلفيات جاهزة.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / صانع الأغلفة</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>🖌️ صانع الأغلفة والمصغرات</h2>
+    <div class="desc">صمّم غلاف يوتيوب أو منشور سوشيال ميديا في ثوانٍ — نص عربي أنيق على خلفية جذابة.</div>
+
+    <label for="cvSize">المقاس</label>
+    <select id="cvSize">
+      <option value="1280x720">يوتيوب / مصغرة (1280×720)</option>
+      <option value="1080x1080">منشور مربع (1080×1080)</option>
+      <option value="1080x1920">ستوري عمودي (1080×1920)</option>
+      <option value="1200x630">غلاف فيسبوك/تويتر (1200×630)</option>
+    </select>
+
+    <label for="cvTitle">العنوان الرئيسي</label>
+    <input type="text" id="cvTitle" value="عنوان جذاب هنا" style="display:block;width:100%;padding:12px;border:1px solid #d8dee9;border-radius:10px;font-family:inherit;margin-bottom:12px">
+    <label for="cvSub">العنوان الفرعي (اختياري)</label>
+    <input type="text" id="cvSub" value="وصف قصير يشرح الفكرة" style="display:block;width:100%;padding:12px;border:1px solid #d8dee9;border-radius:10px;font-family:inherit;margin-bottom:12px">
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <div><label for="cvBg1">لون الخلفية 1</label><input type="color" id="cvBg1" value="#1a2a6c" style="width:60px;height:40px;padding:2px"></div>
+      <div><label for="cvBg2">لون الخلفية 2</label><input type="color" id="cvBg2" value="#b21f1f" style="width:60px;height:40px;padding:2px"></div>
+      <div><label for="cvTxt">لون النص</label><input type="color" id="cvTxt" value="#ffffff" style="width:60px;height:40px;padding:2px"></div>
+      <div style="flex:1;min-width:140px">
+        <label for="cvFont">الخط</label>
+        <select id="cvFont">
+          <option value="Tajawal">تجوال</option>
+          <option value="Cairo">القاهرة</option>
+        </select>
+      </div>
+    </div>
+
+    <label for="cvBgImg" style="margin-top:8px;display:block">أو ارفع صورة خلفية (اختياري)</label>
+    <input type="file" id="cvBgImg" accept="image/*" style="margin-bottom:4px">
+    <label><input type="checkbox" id="cvDark" checked style="width:auto"> تعتيم الخلفية لوضوح النص</label>
+
+    <div class="result show" style="text-align:center;margin-top:14px">
+      <div style="font-weight:700;margin-bottom:8px">معاينة</div>
+      <canvas id="cvCanvas" style="max-width:100%;border-radius:12px;border:1px solid #e5e9f2"></canvas>
+    </div>
+    <button class="btn" id="cvDownload" style="margin-top:12px">تحميل التصميم PNG</button>
+  </div>
+
+  <div class="tool-box how">
+    <h3>كيف تصمم غلافاً؟</h3>
+    <ol>
+      <li>اختر المقاس المناسب للمنصة.</li>
+      <li>اكتب العنوان واختر الألوان (أو ارفع صورة خلفية).</li>
+      <li>شاهد المعاينة ثم حمّل التصميم.</li>
+    </ol>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  var bgImg = null;
+  var canvas = document.getElementById('cvCanvas');
+  var ctx = canvas.getContext('2d');
+
+  function draw() {
+    var dims = document.getElementById('cvSize').value.split('x');
+    var W = parseInt(dims[0], 10), H = parseInt(dims[1], 10);
+    canvas.width = W; canvas.height = H;
+    var font = document.getElementById('cvFont').value;
+
+    if (bgImg) {
+      var s = Math.max(W / bgImg.naturalWidth, H / bgImg.naturalHeight);
+      var dw = bgImg.naturalWidth * s, dh = bgImg.naturalHeight * s;
+      ctx.drawImage(bgImg, (W - dw) / 2, (H - dh) / 2, dw, dh);
+      if (document.getElementById('cvDark').checked) {
+        ctx.fillStyle = 'rgba(0,0,0,0.45)';
+        ctx.fillRect(0, 0, W, H);
+      }
+    } else {
+      var g = ctx.createLinearGradient(0, 0, W, H);
+      g.addColorStop(0, document.getElementById('cvBg1').value);
+      g.addColorStop(1, document.getElementById('cvBg2').value);
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, W, H);
+      // زخرفة دائرية
+      ctx.fillStyle = 'rgba(255,255,255,0.08)';
+      ctx.beginPath();
+      ctx.arc(W * 0.85, H * 0.15, Math.min(W, H) * 0.45, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(W * 0.1, H * 0.9, Math.min(W, H) * 0.3, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    var title = document.getElementById('cvTitle').value;
+    var sub = document.getElementById('cvSub').value;
+    var color = document.getElementById('cvTxt').value;
+    ctx.textAlign = 'center';
+    ctx.direction = 'rtl';
+    ctx.fillStyle = color;
+    ctx.shadowColor = 'rgba(0,0,0,0.45)';
+    ctx.shadowBlur = W / 60;
+
+    var tSize = Math.round(W / 11);
+    ctx.font = '900 ' + tSize + 'px ' + font + ', Tajawal, sans-serif';
+    var lines = wrapLines(title, W * 0.86, tSize);
+    var lh = tSize * 1.3;
+    var y0 = H / 2 - (lines.length - 1) * lh / 2 - (sub ? tSize * 0.4 : 0);
+    lines.forEach(function (ln, i) { ctx.fillText(ln, W / 2, y0 + i * lh); });
+
+    if (sub) {
+      var sSize = Math.round(W / 26);
+      ctx.font = '700 ' + sSize + 'px ' + font + ', Tajawal, sans-serif';
+      ctx.shadowBlur = W / 120;
+      ctx.fillText(sub, W / 2, y0 + lines.length * lh + sSize);
+    }
+    ctx.shadowBlur = 0;
+  }
+
+  function wrapLines(text, maxW, size) {
+    ctx.font = '900 ' + size + 'px Tajawal, sans-serif';
+    var words = text.split(' '), lines = [], cur = '';
+    words.forEach(function (w) {
+      var t = cur ? cur + ' ' + w : w;
+      if (ctx.measureText(t).width > maxW && cur) { lines.push(cur); cur = w; }
+      else cur = t;
+    });
+    if (cur) lines.push(cur);
+    return lines.length ? lines : [''];
+  }
+
+  document.getElementById('cvBgImg').addEventListener('change', function () {
+    var f = this.files[0];
+    if (!f) { bgImg = null; draw(); return; }
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      var im = new Image();
+      im.onload = function () { bgImg = im; draw(); };
+      im.src = e.target.result;
+    };
+    reader.readAsDataURL(f);
+  });
+
+  ['cvSize', 'cvTitle', 'cvSub', 'cvBg1', 'cvBg2', 'cvTxt', 'cvFont', 'cvDark'].forEach(function (id) {
+    var el = document.getElementById(id);
+    el.addEventListener('input', draw);
+    el.addEventListener('change', draw);
+  });
+
+  document.getElementById('cvDownload').addEventListener('click', function () {
+    var dims = document.getElementById('cvSize').value.replace('x', '_');
+    var a = document.createElement('a');
+    a.href = canvas.toDataURL('image/png');
+    a.download = 'adawati-cover-' + dims + '.png';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  });
+
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+  draw();
+})();
+</script>
+
+</body>
+</html>
