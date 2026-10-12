@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>محول التاريخ الهجري والميلادي أونلاين | أدواتي</title>
+<meta name="description" content="حوّل التاريخ بين الهجري والميلادي مجاناً داخل المتصفح.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / محول التاريخ</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>📅 محول التاريخ الهجري والميلادي</h2>
+    <div class="desc">حوّل أي تاريخ بين التقويمين الهجري والميلادي بدقة.</div>
+
+    <div style="margin-bottom:14px">
+      <label style="display:inline-block;margin-left:16px"><input type="radio" name="hjMode" value="g2h" checked style="width:auto"> ميلادي ← هجري</label>
+      <label style="display:inline-block"><input type="radio" name="hjMode" value="h2g" style="width:auto"> هجري ← ميلادي</label>
+    </div>
+
+    <div id="hjG2h">
+      <label for="hjGDate">التاريخ الميلادي</label>
+      <input type="date" id="hjGDate" style="display:block;width:100%;padding:12px;border:1px solid #d8dee9;border-radius:10px;font-family:inherit;margin-bottom:12px">
+    </div>
+
+    <div id="hjH2g" style="display:none">
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <div style="flex:1;min-width:90px"><label for="hjDay">اليوم</label><select id="hjDay"></select></div>
+        <div style="flex:2;min-width:140px"><label for="hjMonth">الشهر</label><select id="hjMonth"></select></div>
+        <div style="flex:1;min-width:90px"><label for="hjYear">السنة</label><select id="hjYear"></select></div>
+      </div>
+    </div>
+
+    <button class="btn" id="hjGo" style="margin-top:12px">تحويل</button>
+
+    <div class="result" id="hjOut" style="text-align:center">
+      <div style="font-size:1.6rem;font-weight:800;color:var(--navy)" id="hjResult"></div>
+      <div style="color:var(--muted);margin-top:6px" id="hjWeekday"></div>
+    </div>
+    <p style="color:var(--muted);font-size:.85rem">ملاحظة: التحويل من الهجري قد يختلف يوماً واحداً عن التقويم الرسمي في بعض الدول.</p>
+  </div>
+
+  <div class="tool-box how">
+    <h3>كيف تحوّل التاريخ؟</h3>
+    <ol>
+      <li>اختر اتجاه التحويل.</li>
+      <li>أدخل التاريخ ثم اضغط "تحويل".</li>
+    </ol>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  var HMONTHS = ['محرم', 'صفر', 'ربيع الأول', 'ربيع الثاني', 'جمادى الأولى', 'جمادى الثانية', 'رجب', 'شعبان', 'رمضان', 'شوال', 'ذو القعدة', 'ذو الحجة'];
+  var DAYS = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+
+  var daySel = document.getElementById('hjDay'),
+      monthSel = document.getElementById('hjMonth'),
+      yearSel = document.getElementById('hjYear');
+  for (var d = 1; d <= 30; d++) daySel.add(new Option(d, d));
+  HMONTHS.forEach(function (m, i) { monthSel.add(new Option(m, i + 1)); });
+  for (var y = 1500; y >= 1300; y--) yearSel.add(new Option(y, y));
+  yearSel.value = '1447';
+
+  function mode() { return document.querySelector('input[name="hjMode"]:checked').value; }
+
+  function hijriFormat(date) {
+    var fmts = ['ar-SA-u-ca-islamic-umalqura', 'ar-SA-u-ca-islamic'];
+    for (var i = 0; i < fmts.length; i++) {
+      try {
+        return new Intl.DateTimeFormat(fmts[i], { day: 'numeric', month: 'long', year: 'numeric' }).format(date);
+      } catch (e) {}
+    }
+    return '';
+  }
+
+  function islamicToJd(y, m, d) {
+    return d + Math.ceil(29.5 * (m - 1)) + (y - 1) * 354 + Math.floor((3 + 11 * y) / 30) + 1948439.5 - 1;
+  }
+  function jdToGregorian(jd) {
+    var l = Math.floor(jd) + 68569;
+    var n = Math.floor(4 * l / 146097);
+    l = l - Math.floor((146097 * n + 3) / 4);
+    var i = Math.floor(4000 * (l + 1) / 1461001);
+    l = l - Math.floor(1461 * i / 4) + 31;
+    var j = Math.floor(80 * l / 2447);
+    var day = l - Math.floor(2447 * j / 80);
+    l = Math.floor(j / 11);
+    return { y: 100 * (n - 49) + i + l, m: j + 2 - 12 * l, d: day };
+  }
+
+  document.querySelectorAll('input[name="hjMode"]').forEach(function (el) {
+    el.addEventListener('change', function () {
+      var g2h = mode() === 'g2h';
+      document.getElementById('hjG2h').style.display = g2h ? 'block' : 'none';
+      document.getElementById('hjH2g').style.display = g2h ? 'none' : 'block';
+      document.getElementById('hjOut').classList.remove('show');
+    });
+  });
+
+  document.getElementById('hjGo').addEventListener('click', function () {
+    var res = '', wd = '';
+    if (mode() === 'g2h') {
+      var v = document.getElementById('hjGDate').value;
+      if (!v) { alert('اختر التاريخ الميلادي أولاً.'); return; }
+      var dt = new Date(v + 'T00:00:00');
+      res = hijriFormat(dt);
+      wd = 'يوم ' + DAYS[dt.getDay()];
+    } else {
+      var jd = islamicToJd(parseInt(yearSel.value, 10), parseInt(monthSel.value, 10), parseInt(daySel.value, 10));
+      var g = jdToGregorian(jd);
+      var dt2 = new Date(g.y, g.m - 1, g.d);
+      res = g.d + ' / ' + g.m + ' / ' + g.y + ' م';
+      wd = 'يوم ' + DAYS[dt2.getDay()];
+    }
+    document.getElementById('hjResult').textContent = res;
+    document.getElementById('hjWeekday').textContent = wd;
+    document.getElementById('hjOut').classList.add('show');
+  });
+})();
+</script>
+
+</body>
+</html>
