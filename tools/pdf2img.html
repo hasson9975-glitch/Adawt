@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/style.css">
-<script src="../assets/vendor/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
 <body>
 
@@ -66,7 +66,13 @@
 (function () {
   'use strict';
   if (window.pdfjsLib) {
-    pdfjsLib.GlobalWorkerOptions.workerSrc = '../assets/vendor/pdf.worker.min.js';
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  } else {
+    document.addEventListener('DOMContentLoaded', function () {
+      var s = document.getElementById('pdf2imgStatus');
+      s.classList.add('show');
+      s.textContent = 'تعذر تحميل مكتبة التحويل — تحقق من اتصال الإنترنت ثم حدّث الصفحة.';
+    });
   }
   var buf = null, fname = 'page';
   var fileInput = document.getElementById('pdfFile');
