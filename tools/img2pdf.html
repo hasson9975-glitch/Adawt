@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تحويل الصور إلى PDF أونلاين مجاناً | أدواتي</title>
+<meta name="description" content="حوّل صورك إلى ملف PDF مجاناً داخل المتصفح — ادمج عدة صور في ملف واحد. سريع وآمن، ملفاتك لا تغادر جهازك.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/vendor/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / تحويل الصور إلى PDF</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>📄 تحويل الصور إلى PDF</h2>
+    <div class="desc">اختر صورة أو عدة صور وادمجها في ملف PDF واحد — مثالي للمستندات والفواتير والملفات الجاهزة للطباعة.</div>
+
+    <div class="drop-zone" onclick="document.getElementById('pdfImgs').click()">
+      اضغط هنا لاختيار الصور (يمكنك اختيار عدة صور معاً)
+      <input type="file" id="pdfImgs" accept="image/*" multiple>
+    </div>
+
+    <div class="result" id="pdfThumbs"></div>
+
+    <label for="pdfPageSize">حجم الصفحة في الملف</label>
+    <select id="pdfPageSize">
+      <option value="img">نفس حجم الصورة</option>
+      <option value="a4">A4 (مناسب للطباعة)</option>
+    </select>
+
+    <button class="btn" id="pdfMake" disabled>إنشاء ملف PDF وتحميله</button>
+    <div class="result" id="pdfStatus"></div>
+  </div>
+
+  <div class="tool-box how">
+    <h3>كيف تحوّل الصور إلى PDF؟</h3>
+    <ol>
+      <li>اختر الصور من جهازك (صورة واحدة أو عدة صور).</li>
+      <li>احذف أي صورة لا تريدها بالضغط على ×.</li>
+      <li>اختر حجم الصفحة ثم اضغط "إنشاء ملف PDF وتحميله".</li>
+    </ol>
+  </div>
+
+  <div class="tool-box faq">
+    <h3>أسئلة شائعة</h3>
+    <details><summary>هل تُرفع صوري إلى خادم؟</summary><p>لا. التحويل يتم بالكامل داخل متصفحك، وصورك لا تغادر جهازك أبداً.</p></details>
+    <details><summary>هل يمكن دمج عدة صور في ملف واحد؟</summary><p>نعم — كل صورة تصبح صفحة في نفس ملف PDF.</p></details>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  var files = [];
+  var input = document.getElementById('pdfImgs');
+  var thumbsBox = document.getElementById('pdfThumbs');
+  var statusBox = document.getElementById('pdfStatus');
+  var makeBtn = document.getElementById('pdfMake');
+
+  function renderThumbs() {
+    thumbsBox.innerHTML = '';
+    if (!files.length) { thumbsBox.classList.remove('show'); return; }
+    thumbsBox.classList.add('show');
+    files.forEach(function (f, i) {
+      var wrap = document.createElement('div');
+      wrap.style.cssText = 'display:inline-block;position:relative;margin:6px;vertical-align:top';
+      var im = document.createElement('img');
+      im.src = f.img.src;
+      im.style.cssText = 'width:90px;height:90px;object-fit:cover;border-radius:8px;border:1px solid #e5e9f2';
+      var x = document.createElement('button');
+      x.textContent = '×';
+      x.setAttribute('aria-label', 'حذف الصورة');
+      x.style.cssText = 'position:absolute;top:-8px;left:-8px;width:24px;height:24px;padding:0;border-radius:50%;line-height:1;background:#e11d48;color:#fff;border:none;cursor:pointer;font-size:16px';
+      x.onclick = function () {
+        files.splice(i, 1);
+        renderThumbs();
+        if (!files.length) makeBtn.disabled = true;
+      };
+      var n = document.createElement('div');
+      n.textContent = 'صفحة ' + (i + 1);
+      n.style.cssText = 'text-align:center;font-size:12px;color:#8a93a6;margin-top:4px';
+      wrap.appendChild(im);
+      wrap.appendChild(x);
+      wrap.appendChild(n);
+      thumbsBox.appendChild(wrap);
+    });
+  }
+
+  input.addEventListener('change', function () {
+    Array.prototype.forEach.call(input.files, function (f) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        var img = new Image();
+        img.onload = function () {
+          files.push({ img: img, name: f.name });
+          renderThumbs();
+          makeBtn.disabled = false;
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(f);
+    });
+    input.value = '';
+  });
+
+  function imgToJpeg(img) {
+    var c = document.createElement('canvas');
+    c.width = img.naturalWidth;
+    c.height = img.naturalHeight;
+    var ctx = c.getContext('2d');
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, c.width, c.height);
+    ctx.drawImage(img, 0, 0);
+    return c.toDataURL('image/jpeg', 0.92);
+  }
+
+  makeBtn.addEventListener('click', function () {
+    if (!files.length || !window.jspdf) return;
+    statusBox.classList.add('show');
+    statusBox.textContent = 'جاري إنشاء الملف...';
+    try {
+      var JSPDF = window.jspdf.jsPDF;
+      var PX2MM = 25.4 / 96;
+      var mode = document.getElementById('pdfPageSize').value;
+      var pdf = null;
+      files.forEach(function (f, idx) {
+        var w = f.img.naturalWidth, h = f.img.naturalHeight;
+        var jpg = imgToJpeg(f.img);
+        if (mode === 'a4') {
+          if (idx === 0) pdf = new JSPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
+          else pdf.addPage('a4', 'p');
+          var pw = 210, ph = 297, m = 10;
+          var r = Math.min((pw - 2 * m) / (w * PX2MM), (ph - 2 * m) / (h * PX2MM));
+          var dw = w * PX2MM * r, dh = h * PX2MM * r;
+          pdf.addImage(jpg, 'JPEG', (pw - dw) / 2, (ph - dh) / 2, dw, dh);
+        } else {
+          var mw = w * PX2MM, mh = h * PX2MM;
+          var orient = w >= h ? 'l' : 'p';
+          if (idx === 0) pdf = new JSPDF({ orientation: orient, unit: 'mm', format: [mw, mh] });
+          else pdf.addPage([mw, mh], orient);
+          pdf.addImage(jpg, 'JPEG', 0, 0, mw, mh);
+        }
+      });
+      pdf.save('adawati-images.pdf');
+      statusBox.textContent = 'تم إنشاء الملف وتحميله بنجاح ✓ (' + files.length + ' صور)';
+    } catch (e) {
+      statusBox.textContent = 'حدث خطأ أثناء إنشاء الملف. حاول مرة أخرى.';
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
