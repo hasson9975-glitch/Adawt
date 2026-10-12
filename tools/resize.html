@@ -41,11 +41,30 @@
     <label><input type="radio" name="resizeMode" value="percent" style="width:auto"> بالنسبة المئوية</label>
 
     <div id="resizeByDims">
-      <label for="resizeW">العرض (بكسل)</label>
-      <input type="number" id="resizeW" min="1">
-      <label for="resizeH">الارتفاع (بكسل)</label>
-      <input type="number" id="resizeH" min="1">
-      <label><input type="checkbox" id="keepRatio" checked style="width:auto"> الحفاظ على التناسب</label>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <div style="flex:1;min-width:140px">
+          <label for="resizeUnit">الوحدة</label>
+          <select id="resizeUnit">
+            <option value="px">بكسل (px)</option>
+            <option value="cm">سنتيمتر (cm)</option>
+            <option value="mm">ملم (mm)</option>
+          </select>
+        </div>
+        <div style="flex:1;min-width:140px;display:none" id="dpiWrap">
+          <label for="resizeDpi">الدقة (DPI)</label>
+          <select id="resizeDpi">
+            <option value="72">72 (ويب)</option>
+            <option value="96" selected>96 (شاشة)</option>
+            <option value="150">150 (طباعة)</option>
+            <option value="300">300 (طباعة عالية)</option>
+          </select>
+        </div>
+      </div>
+      <label for="resizeW">العرض</label>
+      <input type="number" id="resizeW" min="0" step="any">
+      <label for="resizeH">الارتفاع</label>
+      <input type="number" id="resizeH" min="0" step="any">
+      <label><input type="checkbox" id="keepRatio" checked style="width:auto"> الحفاظ على التناسب (ألغِ التحديد للتحجيم الحر)</label>
     </div>
 
     <div id="resizeByPercent" style="display:none">
