@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>استخراج صور من الفيديو أونلاين مجاناً | أدواتي</title>
+<meta name="description" content="استخرج لقطات وصوراً من أي فيديو مجاناً داخل المتصفح — مثالي للمصغرات.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / استخراج صور من الفيديو</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>🎬 استخراج صور من الفيديو</h2>
+    <div class="desc">التقط لقطات عالية الجودة من أي فيديو — مثالي لصناعة المصغرات (thumbnails).</div>
+
+    <div class="drop-zone" onclick="document.getElementById('vfFile').click()">
+      اضغط هنا لاختيار فيديو
+      <input type="file" id="vfFile" accept="video/*">
+    </div>
+
+    <div id="vfControls" style="display:none">
+      <video id="vfVideo" controls playsinline style="max-width:100%;border-radius:12px;margin-bottom:12px"></video>
+      <div id="vfMeta" style="color:var(--muted);font-size:.95rem;margin-bottom:10px"></div>
+      <label for="vfCount">عدد اللقطات: <span id="vfCountVal">6</span> (موزعة على كامل الفيديو)</label>
+      <input type="range" id="vfCount" min="1" max="12" value="6">
+      <button class="btn" id="vfGo">استخراج اللقطات</button>
+      <div class="result" id="vfStatus"></div>
+      <div class="result" id="vfOut"></div>
+    </div>
+  </div>
+
+  <div class="tool-box how">
+    <h3>كيف تستخرج صوراً من فيديو؟</h3>
+    <ol>
+      <li>اختر ملف الفيديو من جهازك.</li>
+      <li>حدد عدد اللقطات ثم اضغط "استخراج اللقطات".</li>
+      <li>حمّل أي لقطة كصورة PNG — أو أوقف الفيديو عند مشهد والتقطه يدوياً.</li>
+    </ol>
+  </div>
+
+  <div class="tool-box faq">
+    <h3>أسئلة شائعة</h3>
+    <details><summary>هل يُرفع الفيديو إلى خادم؟</summary><p>لا. كل المعالجة تتم داخل متصفحك.</p></details>
+    <details><summary>ما دقة اللقطات؟</summary><p>بنفس دقة الفيديو الأصلية.</p></details>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  var video = document.getElementById('vfVideo');
+  var fileName = 'video';
+  var url = null;
+
+  function fmtTime(s) {
+    s = Math.floor(s);
+    var m = Math.floor(s / 60), sec = s % 60;
+    return m + ':' + ('0' + sec).slice(-2);
+  }
+
+  document.getElementById('vfFile').addEventListener('change', function () {
+    var f = this.files[0];
+    if (!f) return;
+    fileName = f.name.replace(/\.[^.]+$/, '');
+    if (url) URL.revokeObjectURL(url);
+    url = URL.createObjectURL(f);
+    video.src = url;
+    video.onloadedmetadata = function () {
+      document.getElementById('vfControls').style.display = 'block';
+      document.getElementById('vfMeta').textContent =
+        'المدة: ' + fmtTime(video.duration) + ' — الدقة: ' + video.videoWidth + '×' + video.videoHeight;
+    };
+  });
+
+  document.getElementById('vfCount').addEventListener('input', function () {
+    document.getElementById('vfCountVal').textContent = this.value;
+  });
+
+  function seekTo(t) {
+    return new Promise(function (resolve) {
+      function onSeek() { video.removeEventListener('seeked', onSeek); resolve(); }
+      video.addEventListener('seeked', onSeek);
+      video.currentTime = Math.min(t, Math.max(0, video.duration - 0.1));
+    });
+  }
+
+  // زر إضافي: التقاط الإطار الحالي
+  var snapBtn = document.createElement('button');
+  snapBtn.className = 'btn';
+  snapBtn.textContent = 'التقاط الإطار الحالي 📸';
+  snapBtn.style.cssText = 'margin-right:8px;background:#eef1f7;color:var(--navy)';
+  snapBtn.addEventListener('click', function () { captureFrame(video.currentTime, true); });
+  document.getElementById('vfGo').parentNode.insertBefore(snapBtn, document.getElementById('vfGo').nextSibling);
+
+  var frameIdx = 0;
+  function captureFrame(t, single) {
+    var c = document.createElement('canvas');
+    c.width = video.videoWidth; c.height = video.videoHeight;
+    c.getContext('2d').drawImage(video, 0, 0);
+    var dataUrl = c.toDataURL('image/png');
+    var out = document.getElementById('vfOut');
+    out.classList.add('show');
+    var wrap = document.createElement('div');
+    wrap.style.cssText = 'margin:12px 0;padding:12px;border:1px solid #e5e9f2;border-radius:12px;background:#fff;text-align:center';
+    var im = document.createElement('img');
+    im.src = dataUrl;
+    im.style.cssText = 'max-width:100%;max-height:300px;border-radius:8px';
+    var cap = document.createElement('div');
+    cap.style.cssText = 'font-weight:700;margin:8px 0';
+    cap.textContent = 'لقطة عند ' + fmtTime(t);
+    var a = document.createElement('a');
+    a.href = dataUrl;
+    a.download = fileName + '-frame-' + (++frameIdx) + '.png';
+    a.className = 'btn';
+    a.textContent = 'تحميل اللقطة';
+    a.style.cssText = 'display:inline-block;text-decoration:none;margin-top:4px';
+    wrap.appendChild(cap); wrap.appendChild(im); wrap.appendChild(a);
+    if (single) out.insertBefore(wrap, out.firstChild);
+    else out.appendChild(wrap);
+  }
+
+  document.getElementById('vfGo').addEventListener('click', async function () {
+    if (!video.duration) return;
+    var n = parseInt(document.getElementById('vfCount').value, 10);
+    var status = document.getElementById('vfStatus');
+    var out = document.getElementById('vfOut');
+    out.innerHTML = ''; out.classList.add('show');
+    status.classList.add('show');
+    this.disabled = true;
+    try {
+      for (var i = 0; i < n; i++) {
+        var t = n === 1 ? video.duration / 2 : (video.duration * i) / (n - 1);
+        status.textContent = 'جاري استخراج لقطة ' + (i + 1) + ' من ' + n + '...';
+        await seekTo(t);
+        captureFrame(t, false);
+      }
+      status.textContent = 'تم الاستخراج بنجاح ✓';
+    } catch (e) {
+      status.textContent = 'تعذر استخراج اللقطات من هذا الفيديو.';
+    }
+    this.disabled = false;
+  });
+})();
+</script>
+
+</body>
+</html>
