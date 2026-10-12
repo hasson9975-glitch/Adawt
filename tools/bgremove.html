@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>إزالة خلفية الصور بالذكاء الاصطناعي مجاناً | أدواتي</title>
+<meta name="description" content="أزل خلفية صورك مجاناً داخل المتصفح — للأشخاص والسيارات والمنتجات والنباتات. حمّل النتيجة بخلفية شفافة PNG.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+  .checker { background-image: linear-gradient(45deg,#e5e9f2 25%,transparent 25%),linear-gradient(-45deg,#e5e9f2 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#e5e9f2 75%),linear-gradient(-45deg,transparent 75%,#e5e9f2 75%); background-size: 20px 20px; background-position: 0 0,0 10px,10px -10px,-10px 0; }
+  .progress { height: 10px; background: #eef1f7; border-radius: 99px; overflow: hidden; margin: 10px 0; }
+  .progress > div { height: 100%; width: 0%; background: var(--navy); border-radius: 99px; transition: width .2s; }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / إزالة خلفية الصور</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>✂️ إزالة خلفية الصور</h2>
+    <div class="desc">ذكاء اصطناعي يزيل الخلفية بدقة — للأشخاص والسيارات والمنتجات والنباتات — والنتيجة صورة بخلفية شفافة PNG.</div>
+
+    <div class="drop-zone" onclick="document.getElementById('bgFile').click()">
+      اضغط هنا لاختيار صورة
+      <input type="file" id="bgFile" accept="image/*">
+    </div>
+
+    <div class="result" id="bgPreview"></div>
+
+    <button class="btn" id="bgGo" disabled>إزالة الخلفية</button>
+    <div class="result" id="bgStatus"></div>
+    <div class="progress" id="bgProgress" style="display:none"><div id="bgBar"></div></div>
+
+    <div class="result" id="bgResult" style="text-align:center">
+      <div style="font-weight:700;margin-bottom:8px">النتيجة (خلفية شفافة)</div>
+      <div class="checker" style="border-radius:12px;padding:10px;display:inline-block;max-width:100%">
+        <img id="bgImg" alt="الصورة بعد إزالة الخلفية" style="max-width:100%;max-height:420px;display:block">
+      </div>
+      <div><button class="btn" id="bgDownload" style="margin-top:12px">تحميل PNG بخلفية شفافة</button></div>
+    </div>
+
+    <p style="color:var(--muted);font-size:.9rem;margin-top:10px">ملاحظة: أول استخدام يحمّل نموذج الذكاء الاصطناعي (~40MB) مرة واحدة، وبعدها يعمل بسرعة.</p>
+  </div>
+
+  <div class="tool-box how">
+    <h3>كيف تزيل خلفية صورة؟</h3>
+    <ol>
+      <li>اختر الصورة من جهازك.</li>
+      <li>اضغط "إزالة الخلفية" وانتظر اكتمال المعالجة.</li>
+      <li>حمّل النتيجة بصيغة PNG بخلفية شفافة.</li>
+    </ol>
+  </div>
+
+  <div class="tool-box faq">
+    <h3>أسئلة شائعة</h3>
+    <details><summary>هل تُرفع صوري إلى خادم؟</summary><p>لا. المعالجة تتم بالكامل داخل متصفحك بعد تحميل النموذج.</p></details>
+    <details><summary>ما أنواع الصور المدعومة؟</summary><p>الأشخاص، السيارات، المنتجات، الحيوانات، النباتات وغيرها.</p></details>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+
+<script type="module">
+import { removeBackground } from 'https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.5.5/+esm';
+
+const fileInput = document.getElementById('bgFile');
+const goBtn = document.getElementById('bgGo');
+const statusBox = document.getElementById('bgStatus');
+const previewBox = document.getElementById('bgPreview');
+const resultBox = document.getElementById('bgResult');
+const progressWrap = document.getElementById('bgProgress');
+const progressBar = document.getElementById('bgBar');
+const resultImg = document.getElementById('bgImg');
+let file = null, fileName = 'image', resultUrl = null;
+
+fileInput.addEventListener('change', () => {
+  file = fileInput.files[0];
+  if (!file) return;
+  fileName = file.name.replace(/\.[^.]+$/, '');
+  const url = URL.createObjectURL(file);
+  previewBox.classList.add('show');
+  previewBox.innerHTML = '<div style="font-weight:700;margin-bottom:8px">الصورة الأصلية</div>';
+  const im = document.createElement('img');
+  im.src = url;
+  im.style.cssText = 'max-width:100%;max-height:300px;border-radius:12px';
+  previewBox.appendChild(im);
+  goBtn.disabled = false;
+  resultBox.classList.remove('show');
+  statusBox.classList.remove('show');
+});
+
+function setProgress(pct, label) {
+  progressWrap.style.display = 'block';
+  progressBar.style.width = Math.max(0, Math.min(100, pct)) + '%';
+  statusBox.classList.add('show');
+  statusBox.textContent = label;
+}
+
+goBtn.addEventListener('click', async () => {
+  if (!file) return;
+  goBtn.disabled = true;
+  resultBox.classList.remove('show');
+  if (resultUrl) { URL.revokeObjectURL(resultUrl); resultUrl = null; }
+  try {
+    setProgress(2, 'جاري تحميل نموذج الذكاء الاصطناعي (أول مرة فقط)...');
+    const blob = await removeBackground(file, {
+      output: { format: 'image/png', quality: 1 },
+      progress: (key, current, total) => {
+        const pct = total ? Math.round((current / total) * 100) : 0;
+        const doing = key.indexOf('fetch') === 0 ? 'تحميل النموذج' : 'معالجة الصورة';
+        setProgress(pct, doing + '... ' + pct + '%');
+      }
+    });
+    resultUrl = URL.createObjectURL(blob);
+    resultImg.src = resultUrl;
+    resultBox.classList.add('show');
+    progressWrap.style.display = 'none';
+    statusBox.textContent = 'تمت إزالة الخلفية بنجاح ✓';
+  } catch (e) {
+    progressWrap.style.display = 'none';
+    statusBox.textContent = 'تعذرت المعالجة — تحقق من اتصال الإنترنت وحاول مرة أخرى.';
+  }
+  goBtn.disabled = false;
+});
+
+document.getElementById('bgDownload').addEventListener('click', () => {
+  if (!resultUrl) return;
+  const a = document.createElement('a');
+  a.href = resultUrl;
+  a.download = fileName + '-no-bg.png';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+});
+</script>
+
+</body>
+</html>
