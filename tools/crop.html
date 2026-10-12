@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>قص الصور أونلاين مجاناً | أدواتي</title>
+<meta name="description" content="قص أي جزء من صورك بحرية بالسحب مجاناً داخل المتصفح.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / قص الصور</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>✂️ قص الصور</h2>
+    <div class="desc">اسحب بالمؤشر (أو بإصبعك) لتحديد الجزء الذي تريد قصّه من الصورة.</div>
+
+    <div class="drop-zone" onclick="document.getElementById('crFile').click()">
+      اضغط هنا لاختيار صورة
+      <input type="file" id="crFile" accept="image/*">
+    </div>
+
+    <div id="crControls" style="display:none">
+      <div style="text-align:center;margin:14px 0">
+        <canvas id="crCanvas" style="max-width:100%;border-radius:12px;border:1px solid #e5e9f2;cursor:crosshair;touch-action:none"></canvas>
+      </div>
+      <div id="crInfo" style="color:var(--muted);font-size:.95rem;margin-bottom:10px">اسحب لتحديد منطقة القص</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn" id="crApply">قص وتحميل</button>
+        <button class="btn" id="crReset" style="background:#eef1f7;color:var(--navy)">إعادة التحديد</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="tool-box how">
+    <h3>كيف تقص صورة؟</h3>
+    <ol>
+      <li>اختر الصورة من جهازك.</li>
+      <li>اسحب على الصورة لتحديد المنطقة المطلوبة.</li>
+      <li>اضغط "قص وتحميل".</li>
+    </ol>
+  </div>
+
+  <div class="tool-box faq">
+    <h3>أسئلة شائعة</h3>
+    <details><summary>هل تُرفع صوري إلى خادم؟</summary><p>لا. القص يتم داخل متصفحك بالكامل.</p></details>
+    <details><summary>ما دقة الصورة المقصوصة؟</summary><p>تُحفَظ بالدقة الأصلية لمنطقة التحديد.</p></details>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  var img = null, imgName = 'image';
+  var sel = null, dragging = false, startPt = null;
+  var canvas = document.getElementById('crCanvas');
+  var ctx = canvas.getContext('2d');
+  var dispScale = 1;
+
+  function draw() {
+    if (!img) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    if (sel) {
+      ctx.fillStyle = 'rgba(0,0,0,0.45)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(sel.x, sel.y, sel.w, sel.h);
+      ctx.drawImage(img, sel.x, sel.y, sel.w, sel.h, sel.x, sel.y, sel.w, sel.h);
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(sel.x, sel.y, sel.w, sel.h);
+      document.getElementById('crInfo').textContent =
+        'التحديد: ' + Math.round(sel.w / dispScale) + '×' + Math.round(sel.h / dispScale) + ' بكسل';
+    }
+  }
+
+  function toCanvas(e) {
+    var r = canvas.getBoundingClientRect();
+    var cx = (e.touches && e.touches[0] ? e.touches[0].clientX : e.clientX);
+    var cy = (e.touches && e.touches[0] ? e.touches[0].clientY : e.clientY);
+    return {
+      x: Math.max(0, Math.min(canvas.width, (cx - r.left) * (canvas.width / r.width))),
+      y: Math.max(0, Math.min(canvas.height, (cy - r.top) * (canvas.height / r.height)))
+    };
+  }
+
+  canvas.addEventListener('pointerdown', function (e) {
+    if (!img) return;
+    e.preventDefault();
+    dragging = true;
+    startPt = toCanvas(e);
+    sel = { x: startPt.x, y: startPt.y, w: 0, h: 0 };
+    canvas.setPointerCapture(e.pointerId);
+  });
+  canvas.addEventListener('pointermove', function (e) {
+    if (!dragging) return;
+    var p = toCanvas(e);
+    sel.x = Math.min(startPt.x, p.x);
+    sel.y = Math.min(startPt.y, p.y);
+    sel.w = Math.abs(p.x - startPt.x);
+    sel.h = Math.abs(p.y - startPt.y);
+    draw();
+  });
+  canvas.addEventListener('pointerup', function () {
+    dragging = false;
+    if (sel && (sel.w < 8 || sel.h < 8)) { sel = null; draw(); }
+  });
+
+  document.getElementById('crFile').addEventListener('change', function () {
+    var f = this.files[0];
+    if (!f) return;
+    imgName = f.name.replace(/\.[^.]+$/, '');
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      var im = new Image();
+      im.onload = function () {
+        img = im; sel = null;
+        var maxW = 1000;
+        dispScale = Math.min(1, maxW / im.naturalWidth);
+        canvas.width = Math.round(im.naturalWidth * dispScale);
+        canvas.height = Math.round(im.naturalHeight * dispScale);
+        document.getElementById('crControls').style.display = 'block';
+        document.getElementById('crInfo').textContent = 'اسحب لتحديد منطقة القص';
+        draw();
+      };
+      im.src = e.target.result;
+    };
+    reader.readAsDataURL(f);
+  });
+
+  document.getElementById('crReset').addEventListener('click', function () {
+    sel = null;
+    document.getElementById('crInfo').textContent = 'اسحب لتحديد منطقة القص';
+    draw();
+  });
+
+  document.getElementById('crApply').addEventListener('click', function () {
+    if (!img || !sel || sel.w < 8 || sel.h < 8) { alert('حدد منطقة القص أولاً بالسحب على الصورة.'); return; }
+    var sx = Math.round(sel.x / dispScale), sy = Math.round(sel.y / dispScale);
+    var sw = Math.round(sel.w / dispScale), sh = Math.round(sel.h / dispScale);
+    var out = document.createElement('canvas');
+    out.width = sw; out.height = sh;
+    out.getContext('2d').drawImage(img, sx, sy, sw, sh, 0, 0, sw, sh);
+    var a = document.createElement('a');
+    a.href = out.toDataURL('image/png');
+    a.download = imgName + '-cropped.png';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  });
+})();
+</script>
+
+</body>
+</html>
