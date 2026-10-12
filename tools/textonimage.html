@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>إضافة نص على الصور أونلاين مجاناً | أدواتي</title>
+<meta name="description" content="أضف نصوصاً عربية أنيقة على صورك مجاناً داخل المتصفح — تحكم بالخط واللون والموضع.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / إضافة نص على الصور</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>🔤 إضافة نص على الصور</h2>
+    <div class="desc">صمّم صوراً بالنصوص العربية — مثالي للمنشورات والإعلانات والتهاني.</div>
+
+    <div class="drop-zone" onclick="document.getElementById('txFile').click()">
+      اضغط هنا لاختيار صورة
+      <input type="file" id="txFile" accept="image/*">
+    </div>
+
+    <div id="txControls" style="display:none">
+      <label for="txText">النص</label>
+      <input type="text" id="txText" value="نص تجريبي" style="display:block;width:100%;padding:12px;border:1px solid #d8dee9;border-radius:10px;font-family:inherit;margin-bottom:12px">
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <div style="flex:1;min-width:140px">
+          <label for="txFont">الخط</label>
+          <select id="txFont">
+            <option value="Tajawal">تجوال (Tajawal)</option>
+            <option value="Cairo">القاهرة (Cairo)</option>
+            <option value="'Aref Ruqaa'">رقعة (Ruqaa)</option>
+          </select>
+        </div>
+        <div style="flex:1;min-width:140px">
+          <label for="txColor">اللون</label>
+          <input type="color" id="txColor" value="#ffffff" style="width:60px;height:40px;padding:2px">
+        </div>
+      </div>
+      <label for="txSize">حجم الخط: <span id="txSizeVal">72</span> بكسل</label>
+      <input type="range" id="txSize" min="20" max="300" value="72">
+      <label><input type="checkbox" id="txShadow" checked style="width:auto"> ظل للنص (وضوح أفضل)</label>
+      <label style="margin-top:8px;display:block">موضع النص</label>
+      <div id="txPosGrid" style="display:grid;grid-template-columns:repeat(3,52px);gap:6px;margin-bottom:12px;direction:ltr">
+        <button type="button" data-pos="tl" class="btn" style="padding:8px">↖</button>
+        <button type="button" data-pos="tc" class="btn" style="padding:8px">↑</button>
+        <button type="button" data-pos="tr" class="btn" style="padding:8px">↗</button>
+        <button type="button" data-pos="ml" class="btn" style="padding:8px">←</button>
+        <button type="button" data-pos="mc" class="btn btn-active" style="padding:8px">●</button>
+        <button type="button" data-pos="mr" class="btn" style="padding:8px">→</button>
+        <button type="button" data-pos="bl" class="btn" style="padding:8px">↙</button>
+        <button type="button" data-pos="bc" class="btn" style="padding:8px">↓</button>
+        <button type="button" data-pos="br" class="btn" style="padding:8px">↘</button>
+      </div>
+      <div class="result show" style="text-align:center">
+        <div style="font-weight:700;margin-bottom:8px">معاينة</div>
+        <canvas id="txCanvas" style="max-width:100%;border-radius:12px;border:1px solid #e5e9f2"></canvas>
+      </div>
+      <button class="btn" id="txDownload" style="margin-top:12px">تحميل الصورة بالنص</button>
+    </div>
+  </div>
+
+  <div class="tool-box how">
+    <h3>كيف تضيف نصاً؟</h3>
+    <ol>
+      <li>اختر الصورة من جهازك.</li>
+      <li>اكتب النص واختر الخط واللون والحجم والموضع.</li>
+      <li>شاهد المعاينة ثم حمّل النتيجة.</li>
+    </ol>
+  </div>
+
+  <div class="tool-box faq">
+    <h3>أسئلة شائعة</h3>
+    <details><summary>هل تُرفع صوري إلى خادم؟</summary><p>لا. كل المعالجة تتم داخل متصفحك.</p></details>
+    <details><summary>هل تدعم النصوص العربية؟</summary><p>نعم بالكامل، مع خطوط عربية أنيقة.</p></details>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  var img = null, imgName = 'image', pos = 'mc';
+  var canvas = document.getElementById('txCanvas');
+  var ctx = canvas.getContext('2d');
+
+  function draw() {
+    if (!img) return;
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+    ctx.drawImage(img, 0, 0);
+    var text = document.getElementById('txText').value;
+    if (!text) return;
+    var size = parseInt(document.getElementById('txSize').value, 10);
+    var font = document.getElementById('txFont').value;
+    ctx.font = '800 ' + size + 'px ' + font + ', Tajawal, sans-serif';
+    ctx.fillStyle = document.getElementById('txColor').value;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.direction = 'rtl';
+    if (document.getElementById('txShadow').checked) {
+      ctx.shadowColor = 'rgba(0,0,0,0.6)';
+      ctx.shadowBlur = size / 8;
+      ctx.shadowOffsetY = size / 20;
+    } else {
+      ctx.shadowColor = 'transparent'; ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
+    }
+    var m = size * 0.9;
+    var x = canvas.width / 2, y = canvas.height / 2;
+    if (pos[1] === 'l') x = m + ctx.measureText(text).width / 2;
+    else if (pos[1] === 'r') x = canvas.width - m - ctx.measureText(text).width / 2;
+    if (pos[0] === 't') y = m;
+    else if (pos[0] === 'b') y = canvas.height - m;
+    var lines = text.split('\n');
+    var lh = size * 1.25;
+    var y0 = y - (lines.length - 1) * lh / 2;
+    lines.forEach(function (ln, i) { ctx.fillText(ln, x, y0 + i * lh); });
+  }
+
+  document.getElementById('txFile').addEventListener('change', function () {
+    var f = this.files[0];
+    if (!f) return;
+    imgName = f.name.replace(/\.[^.]+$/, '');
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      var im = new Image();
+      im.onload = function () {
+        img = im;
+        document.getElementById('txControls').style.display = 'block';
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+        draw();
+      };
+      im.src = e.target.result;
+    };
+    reader.readAsDataURL(f);
+  });
+
+  document.querySelectorAll('#txPosGrid button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      pos = b.getAttribute('data-pos');
+      document.querySelectorAll('#txPosGrid button').forEach(function (o) { o.classList.remove('btn-active'); });
+      b.classList.add('btn-active');
+      draw();
+    });
+  });
+
+  ['txText', 'txFont', 'txColor', 'txSize', 'txShadow'].forEach(function (id) {
+    var el = document.getElementById(id);
+    el.addEventListener('input', function () {
+      if (id === 'txSize') document.getElementById('txSizeVal').textContent = el.value;
+      draw();
+    });
+    el.addEventListener('change', draw);
+  });
+
+  document.getElementById('txDownload').addEventListener('click', function () {
+    if (!img) return;
+    var a = document.createElement('a');
+    a.href = canvas.toDataURL('image/png');
+    a.download = imgName + '-text.png';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  });
+})();
+</script>
+
+</body>
+</html>
