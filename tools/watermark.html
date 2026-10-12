@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>إضافة علامة مائية للصور أونلاين مجاناً | أدواتي</title>
+<meta name="description" content="أضف علامة مائية نصية أو شعاراً لصورك مجاناً داخل المتصفح — تحكم بالموضع والشفافية والحجم.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / العلامة المائية</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>©️ العلامة المائية</h2>
+    <div class="desc">احمِ صورك بعلامة مائية نصية أو بشعارك الخاص — مع معاينة فورية قبل التحميل.</div>
+
+    <div class="drop-zone" onclick="document.getElementById('wmFile').click()">
+      اضغط هنا لاختيار الصورة
+      <input type="file" id="wmFile" accept="image/*">
+    </div>
+
+    <div id="wmControls" style="display:none">
+      <label>نوع العلامة</label>
+      <div style="margin-bottom:12px">
+        <label style="display:inline-block;margin-left:16px"><input type="radio" name="wmType" value="text" checked style="width:auto"> نص</label>
+        <label style="display:inline-block"><input type="radio" name="wmType" value="image" style="width:auto"> صورة (شعار)</label>
+      </div>
+
+      <div id="wmTextGroup">
+        <label for="wmText">نص العلامة</label>
+        <input type="text" id="wmText" value="أدواتي" style="display:block;width:100%;padding:12px;border:1px solid #d8dee9;border-radius:10px;font-family:inherit;margin-bottom:12px">
+        <label for="wmSize">حجم الخط: <span id="wmSizeVal">48</span> بكسل</label>
+        <input type="range" id="wmSize" min="12" max="200" value="48">
+        <label for="wmColor">لون النص</label>
+        <input type="color" id="wmColor" value="#ffffff" style="width:60px;height:40px;padding:2px;margin-bottom:12px">
+      </div>
+
+      <div id="wmImageGroup" style="display:none">
+        <label for="wmLogo">اختر صورة الشعار (يفضل PNG بخلفية شفافة)</label>
+        <input type="file" id="wmLogo" accept="image/*" style="margin-bottom:12px">
+        <label for="wmLogoScale">حجم الشعار: <span id="wmLogoScaleVal">20</span>% من عرض الصورة</label>
+        <input type="range" id="wmLogoScale" min="5" max="80" value="20">
+      </div>
+
+      <label for="wmOpacity">الشفافية: <span id="wmOpacityVal">60</span>%</label>
+      <input type="range" id="wmOpacity" min="10" max="100" value="60">
+
+      <label>موضع العلامة</label>
+      <div id="wmPosGrid" style="display:grid;grid-template-columns:repeat(3,52px);gap:6px;margin-bottom:12px;direction:ltr">
+        <button type="button" data-pos="tl" class="btn" style="padding:8px">↖</button>
+        <button type="button" data-pos="tc" class="btn" style="padding:8px">↑</button>
+        <button type="button" data-pos="tr" class="btn" style="padding:8px">↗</button>
+        <button type="button" data-pos="ml" class="btn" style="padding:8px">←</button>
+        <button type="button" data-pos="mc" class="btn" style="padding:8px">●</button>
+        <button type="button" data-pos="mr" class="btn" style="padding:8px">→</button>
+        <button type="button" data-pos="bl" class="btn" style="padding:8px">↙</button>
+        <button type="button" data-pos="bc" class="btn" style="padding:8px">↓</button>
+        <button type="button" data-pos="br" class="btn btn-active" style="padding:8px">↘</button>
+      </div>
+
+      <label style="margin-bottom:12px;display:block"><input type="checkbox" id="wmTile" style="width:auto"> تكرار العلامة على كامل الصورة</label>
+
+      <label for="wmFormat">صيغة التحميل</label>
+      <select id="wmFormat">
+        <option value="png">PNG (يحافظ على الشفافية)</option>
+        <option value="jpeg">JPG (حجم أصغر)</option>
+      </select>
+
+      <div class="result show" style="text-align:center">
+        <div style="font-weight:700;margin-bottom:8px">معاينة</div>
+        <canvas id="wmCanvas" style="max-width:100%;border-radius:12px;border:1px solid #e5e9f2"></canvas>
+      </div>
+
+      <button class="btn" id="wmDownload" style="margin-top:12px">تحميل الصورة بالعلامة المائية</button>
+    </div>
+  </div>
+
+  <div class="tool-box how">
+    <h3>كيف تضيف علامة مائية؟</h3>
+    <ol>
+      <li>اختر الصورة من جهازك.</li>
+      <li>اختر علامة نصية أو ارفع شعارك، وحدد الموضع والشفافية.</li>
+      <li>شاهد المعاينة الفورية ثم حمّل النتيجة.</li>
+    </ol>
+  </div>
+
+  <div class="tool-box faq">
+    <h3>أسئلة شائعة</h3>
+    <details><summary>هل تُرفع صوري إلى خادم؟</summary><p>لا. كل المعالجة تتم داخل متصفحك.</p></details>
+    <details><summary>ما أفضل صيغة للتحميل؟</summary><p>PNG إذا كانت صورتك أو علامتك بخلفية شفافة، وJPG لحجم ملف أصغر.</p></details>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  var img = null, logo = null, imgName = 'image';
+  var pos = 'br';
+  var canvas = document.getElementById('wmCanvas');
+  var ctx = canvas.getContext('2d');
+
+  function val(id) { return document.getElementById(id).value; }
+  function wmType() { return document.querySelector('input[name="wmType"]:checked').value; }
+
+  function draw() {
+    if (!img) return;
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0);
+    var opacity = val('wmOpacity') / 100;
+    var tile = document.getElementById('wmTile').checked;
+    ctx.save();
+    ctx.globalAlpha = opacity;
+
+    if (wmType() === 'text') {
+      var text = val('wmText') || '';
+      var size = parseInt(val('wmSize'), 10);
+      var color = val('wmColor');
+      ctx.fillStyle = color;
+      ctx.font = '700 ' + size + 'px Tajawal, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.direction = 'rtl';
+      if (tile) {
+        ctx.translate(canvas.width / 2, canvas.height / 2);
+        ctx.rotate(-Math.PI / 6);
+        var tw = ctx.measureText(text).width + size * 2;
+        var th = size * 2.2;
+        for (var y = -canvas.height; y < canvas.height; y += th) {
+          for (var x = -canvas.width; x < canvas.width; x += tw) {
+            ctx.fillText(text, x, y);
+          }
+        }
+      } else {
+        var p = anchor(size, size);
+        ctx.fillText(text, p.x, p.y);
+      }
+    } else if (logo) {
+      var scale = val('wmLogoScale') / 100;
+      var lw = canvas.width * scale;
+      var lh = lw * (logo.naturalHeight / logo.naturalWidth);
+      if (tile) {
+        var stepX = lw * 1.6, stepY = lh * 2.2;
+        for (var yy = stepY / 2; yy < canvas.height + stepY; yy += stepY) {
+          for (var xx = stepX / 2; xx < canvas.width + stepX; xx += stepX) {
+            ctx.drawImage(logo, xx - lw / 2, yy - lh / 2, lw, lh);
+          }
+        }
+      } else {
+        var q = anchor(lw, lh);
+        ctx.drawImage(logo, q.x - lw / 2, q.y - lh / 2, lw, lh);
+      }
+    }
+    ctx.restore();
+  }
+
+  function anchor(w, h) {
+    var m = Math.min(canvas.width, canvas.height) * 0.06 + Math.max(w, h) / 2;
+    var x = canvas.width / 2, y = canvas.height / 2;
+    if (pos[1] === 'l') x = m; else if (pos[1] === 'r') x = canvas.width - m;
+    if (pos[0] === 't') y = m; else if (pos[0] === 'b') y = canvas.height - m;
+    return { x: x, y: y };
+  }
+
+  function loadImageFile(file, cb) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      var im = new Image();
+      im.onload = function () { cb(im); };
+      im.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  document.getElementById('wmFile').addEventListener('change', function () {
+    var f = this.files[0];
+    if (!f) return;
+    imgName = f.name.replace(/\.[^.]+$/, '');
+    loadImageFile(f, function (im) {
+      img = im;
+      document.getElementById('wmControls').style.display = 'block';
+      draw();
+    });
+  });
+
+  document.getElementById('wmLogo').addEventListener('change', function () {
+    var f = this.files[0];
+    if (!f) return;
+    loadImageFile(f, function (im) { logo = im; draw(); });
+  });
+
+  document.querySelectorAll('input[name="wmType"]').forEach(function (el) {
+    el.addEventListener('change', function () {
+      var t = wmType();
+      document.getElementById('wmTextGroup').style.display = t === 'text' ? 'block' : 'none';
+      document.getElementById('wmImageGroup').style.display = t === 'image' ? 'block' : 'none';
+      draw();
+    });
+  });
+
+  document.querySelectorAll('#wmPosGrid button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      pos = b.getAttribute('data-pos');
+      document.querySelectorAll('#wmPosGrid button').forEach(function (o) { o.classList.remove('btn-active'); });
+      b.classList.add('btn-active');
+      draw();
+    });
+  });
+
+  ['wmText', 'wmSize', 'wmColor', 'wmOpacity', 'wmLogoScale', 'wmTile', 'wmFormat'].forEach(function (id) {
+    var el = document.getElementById(id);
+    el.addEventListener('input', function () {
+      if (id === 'wmSize') document.getElementById('wmSizeVal').textContent = el.value;
+      if (id === 'wmOpacity') document.getElementById('wmOpacityVal').textContent = el.value;
+      if (id === 'wmLogoScale') document.getElementById('wmLogoScaleVal').textContent = el.value;
+      draw();
+    });
+    el.addEventListener('change', draw);
+  });
+
+  document.getElementById('wmDownload').addEventListener('click', function () {
+    if (!img) return;
+    var fmt = val('wmFormat');
+    var mime = fmt === 'png' ? 'image/png' : 'image/jpeg';
+    var a = document.createElement('a');
+    a.href = canvas.toDataURL(mime, 0.92);
+    a.download = imgName + '-watermark.' + fmt;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  });
+})();
+</script>
+
+</body>
+</html>
