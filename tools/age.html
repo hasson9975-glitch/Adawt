@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>حاسبة العمر أونلاين مجاناً | أدواتي</title>
+<meta name="description" content="احسب عمرك بالسنوات والشهور والأيام مجاناً — مع تاريخ ميلادك بالهجري ويوم الأسبوع.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / حاسبة العمر</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>🎂 حاسبة العمر</h2>
+    <div class="desc">اكتشف عمرك الدقيق بالسنوات والشهور والأيام — ومعلومات إضافية ممتعة.</div>
+
+    <label for="ageDate">تاريخ ميلادك</label>
+    <input type="date" id="ageDate" style="display:block;width:100%;padding:12px;border:1px solid #d8dee9;border-radius:10px;font-family:inherit;margin-bottom:12px">
+    <button class="btn" id="ageGo">احسب عمري</button>
+
+    <div class="result" id="ageOut">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center;margin-bottom:14px">
+        <div class="stat"><span id="ageY">0</span><small>سنة</small></div>
+        <div class="stat"><span id="ageM">0</span><small>شهر</small></div>
+        <div class="stat"><span id="ageD">0</span><small>يوم</small></div>
+      </div>
+      <div id="ageExtra" style="line-height:2;color:var(--muted)"></div>
+    </div>
+  </div>
+
+  <div class="tool-box how">
+    <h3>كيف تحسب عمرك؟</h3>
+    <ol>
+      <li>اختر تاريخ ميلادك من التقويم.</li>
+      <li>اضغط "احسب عمري" لترى النتيجة الدقيقة.</li>
+    </ol>
+  </div>
+
+  <div class="tool-box faq">
+    <h3>أسئلة شائعة</h3>
+    <details><summary>هل تُحفَظ بياناتي؟</summary><p>لا. الحساب يتم داخل متصفحك ولا يُرسَل تاريخ ميلادك لأي مكان.</p></details>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  var DAYS = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+  document.getElementById('ageGo').addEventListener('click', function () {
+    var v = document.getElementById('ageDate').value;
+    if (!v) { alert('اختر تاريخ ميلادك أولاً.'); return; }
+    var birth = new Date(v + 'T00:00:00');
+    var now = new Date();
+    if (birth > now) { alert('تاريخ الميلاد لا يمكن أن يكون في المستقبل.'); return; }
+
+    var y = now.getFullYear() - birth.getFullYear();
+    var m = now.getMonth() - birth.getMonth();
+    var d = now.getDate() - birth.getDate();
+    if (d < 0) {
+      m--;
+      d += new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+    }
+    if (m < 0) { y--; m += 12; }
+
+    var totalDays = Math.floor((now - birth) / 86400000);
+    var totalMonths = y * 12 + m;
+    var totalHours = totalDays * 24;
+
+    var hijri = '';
+    try {
+      hijri = new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura', { day: 'numeric', month: 'long', year: 'numeric' }).format(birth);
+    } catch (e) {
+      try { hijri = new Intl.DateTimeFormat('ar-SA-u-ca-islamic', { day: 'numeric', month: 'long', year: 'numeric' }).format(birth); } catch (e2) {}
+    }
+
+    document.getElementById('ageY').textContent = y;
+    document.getElementById('ageM').textContent = m;
+    document.getElementById('ageD').textContent = d;
+    document.getElementById('ageExtra').innerHTML =
+      'وُلدت يوم <b>' + DAYS[birth.getDay()] + '</b><br>' +
+      (hijri ? 'تاريخ ميلادك هجرياً: <b>' + hijri + '</b><br>' : '') +
+      'عشت <b>' + totalDays.toLocaleString('ar') + '</b> يوم (' + totalMonths.toLocaleString('ar') + ' شهر / ' +
+      totalHours.toLocaleString('ar') + ' ساعة)';
+    document.getElementById('ageOut').classList.add('show');
+  });
+})();
+</script>
+
+</body>
+</html>
