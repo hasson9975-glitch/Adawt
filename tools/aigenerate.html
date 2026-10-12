@@ -51,6 +51,7 @@
         </select>
       </div>
     </div>
+    <label style="margin-top:10px"><input type="checkbox" id="aiEnhance" checked style="width:auto"> تحسين الوصف تلقائياً ✨ (نتائج أدق وأجمل)</label>
 
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
       <button class="btn" id="aiGo">توليد الصورة ✨</button>
@@ -64,7 +65,7 @@
       <div><button class="btn" id="aiDownload" style="margin-top:12px">تحميل الصورة</button></div>
     </div>
 
-    <p style="color:var(--muted);font-size:.9rem;margin-top:10px">ملاحظة: التوليد مجاني عبر خدمة خارجية وقد يستغرق 30-60 ثانية. تجنّب طلب محتوى مخالف.</p>
+    <p style="color:var(--muted);font-size:.9rem;margin-top:10px">ملاحظة: التوليد مجاني عبر خدمة Pollinations وقد يستغرق 30-60 ثانية. الصور تحمل علامتها المائية الصغيرة. تجنّب طلب محتوى مخالف.</p>
   </div>
 
   <div class="tool-box how">
@@ -95,9 +96,10 @@
   function buildUrl(prompt, seed) {
     var dims = document.getElementById('aiSize').value.split('x');
     var model = document.getElementById('aiModel').value;
+    var enhance = document.getElementById('aiEnhance').checked ? '&enhance=true' : '';
     return 'https://image.pollinations.ai/prompt/' + encodeURIComponent(prompt) +
       '?width=' + dims[0] + '&height=' + dims[1] +
-      '&seed=' + seed + '&model=' + model + '&nologo=true';
+      '&seed=' + seed + '&model=' + model + '&nologo=true' + enhance;
   }
   function setStatus(t) {
     var s = document.getElementById('aiStatus');
