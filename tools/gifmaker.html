@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>صانع GIF متحرك أونلاين مجاناً | أدواتي</title>
+<meta name="description" content="اصنع صور GIF متحركة من صورك أو فيديوهاتك مجاناً داخل المتصفح.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.js"></script>
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / صانع GIF</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>🎞️ صانع GIF متحرك</h2>
+    <div class="desc">حوّل صورك أو مقطع فيديو إلى صورة GIF متحركة — مثالي للسوشيال ميديا.</div>
+
+    <div style="margin-bottom:12px">
+      <label style="display:inline-block;margin-left:16px"><input type="radio" name="gifMode" value="images" checked style="width:auto"> من صور</label>
+      <label style="display:inline-block"><input type="radio" name="gifMode" value="video" style="width:auto"> من فيديو</label>
+    </div>
+
+    <div id="gifImgMode">
+      <div class="drop-zone" onclick="document.getElementById('gifFiles').click()">
+        اضغط هنا لاختيار الصور (2 إلى 10)
+        <input type="file" id="gifFiles" accept="image/*" multiple>
+      </div>
+    </div>
+    <div id="gifVidMode" style="display:none">
+      <div class="drop-zone" onclick="document.getElementById('gifVideo').click()">
+        اضغط هنا لاختيار فيديو
+        <input type="file" id="gifVideo" accept="video/*">
+      </div>
+      <label for="gifFrames">عدد اللقطات: <span id="gifFramesVal">10</span></label>
+      <input type="range" id="gifFrames" min="3" max="20" value="10">
+    </div>
+
+    <div id="gifControls" style="display:none">
+      <label for="gifDelay">مدة كل إطار: <span id="gifDelayVal">500</span> مللي ثانية</label>
+      <input type="range" id="gifDelay" min="100" max="2000" step="100" value="500">
+      <label for="gifWidth">العرض: <span id="gifWidthVal">480</span> بكسل</label>
+      <input type="range" id="gifWidth" min="160" max="800" step="40" value="480">
+      <button class="btn" id="gifMake">إنشاء GIF</button>
+      <div class="result" id="gifStatus"></div>
+      <div class="progress" id="gifProgress" style="display:none;height:10px;background:#eef1f7;border-radius:99px;overflow:hidden;margin:10px 0"><div id="gifBar" style="height:100%;width:0%;background:var(--navy)"></div></div>
+      <div class="result" id="gifOut" style="text-align:center">
+        <img id="gifImg" alt="الصورة المتحركة" style="max-width:100%;border-radius:12px;border:1px solid #e5e9f2">
+        <div><button class="btn" id="gifDownload" style="margin-top:12px">تحميل GIF</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tool-box how">
+    <h3>كيف تصنع GIF؟</h3>
+    <ol>
+      <li>اختر الصور أو الفيديو.</li>
+      <li>حدد سرعة الإطارات والحجم ثم اضغط "إنشاء GIF".</li>
+      <li>حمّل النتيجة وشاركها.</li>
+    </ol>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  var frames = []; // عناصر Image جاهزة
+  var gifUrl = null;
+  var WORKER = 'https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.worker.js';
+
+  function mode() { return document.querySelector('input[name="gifMode"]:checked').value; }
+  function status(t) {
+    var s = document.getElementById('gifStatus');
+    s.classList.add('show'); s.textContent = t;
+  }
+
+  document.querySelectorAll('input[name="gifMode"]').forEach(function (el) {
+    el.addEventListener('change', function () {
+      var m = mode();
+      document.getElementById('gifImgMode').style.display = m === 'images' ? 'block' : 'none';
+      document.getElementById('gifVidMode').style.display = m === 'video' ? 'block' : 'none';
+      frames = [];
+      document.getElementById('gifControls').style.display = 'none';
+      document.getElementById('gifOut').classList.remove('show');
+    });
+  });
+
+  function loadImageFile(f) {
+    return new Promise(function (resolve) {
+      var r = new FileReader();
+      r.onload = function (e) {
+        var im = new Image();
+        im.onload = function () { resolve(im); };
+        im.src = e.target.result;
+      };
+      r.readAsDataURL(f);
+    });
+  }
+
+  document.getElementById('gifFiles').addEventListener('change', async function () {
+    var files = Array.prototype.slice.call(this.files, 0, 10);
+    if (files.length < 2) { alert('اختر صورتين على الأقل.'); return; }
+    status('جاري تجهيز الصور...');
+    frames = [];
+    for (var i = 0; i < files.length; i++) frames.push(await loadImageFile(files[i]));
+    document.getElementById('gifControls').style.display = 'block';
+    status('تم تجهيز ' + frames.length + ' صور ✓');
+    this.value = '';
+  });
+
+  document.getElementById('gifVideo').addEventListener('change', function () {
+    var f = this.files[0];
+    if (!f) return;
+    var v = document.createElement('video');
+    v.muted = true; v.playsInline = true;
+    v.src = URL.createObjectURL(f);
+    v.onloadedmetadata = async function () {
+      status('جاري استخراج اللقطات من الفيديو...');
+      frames = [];
+      var n = parseInt(document.getElementById('gifFrames').value, 10);
+      var maxW = 480;
+      var scale = Math.min(1, maxW / v.videoWidth);
+      for (var i = 0; i < n; i++) {
+        var t = (v.duration * i) / n;
+        await new Promise(function (res) {
+          v.onseeked = function () { res(); };
+          v.currentTime = Math.min(t, Math.max(0, v.duration - 0.1));
+        });
+        var c = document.createElement('canvas');
+        c.width = Math.round(v.videoWidth * scale);
+        c.height = Math.round(v.videoHeight * scale);
+        c.getContext('2d').drawImage(v, 0, 0, c.width, c.height);
+        var im = new Image();
+        im.src = c.toDataURL('image/png');
+        await new Promise(function (res) { im.onload = res; });
+        frames.push(im);
+      }
+      URL.revokeObjectURL(v.src);
+      document.getElementById('gifControls').style.display = 'block';
+      status('تم استخراج ' + frames.length + ' لقطة ✓');
+    };
+  });
+
+  ['gifDelay', 'gifWidth', 'gifFrames'].forEach(function (id) {
+    document.getElementById(id).addEventListener('input', function () {
+      document.getElementById(id + 'Val').textContent = this.value;
+    });
+  });
+
+  document.getElementById('gifMake').addEventListener('click', function () {
+    if (!window.GIF) { status('تعذر تحميل مكتبة GIF — تحقق من الإنترنت.'); return; }
+    if (frames.length < 2) { alert('جهّز الصور أو الفيديو أولاً.'); return; }
+    var delay = parseInt(document.getElementById('gifDelay').value, 10);
+    var width = parseInt(document.getElementById('gifWidth').value, 10);
+    var bar = document.getElementById('gifBar');
+    document.getElementById('gifProgress').style.display = 'block';
+    document.getElementById('gifOut').classList.remove('show');
+    if (gifUrl) URL.revokeObjectURL(gifUrl);
+    status('جاري إنشاء GIF...');
+    try {
+      var gif = new GIF({ workers: 2, quality: 10, width: width, workerScript: WORKER });
+      frames.forEach(function (im) {
+        var h = Math.round(width * im.naturalHeight / im.naturalWidth);
+        var c = document.createElement('canvas');
+        c.width = width; c.height = h;
+        c.getContext('2d').drawImage(im, 0, 0, width, h);
+        gif.addFrame(c, { delay: delay, copy: true });
+      });
+      gif.on('progress', function (p) { bar.style.width = Math.round(p * 100) + '%'; });
+      gif.on('finished', function (blob) {
+        gifUrl = URL.createObjectURL(blob);
+        document.getElementById('gifImg').src = gifUrl;
+        document.getElementById('gifOut').classList.add('show');
+        document.getElementById('gifProgress').style.display = 'none';
+        status('تم إنشاء GIF بنجاح ✓');
+      });
+      gif.render();
+    } catch (e) {
+      status('حدث خطأ أثناء الإنشاء. حاول مرة أخرى.');
+    }
+  });
+
+  document.getElementById('gifDownload').addEventListener('click', function () {
+    if (!gifUrl) return;
+    var a = document.createElement('a');
+    a.href = gifUrl;
+    a.download = 'adawati.gif';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  });
+})();
+</script>
+
+</body>
+</html>

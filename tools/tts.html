@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تحويل النص إلى كلام أونلاين مجاناً | أدواتي</title>
+<meta name="description" content="استمع لأي نص عربي صوتياً مجاناً داخل المتصفح — تحويل النص إلى كلام.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / تحويل النص إلى كلام</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>🔊 تحويل النص إلى كلام</h2>
+    <div class="desc">اكتب أي نص عربي واستمع إليه صوتياً — مثالي للمراجعة وتعلم النطق.</div>
+
+    <label for="ttsText">النص</label>
+    <textarea id="ttsText" rows="5" placeholder="اكتب النص هنا..." style="display:block;width:100%;padding:12px;border:1px solid #d8dee9;border-radius:10px;font-family:inherit;margin-bottom:12px"></textarea>
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <div style="flex:1;min-width:160px">
+        <label for="ttsVoice">الصوت</label>
+        <select id="ttsVoice"></select>
+      </div>
+      <div style="flex:1;min-width:140px">
+        <label for="ttsRate">السرعة: <span id="ttsRateVal">1</span></label>
+        <input type="range" id="ttsRate" min="0.5" max="2" step="0.1" value="1">
+      </div>
+    </div>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+      <button class="btn" id="ttsPlay">تشغيل ▶</button>
+      <button class="btn" id="ttsStop" style="background:#eef1f7;color:var(--navy)">إيقاف ⏹</button>
+    </div>
+    <div class="result" id="ttsStatus"></div>
+  </div>
+
+  <div class="tool-box how">
+    <h3>كيف تحوّل النص إلى كلام؟</h3>
+    <ol>
+      <li>اكتب النص أو الصقه.</li>
+      <li>اختر الصوت والسرعة ثم اضغط "تشغيل".</li>
+    </ol>
+  </div>
+
+  <div class="tool-box faq">
+    <h3>أسئلة شائعة</h3>
+    <details><summary>هل يدعم العربية؟</summary><p>نعم — اختر صوتاً عربياً من القائمة إذا توفر على جهازك.</p></details>
+    <details><summary>هل تُرفع نصوصي إلى خادم؟</summary><p>لا. النطق يتم عبر متصفحك وجهازك مباشرة.</p></details>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  var synth = window.speechSynthesis || null;
+  var statusBox = document.getElementById('ttsStatus');
+
+  function status(t) { statusBox.classList.add('show'); statusBox.textContent = t; }
+
+  if (!synth) {
+    status('متصفحك لا يدعم تحويل النص إلى كلام.');
+    document.getElementById('ttsPlay').disabled = true;
+    return;
+  }
+
+  function loadVoices() {
+    var voices = synth.getVoices();
+    var sel = document.getElementById('ttsVoice');
+    sel.innerHTML = '';
+    var arVoices = voices.filter(function (v) { return v.lang && v.lang.toLowerCase().indexOf('ar') === 0; });
+    var list = arVoices.length ? arVoices : voices;
+    if (!list.length) {
+      sel.add(new Option('الصوت الافتراضي', ''));
+      return;
+    }
+    list.forEach(function (v, i) {
+      sel.add(new Option(v.name + ' (' + v.lang + ')', i));
+    });
+    sel._voices = list;
+    if (arVoices.length) status('تم العثور على ' + arVoices.length + ' صوت عربي ✓');
+  }
+  if (synth.onvoiceschanged !== undefined) synth.onvoiceschanged = loadVoices;
+  loadVoices();
+
+  document.getElementById('ttsRate').addEventListener('input', function () {
+    document.getElementById('ttsRateVal').textContent = this.value;
+  });
+
+  document.getElementById('ttsPlay').addEventListener('click', function () {
+    var text = document.getElementById('ttsText').value.trim();
+    if (!text) { alert('اكتب النص أولاً.'); return; }
+    synth.cancel();
+    var u = new SpeechSynthesisUtterance(text);
+    u.lang = 'ar-SA';
+    u.rate = parseFloat(document.getElementById('ttsRate').value);
+    var sel = document.getElementById('ttsVoice');
+    var voices = sel._voices || [];
+    var idx = parseInt(sel.value, 10);
+    if (voices[idx]) u.voice = voices[idx];
+    u.onend = function () { status('انتهى التشغيل ✓'); };
+    u.onerror = function () { status('حدث خطأ أثناء التشغيل.'); };
+    synth.speak(u);
+    status('جاري التشغيل... 🔊');
+  });
+
+  document.getElementById('ttsStop').addEventListener('click', function () {
+    synth.cancel();
+    status('تم الإيقاف.');
+  });
+})();
+</script>
+
+</body>
+</html>

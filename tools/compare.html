@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مقارنة قبل وبعد الصور أونلاين | أدواتي</title>
+<meta name="description" content="قارن بين صورتين قبل وبعد التعديل بسلايدر تفاعلي مجاناً داخل المتصفح.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / مقارنة قبل وبعد</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>🔍 مقارنة قبل وبعد</h2>
+    <div class="desc">اعرض صورتين (قبل وبعد التعديل) وقارن بينهما بسلايدر تفاعلي — مثالي لعرض أعمالك.</div>
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <div class="drop-zone" style="flex:1;min-width:200px" onclick="document.getElementById('cpBefore').click()">
+        الصورة "قبل"
+        <input type="file" id="cpBefore" accept="image/*">
+      </div>
+      <div class="drop-zone" style="flex:1;min-width:200px" onclick="document.getElementById('cpAfter').click()">
+        الصورة "بعد"
+        <input type="file" id="cpAfter" accept="image/*">
+      </div>
+    </div>
+
+    <div id="cpStage" style="display:none;margin-top:14px">
+      <div id="cpWrap" style="position:relative;overflow:hidden;border-radius:12px;border:1px solid #e5e9f2;max-width:100%;direction:ltr;user-select:none">
+        <img id="cpImgAfter" alt="بعد" style="display:block;width:100%">
+        <div id="cpTop" style="position:absolute;top:0;left:0;height:100%;width:50%;overflow:hidden;border-right:3px solid #fff">
+          <img id="cpImgBefore" alt="قبل" style="display:block;height:100%;max-width:none">
+        </div>
+        <div id="cpHandle" style="position:absolute;top:0;bottom:0;left:50%;width:3px;background:#fff;cursor:ew-resize;transform:translateX(-50%)">
+          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40px;height:40px;border-radius:50%;background:#fff;color:#1a2a6c;display:flex;align-items:center;justify-content:center;font-weight:800;box-shadow:0 2px 8px rgba(0,0,0,.3)">⇔</div>
+        </div>
+        <div style="position:absolute;top:10px;left:10px;background:rgba(0,0,0,.55);color:#fff;padding:4px 12px;border-radius:99px;font-size:.85rem">قبل</div>
+        <div style="position:absolute;top:10px;right:10px;background:rgba(0,0,0,.55);color:#fff;padding:4px 12px;border-radius:99px;font-size:.85rem">بعد</div>
+      </div>
+      <input type="range" id="cpSlider" min="0" max="100" value="50" style="margin-top:10px">
+      <div style="color:var(--muted);font-size:.9rem">اسحب المقبض أو المؤشر لمقارنة الصورتين</div>
+    </div>
+  </div>
+
+  <div class="tool-box how">
+    <h3>كيف تقارن صورتين؟</h3>
+    <ol>
+      <li>ارفع الصورة الأصلية (قبل) والمعدلة (بعد).</li>
+      <li>اسحب المقبض لرؤية الفرق.</li>
+    </ol>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  var beforeImg = null, afterImg = null;
+  var wrap = document.getElementById('cpWrap');
+  var top = document.getElementById('cpTop');
+  var handle = document.getElementById('cpHandle');
+  var slider = document.getElementById('cpSlider');
+
+  function loadFile(input, cb) {
+    var f = input.files[0];
+    if (!f) return;
+    var r = new FileReader();
+    r.onload = function (e) {
+      var im = new Image();
+      im.onload = function () { cb(im); };
+      im.src = e.target.result;
+    };
+    r.readAsDataURL(f);
+  }
+
+  function fit() {
+    if (!beforeImg || !afterImg) return;
+    var maxW = 900;
+    var s = Math.min(1, maxW / afterImg.naturalWidth);
+    var W = Math.round(afterImg.naturalWidth * s);
+    var H = Math.round(afterImg.naturalHeight * s);
+    wrap.style.width = W + 'px';
+    wrap.style.height = H + 'px';
+    document.getElementById('cpImgAfter').style.height = H + 'px';
+    var bi = document.getElementById('cpImgBefore');
+    bi.style.height = H + 'px';
+    bi.style.width = W + 'px';
+    document.getElementById('cpStage').style.display = 'block';
+    setSplit(50);
+  }
+
+  function setSplit(pct) {
+    pct = Math.max(0, Math.min(100, pct));
+    top.style.width = pct + '%';
+    handle.style.left = pct + '%';
+    slider.value = pct;
+  }
+
+  slider.addEventListener('input', function () { setSplit(parseFloat(this.value)); });
+
+  var dragging = false;
+  function splitFromEvent(e) {
+    var r = wrap.getBoundingClientRect();
+    var cx = (e.touches && e.touches[0] ? e.touches[0].clientX : e.clientX);
+    return ((cx - r.left) / r.width) * 100;
+  }
+  wrap.addEventListener('pointerdown', function (e) { dragging = true; wrap.setPointerCapture(e.pointerId); setSplit(splitFromEvent(e)); });
+  wrap.addEventListener('pointermove', function (e) { if (dragging) setSplit(splitFromEvent(e)); });
+  wrap.addEventListener('pointerup', function () { dragging = false; });
+
+  document.getElementById('cpBefore').addEventListener('change', function () {
+    loadFile(this, function (im) {
+      beforeImg = im;
+      document.getElementById('cpImgBefore').src = im.src;
+      fit();
+    });
+  });
+  document.getElementById('cpAfter').addEventListener('change', function () {
+    loadFile(this, function (im) {
+      afterImg = im;
+      document.getElementById('cpImgAfter').src = im.src;
+      fit();
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

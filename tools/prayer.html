@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مواقيت الصلاة أونلاين | أدواتي</title>
+<meta name="description" content="مواقيت الصلاة اليوم حسب مدينتك مجاناً — الفجر والشروق والظهر والعصر والمغرب والعشاء.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / مواقيت الصلاة</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>🕌 مواقيت الصلاة</h2>
+    <div class="desc">مواقيت اليوم حسب مدينتك — تُحدَّث تلقائياً كل يوم.</div>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end">
+      <div style="flex:1;min-width:140px">
+        <label for="prCity">المدينة</label>
+        <input type="text" id="prCity" value="طرابلس" style="display:block;width:100%;padding:12px;border:1px solid #d8dee9;border-radius:10px;font-family:inherit">
+      </div>
+      <div style="flex:1;min-width:140px">
+        <label for="prCountry">الدولة</label>
+        <input type="text" id="prCountry" value="ليبيا" style="display:block;width:100%;padding:12px;border:1px solid #d8dee9;border-radius:10px;font-family:inherit">
+      </div>
+      <button class="btn" id="prGo">عرض المواقيت</button>
+    </div>
+
+    <div class="result" id="prOut">
+      <div style="text-align:center;margin-bottom:12px">
+        <div style="font-weight:800;font-size:1.2rem" id="prPlace"></div>
+        <div style="color:var(--muted)" id="prDate"></div>
+        <div style="margin-top:8px;padding:10px;background:#eef1f7;border-radius:10px" id="prNext"></div>
+      </div>
+      <div id="prTimes" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px"></div>
+    </div>
+    <div class="result" id="prError"></div>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  var NAMES = { Fajr: 'الفجر', Sunrise: 'الشروق', Dhuhr: 'الظهر', Asr: 'العصر', Maghrib: 'المغرب', Isha: 'العشاء' };
+  var ORDER = ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+
+  function to12(t) {
+    var p = t.split(':');
+    var h = parseInt(p[0], 10), m = p[1];
+    var ap = h >= 12 ? 'م' : 'ص';
+    h = h % 12; if (h === 0) h = 12;
+    return h + ':' + m + ' ' + ap;
+  }
+
+  function load() {
+    var city = document.getElementById('prCity').value.trim() || 'Tripoli';
+    var country = document.getElementById('prCountry').value.trim() || 'Libya';
+    var out = document.getElementById('prOut');
+    var err = document.getElementById('prError');
+    out.classList.remove('show'); err.classList.remove('show');
+    err.textContent = '';
+    fetch('https://api.aladhan.com/v1/timingsByCity?city=' + encodeURIComponent(city) + '&country=' + encodeURIComponent(country) + '&method=4')
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (d.code !== 200) throw 0;
+        var t = d.data.timings;
+        document.getElementById('prPlace').textContent = '🕌 ' + city;
+        var hj = d.data.date.hijri;
+        document.getElementById('prDate').textContent =
+          new Date().toLocaleDateString('ar', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) +
+          ' — ' + hj.day + ' ' + hj.month.ar + ' ' + hj.year + 'هـ';
+        var wrap = document.getElementById('prTimes');
+        wrap.innerHTML = '';
+        var now = new Date();
+        var nowMin = now.getHours() * 60 + now.getMinutes();
+        var nextName = null, nextIn = null;
+        ORDER.forEach(function (k) {
+          var hm = t[k].slice(0, 5).split(':');
+          var mins = parseInt(hm[0], 10) * 60 + parseInt(hm[1], 10);
+          var isNext = false;
+          if (!nextName && k !== 'Sunrise' && mins > nowMin) { nextName = k; nextIn = mins - nowMin; isNext = true; }
+          var div = document.createElement('div');
+          div.className = 'stat';
+          div.style.cssText = isNext ? 'border:2px solid var(--navy)' : '';
+          div.innerHTML = '<span>' + to12(t[k].slice(0, 5)) + '</span><small>' + NAMES[k] + (isNext ? ' ⏰' : '') + '</small>';
+          wrap.appendChild(div);
+        });
+        if (nextName) {
+          var h = Math.floor(nextIn / 60), m = nextIn % 60;
+          document.getElementById('prNext').innerHTML =
+            'الصلاة القادمة: <b>' + NAMES[nextName] + '</b> بعد ' + (h ? h + ' ساعة و' : '') + m + ' دقيقة'.replace('m', m);
+        } else {
+          document.getElementById('prNext').innerHTML = 'تقبل الله طاعتكم 🌙';
+        }
+        out.classList.add('show');
+      })
+      .catch(function () {
+        err.classList.add('show');
+        err.textContent = 'تعذر تحميل المواقيت — تحقق من اسم المدينة واتصال الإنترنت.';
+      });
+  }
+
+  document.getElementById('prGo').addEventListener('click', load);
+  load();
+})();
+</script>
+
+</body>
+</html>

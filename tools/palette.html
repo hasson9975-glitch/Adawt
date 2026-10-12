@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مستخرج لوحة الألوان من الصور مجاناً | أدواتي</title>
+<meta name="description" content="استخرج الألوان الغالبة من أي صورة تلقائياً مجاناً — لوحة ألوان جاهزة للمصممين.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / مستخرج لوحة الألوان</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>🎨 مستخرج لوحة الألوان</h2>
+    <div class="desc">ارفع أي صورة واستخرج ألوانها الغالبة تلقائياً — لوحة جاهزة لمشاريعك التصميمية.</div>
+
+    <div class="drop-zone" onclick="document.getElementById('plFile').click()">
+      اضغط هنا لاختيار صورة
+      <input type="file" id="plFile" accept="image/*">
+    </div>
+
+    <div class="result" id="plOut" style="text-align:center">
+      <img id="plImg" alt="الصورة" style="max-width:100%;max-height:280px;border-radius:12px;margin-bottom:12px">
+      <div id="plSwatches" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px"></div>
+      <button class="btn" id="plCopyAll" style="margin-top:12px">نسخ كل الأكواد</button>
+    </div>
+  </div>
+
+  <div class="tool-box how">
+    <h3>كيف تستخرج اللوحة؟</h3>
+    <ol>
+      <li>اختر الصورة من جهازك.</li>
+      <li>ستظهر الألوان الغالبة تلقائياً — اضغط أي لون لنسخ كوده.</li>
+    </ol>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  var hexes = [];
+
+  function toHex(r, g, b) {
+    return '#' + [r, g, b].map(function (v) {
+      return ('0' + Math.round(v).toString(16)).slice(-2);
+    }).join('').toUpperCase();
+  }
+
+  document.getElementById('plFile').addEventListener('change', function () {
+    var f = this.files[0];
+    if (!f) return;
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      var im = new Image();
+      im.onload = function () {
+        document.getElementById('plImg').src = im.src;
+        var s = 80;
+        var c = document.createElement('canvas');
+        var sc = Math.min(1, s / Math.max(im.naturalWidth, im.naturalHeight));
+        c.width = Math.max(1, Math.round(im.naturalWidth * sc));
+        c.height = Math.max(1, Math.round(im.naturalHeight * sc));
+        var x = c.getContext('2d', { willReadFrequently: true });
+        x.drawImage(im, 0, 0, c.width, c.height);
+        var data = x.getImageData(0, 0, c.width, c.height).data;
+        var buckets = {};
+        for (var i = 0; i < data.length; i += 4) {
+          var r = data[i] >> 4, g = data[i + 1] >> 4, b = data[i + 2] >> 4;
+          var key = r + ',' + g + ',' + b;
+          if (!buckets[key]) buckets[key] = { n: 0, r: 0, g: 0, b: 0 };
+          buckets[key].n++;
+          buckets[key].r += data[i]; buckets[key].g += data[i + 1]; buckets[key].b += data[i + 2];
+        }
+        var arr = Object.keys(buckets).map(function (k) { return buckets[k]; });
+        arr.sort(function (a, b) { return b.n - a.n; });
+        // أبعد الألوان المتشابهة جداً
+        var picked = [];
+        arr.forEach(function (bk) {
+          var hex = toHex(bk.r / bk.n, bk.g / bk.n, bk.b / bk.n);
+          var dup = picked.some(function (p) {
+            var dr = parseInt(p.slice(1, 3), 16) - parseInt(hex.slice(1, 3), 16);
+            var dg = parseInt(p.slice(3, 5), 16) - parseInt(hex.slice(3, 5), 16);
+            var db = parseInt(p.slice(5, 7), 16) - parseInt(hex.slice(5, 7), 16);
+            return Math.sqrt(dr * dr + dg * dg + db * db) < 48;
+          });
+          if (!dup && picked.length < 8) picked.push(hex);
+        });
+        hexes = picked;
+        var wrap = document.getElementById('plSwatches');
+        wrap.innerHTML = '';
+        picked.forEach(function (hex) {
+          var d = document.createElement('div');
+          d.style.cssText = 'border:1px solid #e5e9f2;border-radius:10px;overflow:hidden;cursor:pointer';
+          d.title = 'اضغط للنسخ';
+          d.innerHTML = '<div style="height:64px;background:' + hex + '"></div>' +
+            '<div style="padding:8px;font-family:monospace;direction:ltr">' + hex + '</div>';
+          d.addEventListener('click', function () {
+            if (navigator.clipboard) navigator.clipboard.writeText(hex);
+            d.style.transform = 'scale(0.96)';
+            setTimeout(function () { d.style.transform = ''; }, 150);
+          });
+          wrap.appendChild(d);
+        });
+        document.getElementById('plOut').classList.add('show');
+      };
+      im.src = e.target.result;
+    };
+    reader.readAsDataURL(f);
+  });
+
+  document.getElementById('plCopyAll').addEventListener('click', function () {
+    if (!hexes.length) return;
+    var t = hexes.join('\n');
+    var b = this;
+    function done() { b.textContent = 'تم النسخ ✓'; setTimeout(function () { b.textContent = 'نسخ كل الأكواد'; }, 1200); }
+    if (navigator.clipboard) navigator.clipboard.writeText(t).then(done, done);
+    else done();
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>محول العملات أونلاين بأسعار حية | أدواتي</title>
+<meta name="description" content="حوّل بين العملات بأسعار صرف حية مجاناً — الدولار، اليورو، الدينار الليبي وغيرها.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / محول العملات</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>💱 محول العملات</h2>
+    <div class="desc">أسعار صرف حية تُحدَّث يومياً — حوّل بين أكثر من 15 عملة.</div>
+
+    <label for="fxAmount">المبلغ</label>
+    <input type="number" id="fxAmount" value="100" min="0" step="any" style="display:block;width:100%;padding:12px;border:1px solid #d8dee9;border-radius:10px;font-family:inherit;margin-bottom:12px">
+
+    <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap">
+      <div style="flex:1;min-width:130px">
+        <label for="fxFrom">من</label>
+        <select id="fxFrom"></select>
+      </div>
+      <button type="button" class="btn" id="fxSwap" style="padding:10px 14px" title="تبديل">⇄</button>
+      <div style="flex:1;min-width:130px">
+        <label for="fxTo">إلى</label>
+        <select id="fxTo"></select>
+      </div>
+    </div>
+
+    <div class="result" id="fxOut" style="text-align:center;margin-top:14px">
+      <div style="font-size:2rem;font-weight:800;color:var(--navy)" id="fxResult">—</div>
+      <div style="color:var(--muted);margin-top:6px" id="fxRate"></div>
+      <div style="color:var(--muted);font-size:.85rem;margin-top:4px" id="fxUpdated"></div>
+    </div>
+    <div class="result" id="fxError"></div>
+  </div>
+
+  <div class="tool-box how">
+    <h3>كيف تحوّل العملات؟</h3>
+    <ol>
+      <li>اكتب المبلغ واختر العملتين.</li>
+      <li>تظهر النتيجة فوراً بسعر الصرف الحي.</li>
+    </ol>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  var CURS = [
+    ['USD', 'دولار أمريكي'], ['EUR', 'يورو'], ['LYD', 'دينار ليبي'],
+    ['SAR', 'ريال سعودي'], ['AED', 'درهم إماراتي'], ['EGP', 'جنيه مصري'],
+    ['GBP', 'جنيه إسترليني'], ['TRY', 'ليرة تركية'], ['QAR', 'ريال قطري'],
+    ['KWD', 'دينار كويتي'], ['JOD', 'دينار أردني'], ['TND', 'دينار تونسي'],
+    ['DZD', 'دينار جزائري'], ['MAD', 'درهم مغربي'], ['CAD', 'دولار كندي'],
+    ['CNY', 'يوان صيني']
+  ];
+  var rates = null;
+
+  var fromSel = document.getElementById('fxFrom'),
+      toSel = document.getElementById('fxTo');
+  CURS.forEach(function (c) {
+    fromSel.add(new Option(c[1] + ' (' + c[0] + ')', c[0]));
+    toSel.add(new Option(c[1] + ' (' + c[0] + ')', c[0]));
+  });
+  fromSel.value = 'USD';
+  toSel.value = 'LYD';
+
+  function convert() {
+    var out = document.getElementById('fxOut');
+    if (!rates) return;
+    var amt = parseFloat(document.getElementById('fxAmount').value) || 0;
+    var f = fromSel.value, t = toSel.value;
+    var usdAmt = amt / rates[f];
+    var res = usdAmt * rates[t];
+    var disp = res >= 1000 ? res.toLocaleString('ar', { maximumFractionDigits: 2 }) : res.toLocaleString('ar', { maximumFractionDigits: 4 });
+    document.getElementById('fxResult').textContent = disp + ' ' + t;
+    var rate = (rates[t] / rates[f]);
+    document.getElementById('fxRate').textContent = '1 ' + f + ' = ' + rate.toLocaleString('ar', { maximumFractionDigits: 4 }) + ' ' + t;
+    out.classList.add('show');
+  }
+
+  fetch('https://open.er-api.com/v6/latest/USD')
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      if (d.result !== 'success') throw 0;
+      rates = d.rates;
+      var dt = new Date(d.time_last_update_utc);
+      document.getElementById('fxUpdated').textContent = 'آخر تحديث: ' + dt.toLocaleDateString('ar');
+      convert();
+    })
+    .catch(function () {
+      var e = document.getElementById('fxError');
+      e.classList.add('show');
+      e.textContent = 'تعذر تحميل أسعار الصرف — تحقق من اتصال الإنترنت وحاول مرة أخرى.';
+    });
+
+  ['fxAmount', 'fxFrom', 'fxTo'].forEach(function (id) {
+    document.getElementById(id).addEventListener('input', convert);
+    document.getElementById(id).addEventListener('change', convert);
+  });
+  document.getElementById('fxSwap').addEventListener('click', function () {
+    var t = fromSel.value;
+    fromSel.value = toSel.value;
+    toSel.value = t;
+    convert();
+  });
+})();
+</script>
+
+</body>
+</html>

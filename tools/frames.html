@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>إطارات وزوايا الصور أونلاين مجاناً | أدواتي</title>
+<meta name="description" content="أضف إطارات وزوايا دائرية لصورك مجاناً داخل المتصفح — لمسة أنيقة لمنشوراتك.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / إطارات الصور</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>🖼️ إطارات وزوايا الصور</h2>
+    <div class="desc">أضف إطاراً ملوناً أو زوايا دائرية لصورك — مع معاينة فورية.</div>
+
+    <div class="drop-zone" onclick="document.getElementById('frFile').click()">
+      اضغط هنا لاختيار صورة
+      <input type="file" id="frFile" accept="image/*">
+    </div>
+
+    <div id="frControls" style="display:none">
+      <label for="frWidth">سماكة الإطار: <span id="frWidthVal">20</span> بكسل</label>
+      <input type="range" id="frWidth" min="0" max="120" value="20">
+      <label for="frColor">لون الإطار</label>
+      <input type="color" id="frColor" value="#ffffff" style="width:60px;height:40px;padding:2px;margin-bottom:12px">
+      <label for="frRadius">استدارة الزوايا: <span id="frRadiusVal">0</span> بكسل</label>
+      <input type="range" id="frRadius" min="0" max="300" value="0">
+      <label><input type="checkbox" id="frShadow" style="width:auto"> ظل خفيف حول الصورة</label>
+
+      <div class="result show" style="text-align:center;margin-top:12px;background:#eef1f7;padding:16px;border-radius:12px">
+        <canvas id="frCanvas" style="max-width:100%"></canvas>
+      </div>
+      <button class="btn" id="frDownload" style="margin-top:12px">تحميل الصورة بالإطار</button>
+    </div>
+  </div>
+
+  <div class="tool-box how">
+    <h3>كيف تضيف إطاراً؟</h3>
+    <ol>
+      <li>اختر الصورة من جهازك.</li>
+      <li>حدد السماكة واللون والاستدارة.</li>
+      <li>حمّل النتيجة.</li>
+    </ol>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  var img = null, imgName = 'image';
+  var canvas = document.getElementById('frCanvas');
+  var ctx = canvas.getContext('2d');
+
+  function roundRectPath(x, y, w, h, r) {
+    r = Math.min(r, w / 2, h / 2);
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+  }
+
+  function draw() {
+    if (!img) return;
+    var bw = parseInt(document.getElementById('frWidth').value, 10);
+    var rad = parseInt(document.getElementById('frRadius').value, 10);
+    var color = document.getElementById('frColor').value;
+    var shadow = document.getElementById('frShadow').checked;
+    var W = img.naturalWidth + bw * 2, H = img.naturalHeight + bw * 2;
+    canvas.width = W; canvas.height = H;
+    ctx.clearRect(0, 0, W, H);
+    if (shadow) {
+      ctx.save();
+      ctx.shadowColor = 'rgba(0,0,0,0.35)';
+      ctx.shadowBlur = 30;
+      ctx.shadowOffsetY = 8;
+      ctx.fillStyle = color;
+      roundRectPath(2, 2, W - 4, H - 4, rad + bw);
+      ctx.fill();
+      ctx.restore();
+    } else {
+      ctx.fillStyle = color;
+      roundRectPath(0, 0, W, H, rad + bw);
+      ctx.fill();
+    }
+    ctx.save();
+    roundRectPath(bw, bw, img.naturalWidth, img.naturalHeight, rad);
+    ctx.clip();
+    ctx.drawImage(img, bw, bw);
+    ctx.restore();
+  }
+
+  document.getElementById('frFile').addEventListener('change', function () {
+    var f = this.files[0];
+    if (!f) return;
+    imgName = f.name.replace(/\.[^.]+$/, '');
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      var im = new Image();
+      im.onload = function () {
+        img = im;
+        document.getElementById('frControls').style.display = 'block';
+        draw();
+      };
+      im.src = e.target.result;
+    };
+    reader.readAsDataURL(f);
+  });
+
+  ['frWidth', 'frColor', 'frRadius', 'frShadow'].forEach(function (id) {
+    var el = document.getElementById(id);
+    el.addEventListener('input', function () {
+      if (id === 'frWidth') document.getElementById('frWidthVal').textContent = el.value;
+      if (id === 'frRadius') document.getElementById('frRadiusVal').textContent = el.value;
+      draw();
+    });
+    el.addEventListener('change', draw);
+  });
+
+  document.getElementById('frDownload').addEventListener('click', function () {
+    if (!img) return;
+    var a = document.createElement('a');
+    a.href = canvas.toDataURL('image/png');
+    a.download = imgName + '-framed.png';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  });
+})();
+</script>
+
+</body>
+</html>
