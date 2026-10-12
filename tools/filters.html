@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>فلاتر الصور أونلاين مجاناً | أدواتي</title>
+<meta name="description" content="أضف فلاتر احترافية لصورك مجاناً داخل المتصفح — أبيض وأسود، سينمائي، دافئ، وغيرها.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / فلاتر الصور</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>🎭 فلاتر الصور</h2>
+    <div class="desc">أضف لمسة احترافية لصورك بفلاتر جاهزة — اضغط على أي فلتر وشاهد النتيجة فوراً.</div>
+
+    <div class="drop-zone" onclick="document.getElementById('flFile').click()">
+      اضغط هنا لاختيار صورة
+      <input type="file" id="flFile" accept="image/*">
+    </div>
+
+    <div id="flControls" style="display:none">
+      <label>اختر الفلتر</label>
+      <div id="flList" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-bottom:14px"></div>
+      <div class="result show" style="text-align:center">
+        <canvas id="flCanvas" style="max-width:100%;border-radius:12px;border:1px solid #e5e9f2"></canvas>
+      </div>
+      <button class="btn" id="flDownload" style="margin-top:12px">تحميل الصورة بالفلتر</button>
+    </div>
+  </div>
+
+  <div class="tool-box how">
+    <h3>كيف تضيف فلتراً؟</h3>
+    <ol>
+      <li>اختر الصورة من جهازك.</li>
+      <li>اضغط على الفلتر الذي يعجبك من القائمة.</li>
+      <li>حمّل النتيجة بصيغة PNG.</li>
+    </ol>
+  </div>
+
+  <div class="tool-box faq">
+    <h3>أسئلة شائعة</h3>
+    <details><summary>هل تُرفع صوري إلى خادم؟</summary><p>لا. الفلاتر تُطبَّق داخل متصفحك بالكامل.</p></details>
+    <details><summary>هل تتأثر جودة الصورة؟</summary><p>تُحفَظ الصورة بأبعادها الأصلية وجودة عالية.</p></details>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  var FILTERS = [
+    { name: 'الأصلية', css: 'none' },
+    { name: 'أبيض وأسود', css: 'grayscale(1) contrast(1.1)' },
+    { name: 'سيبيا', css: 'sepia(0.8)' },
+    { name: 'سينمائي', css: 'contrast(1.2) saturate(0.85) brightness(0.95)' },
+    { name: 'دافئ', css: 'sepia(0.35) saturate(1.4) hue-rotate(-15deg)' },
+    { name: 'بارد', css: 'saturate(1.2) hue-rotate(15deg) brightness(1.05)' },
+    { name: 'داكن درامي', css: 'contrast(1.35) brightness(0.85) saturate(1.2)' },
+    { name: 'فاتح مشرق', css: 'brightness(1.15) contrast(0.95) saturate(1.1)' },
+    { name: 'عتيق', css: 'sepia(0.5) contrast(0.9) brightness(1.05) saturate(0.8)' },
+    { name: 'نيون', css: 'saturate(2) contrast(1.25)' }
+  ];
+  var img = null, current = FILTERS[0], imgName = 'image';
+  var canvas = document.getElementById('flCanvas');
+  var ctx = canvas.getContext('2d');
+  var list = document.getElementById('flList');
+
+  FILTERS.forEach(function (f, i) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'btn' + (i === 0 ? ' btn-active' : '');
+    b.textContent = f.name;
+    b.style.padding = '10px 6px';
+    b.addEventListener('click', function () {
+      current = f;
+      list.querySelectorAll('.btn').forEach(function (o) { o.classList.remove('btn-active'); });
+      b.classList.add('btn-active');
+      draw();
+    });
+    list.appendChild(b);
+  });
+
+  function draw() {
+    if (!img) return;
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+    ctx.filter = current.css;
+    ctx.drawImage(img, 0, 0);
+    ctx.filter = 'none';
+  }
+
+  document.getElementById('flFile').addEventListener('change', function () {
+    var f = this.files[0];
+    if (!f) return;
+    imgName = f.name.replace(/\.[^.]+$/, '');
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      var im = new Image();
+      im.onload = function () {
+        img = im;
+        document.getElementById('flControls').style.display = 'block';
+        draw();
+      };
+      im.src = e.target.result;
+    };
+    reader.readAsDataURL(f);
+  });
+
+  document.getElementById('flDownload').addEventListener('click', function () {
+    if (!img) return;
+    var a = document.createElement('a');
+    a.href = canvas.toDataURL('image/png');
+    a.download = imgName + '-filter.png';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  });
+})();
+</script>
+
+</body>
+</html>
