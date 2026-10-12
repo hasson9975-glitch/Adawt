@@ -8,7 +8,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/style.css">
-<script src="../assets/vendor/jspdf.umd.min.js"></script>
 </head>
 <body>
 
@@ -124,7 +123,8 @@
     input.value = '';
   });
 
-  function imgToJpeg(img) {
+  /* تحويل الصورة إلى بيانات JPEG ثنائية */
+  function imgToJpegBinary(img) {
     var c = document.createElement('canvas');
     c.width = img.naturalWidth;
     c.height = img.naturalHeight;
@@ -132,37 +132,83 @@
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, c.width, c.height);
     ctx.drawImage(img, 0, 0);
-    return c.toDataURL('image/jpeg', 0.92);
+    return atob(c.toDataURL('image/jpeg', 0.92).split(',')[1]);
+  }
+
+  /* بناء ملف PDF يدوياً — كل صورة صفحة بحجمها */
+  function buildPdf(images, a4) {
+    var out = '%PDF-1.4\n';
+    var offsets = {};
+    function obj(n, body) {
+      offsets[n] = out.length;
+      out += n + ' 0 obj\n' + body + '\nendobj\n';
+    }
+    var n = 1;
+    var catalogN = n++, pagesN = n++;
+    var pageNs = [], imgNs = [], contNs = [];
+    images.forEach(function () { pageNs.push(n++); imgNs.push(n++); contNs.push(n++); });
+
+    obj(catalogN, '<< /Type /Catalog /Pages ' + pagesN + ' 0 R >>');
+    obj(pagesN, '<< /Type /Pages /Kids [' + pageNs.map(function (p) { return p + ' 0 R'; }).join(' ') + '] /Count ' + images.length + ' >>');
+
+    images.forEach(function (im, i) {
+      var name = 'Im' + i;
+      var stream = im.jpeg;
+      obj(imgNs[i],
+        '<< /Type /XObject /Subtype /Image /Width ' + im.w + ' /Height ' + im.h +
+        ' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ' + stream.length + ' >>\n' +
+        'stream\n' + stream + '\nendstream');
+
+      var pwPt, phPt, dwPt, dhPt, tx, ty;
+      if (a4) {
+        pwPt = 595.28; phPt = 841.89; // A4 بالنقاط
+        var r = Math.min(pwPt / (im.w * 0.75), phPt / (im.h * 0.75));
+        dwPt = im.w * 0.75 * r; dhPt = im.h * 0.75 * r;
+        tx = (pwPt - dwPt) / 2; ty = (phPt - dhPt) / 2;
+      } else {
+        pwPt = im.w * 0.75; phPt = im.h * 0.75;
+        dwPt = pwPt; dhPt = phPt; tx = 0; ty = 0;
+      }
+      var content = 'q\n' + dwPt.toFixed(2) + ' 0 0 ' + dhPt.toFixed(2) + ' ' + tx.toFixed(2) + ' ' + ty.toFixed(2) +
+        ' cm\n/' + name + ' Do\nQ';
+      obj(contNs[i], '<< /Length ' + content.length + ' >>\nstream\n' + content + '\nendstream');
+      obj(pageNs[i],
+        '<< /Type /Page /Parent ' + pagesN + ' 0 R /MediaBox [0 0 ' + pwPt.toFixed(2) + ' ' + phPt.toFixed(2) + '] ' +
+        '/Resources << /XObject << /' + name + ' ' + imgNs[i] + ' 0 R >> >> /Contents ' + contNs[i] + ' 0 R >>');
+    });
+
+    var xrefStart = out.length;
+    out += 'xref\n0 ' + n + '\n0000000000 65535 f \n';
+    for (var k = 1; k < n; k++) {
+      out += ('0000000000' + offsets[k]).slice(-10) + ' 00000 n \n';
+    }
+    out += 'trailer\n<< /Size ' + n + ' /Root ' + catalogN + ' 0 R >>\nstartxref\n' + xrefStart + '\n%%EOF';
+    return out;
+  }
+
+  function strToBytes(s) {
+    var b = new Uint8Array(s.length);
+    for (var i = 0; i < s.length; i++) b[i] = s.charCodeAt(i) & 255;
+    return b;
   }
 
   makeBtn.addEventListener('click', function () {
-    if (!files.length || !window.jspdf) return;
+    if (!files.length) return;
     statusBox.classList.add('show');
     statusBox.textContent = 'جاري إنشاء الملف...';
     try {
-      var JSPDF = window.jspdf.jsPDF;
-      var PX2MM = 25.4 / 96;
-      var mode = document.getElementById('pdfPageSize').value;
-      var pdf = null;
-      files.forEach(function (f, idx) {
-        var w = f.img.naturalWidth, h = f.img.naturalHeight;
-        var jpg = imgToJpeg(f.img);
-        if (mode === 'a4') {
-          if (idx === 0) pdf = new JSPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
-          else pdf.addPage('a4', 'p');
-          var pw = 210, ph = 297, m = 10;
-          var r = Math.min((pw - 2 * m) / (w * PX2MM), (ph - 2 * m) / (h * PX2MM));
-          var dw = w * PX2MM * r, dh = h * PX2MM * r;
-          pdf.addImage(jpg, 'JPEG', (pw - dw) / 2, (ph - dh) / 2, dw, dh);
-        } else {
-          var mw = w * PX2MM, mh = h * PX2MM;
-          var orient = w >= h ? 'l' : 'p';
-          if (idx === 0) pdf = new JSPDF({ orientation: orient, unit: 'mm', format: [mw, mh] });
-          else pdf.addPage([mw, mh], orient);
-          pdf.addImage(jpg, 'JPEG', 0, 0, mw, mh);
-        }
+      var a4 = document.getElementById('pdfPageSize').value === 'a4';
+      var images = files.map(function (f) {
+        return { w: f.img.naturalWidth, h: f.img.naturalHeight, jpeg: imgToJpegBinary(f.img) };
       });
-      pdf.save('adawati-images.pdf');
+      var pdfStr = buildPdf(images, a4);
+      var blob = new Blob([strToBytes(pdfStr)], { type: 'application/pdf' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'adawati-images.pdf';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function () { URL.revokeObjectURL(a.href); document.body.removeChild(a); }, 2000);
       statusBox.textContent = 'تم إنشاء الملف وتحميله بنجاح ✓ (' + files.length + ' صور)';
     } catch (e) {
       statusBox.textContent = 'حدث خطأ أثناء إنشاء الملف. حاول مرة أخرى.';
