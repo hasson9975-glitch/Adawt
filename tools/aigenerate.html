@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مولد الصور بالذكاء الاصطناعي مجاناً | أدواتي</title>
+<meta name="description" content="ولّد صوراً بالذكاء الاصطناعي من وصف نصي مجاناً — اكتب الفكرة واحصل على صورة.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / مولد الصور بالذكاء الاصطناعي</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>🤖 مولد الصور بالذكاء الاصطناعي</h2>
+    <div class="desc">اكتب وصفاً للصورة التي تتخيلها — وسيولّدها الذكاء الاصطناعي لك مجاناً.</div>
+
+    <label for="aiPrompt">صف الصورة (الأوصاف الإنجليزية تعطي نتائج أدق)</label>
+    <textarea id="aiPrompt" rows="3" placeholder="مثال: a cozy coffee shop at sunset, warm lights, cinematic style" style="display:block;width:100%;padding:12px;border:1px solid #d8dee9;border-radius:10px;font-family:inherit;margin-bottom:12px;direction:ltr;text-align:left"></textarea>
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <div style="flex:1;min-width:150px">
+        <label for="aiSize">المقاس</label>
+        <select id="aiSize">
+          <option value="1024x1024">مربع (1024×1024)</option>
+          <option value="1536x1024">أفقي (1536×1024)</option>
+          <option value="1024x1536">عمودي (1024×1536)</option>
+        </select>
+      </div>
+      <div style="flex:1;min-width:150px">
+        <label for="aiModel">النموذج</label>
+        <select id="aiModel">
+          <option value="flux">Flux (جودة عالية)</option>
+          <option value="turbo">Turbo (أسرع)</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+      <button class="btn" id="aiGo">توليد الصورة ✨</button>
+      <button class="btn" id="aiAgain" style="background:#eef1f7;color:var(--navy)" disabled>توليد نسخة أخرى 🎲</button>
+    </div>
+
+    <div class="result" id="aiStatus"></div>
+
+    <div class="result" id="aiOut" style="text-align:center">
+      <img id="aiImg" alt="الصورة المولدة" style="max-width:100%;border-radius:12px;border:1px solid #e5e9f2">
+      <div><button class="btn" id="aiDownload" style="margin-top:12px">تحميل الصورة</button></div>
+    </div>
+
+    <p style="color:var(--muted);font-size:.9rem;margin-top:10px">ملاحظة: التوليد مجاني عبر خدمة خارجية وقد يستغرق 30-60 ثانية. تجنّب طلب محتوى مخالف.</p>
+  </div>
+
+  <div class="tool-box how">
+    <h3>كيف تولّد صورة؟</h3>
+    <ol>
+      <li>اكتب وصفاً دقيقاً للصورة (يفضل بالإنجليزية).</li>
+      <li>اختر المقاس والنموذج ثم اضغط "توليد الصورة".</li>
+      <li>انتظر قليلاً ثم حمّل النتيجة — أو ولّد نسخة أخرى.</li>
+    </ol>
+  </div>
+
+  <div class="tool-box faq">
+    <h3>أسئلة شائعة</h3>
+    <details><summary>هل الخدمة مجانية حقاً؟</summary><p>نعم، التوليد مجاني وبدون حساب — لكنه يعتمد على خدمة خارجية قد تكون بطيئة أحياناً.</p></details>
+    <details><summary>لماذا الإنجليزية أفضل؟</summary><p>نماذج توليد الصور تُدرَّب أساساً على أوصاف إنجليزية فتفهمها بدقة أكبر.</p></details>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  var currentUrl = null, currentSeed = null;
+
+  function buildUrl(prompt, seed) {
+    var dims = document.getElementById('aiSize').value.split('x');
+    var model = document.getElementById('aiModel').value;
+    return 'https://image.pollinations.ai/prompt/' + encodeURIComponent(prompt) +
+      '?width=' + dims[0] + '&height=' + dims[1] +
+      '&seed=' + seed + '&model=' + model + '&nologo=true';
+  }
+  function setStatus(t) {
+    var s = document.getElementById('aiStatus');
+    s.classList.add('show');
+    s.textContent = t;
+  }
+
+  function generate(seed) {
+    var prompt = document.getElementById('aiPrompt').value.trim();
+    if (!prompt) { alert('اكتب وصف الصورة أولاً.'); return; }
+    currentSeed = (typeof seed === 'number') ? seed : Math.floor(Math.random() * 1000000);
+    currentUrl = buildUrl(prompt, currentSeed);
+    var goBtn = document.getElementById('aiGo');
+    goBtn.disabled = true;
+    document.getElementById('aiAgain').disabled = true;
+    document.getElementById('aiOut').classList.remove('show');
+    setStatus('جاري توليد الصورة... قد يستغرق 30-60 ثانية ⏳');
+    var im = document.getElementById('aiImg');
+    im.onload = function () {
+      document.getElementById('aiOut').classList.add('show');
+      setStatus('تم التوليد بنجاح ✓');
+      goBtn.disabled = false;
+      document.getElementById('aiAgain').disabled = false;
+    };
+    im.onerror = function () {
+      setStatus('تعذر التوليد — تحقق من اتصال الإنترنت وحاول مرة أخرى.');
+      goBtn.disabled = false;
+    };
+    im.src = currentUrl;
+  }
+
+  document.getElementById('aiGo').addEventListener('click', function () { generate(); });
+  document.getElementById('aiAgain').addEventListener('click', function () { generate(); });
+
+  document.getElementById('aiDownload').addEventListener('click', function () {
+    if (!currentUrl) return;
+    var btn = this;
+    btn.disabled = true;
+    fetch(currentUrl)
+      .then(function (r) { return r.blob(); })
+      .then(function (blob) {
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'adawati-ai-' + currentSeed + '.jpg';
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        setTimeout(function () { URL.revokeObjectURL(url); }, 5000);
+        btn.disabled = false;
+      })
+      .catch(function () {
+        window.open(currentUrl, '_blank');
+        btn.disabled = false;
+      });
+  });
+})();
+</script>
+
+</body>
+</html>
