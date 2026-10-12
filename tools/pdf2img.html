@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تحويل PDF إلى صور PNG أونلاين مجاناً | أدواتي</title>
+<meta name="description" content="حوّل صفحات ملف PDF إلى صور PNG عالية الجودة مجاناً داخل المتصفح. سريع وآمن، ملفاتك لا تغادر جهازك.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/vendor/pdf.min.js"></script>
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / تحويل PDF إلى صور</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>🖼️ تحويل PDF إلى صور</h2>
+    <div class="desc">حوّل كل صفحة من ملف PDF إلى صورة PNG عالية الجودة — ثم حمّل الصفحات التي تريدها.</div>
+
+    <div class="drop-zone" onclick="document.getElementById('pdfFile').click()">
+      اضغط هنا لاختيار ملف PDF
+      <input type="file" id="pdfFile" accept="application/pdf">
+    </div>
+
+    <button class="btn" id="pdf2imgBtn" disabled>تحويل إلى صور</button>
+    <div class="result" id="pdf2imgStatus"></div>
+    <div class="result" id="pdf2imgOut"></div>
+  </div>
+
+  <div class="tool-box how">
+    <h3>كيف تحوّل PDF إلى صور؟</h3>
+    <ol>
+      <li>اختر ملف PDF من جهازك.</li>
+      <li>اضغط "تحويل إلى صور" وانتظر اكتمال التحويل.</li>
+      <li>حمّل كل صفحة كصورة PNG بالضغط على زر التحميل تحتها.</li>
+    </ol>
+  </div>
+
+  <div class="tool-box faq">
+    <h3>أسئلة شائعة</h3>
+    <details><summary>هل تُرفع ملفاتي إلى خادم؟</summary><p>لا. التحويل يتم بالكامل داخل متصفحك.</p></details>
+    <details><summary>ما جودة الصور الناتجة؟</summary><p>تُحوَّل الصفحات بدقة مضاعفة للحصول على صور واضحة ومناسبة للطباعة والمشاركة.</p></details>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  if (window.pdfjsLib) {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = '../assets/vendor/pdf.worker.min.js';
+  }
+  var buf = null, fname = 'page';
+  var fileInput = document.getElementById('pdfFile');
+  var goBtn = document.getElementById('pdf2imgBtn');
+  var statusBox = document.getElementById('pdf2imgStatus');
+  var outBox = document.getElementById('pdf2imgOut');
+
+  fileInput.addEventListener('change', function () {
+    var f = fileInput.files[0];
+    if (!f) return;
+    fname = f.name.replace(/\.pdf$/i, '') || 'page';
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      buf = e.target.result;
+      goBtn.disabled = false;
+      statusBox.classList.add('show');
+      statusBox.textContent = 'الملف: ' + f.name;
+      outBox.innerHTML = '';
+      outBox.classList.remove('show');
+    };
+    reader.readAsArrayBuffer(f);
+  });
+
+  goBtn.addEventListener('click', function () {
+    if (!buf || !window.pdfjsLib) return;
+    goBtn.disabled = true;
+    outBox.innerHTML = '';
+    outBox.classList.add('show');
+    statusBox.classList.add('show');
+    statusBox.textContent = 'جاري التحويل...';
+    pdfjsLib.getDocument({ data: buf.slice(0) }).promise.then(function (pdf) {
+      var chain = Promise.resolve();
+      for (var p = 1; p <= pdf.numPages; p++) {
+        (function (pageNum) {
+          chain = chain.then(function () {
+            statusBox.textContent = 'جاري تحويل صفحة ' + pageNum + ' من ' + pdf.numPages + '...';
+            return pdf.getPage(pageNum).then(function (page) {
+              var viewport = page.getViewport({ scale: 2 });
+              var canvas = document.createElement('canvas');
+              canvas.width = viewport.width;
+              canvas.height = viewport.height;
+              return page.render({ canvasContext: canvas.getContext('2d'), viewport: viewport }).promise.then(function () {
+                var url = canvas.toDataURL('image/png');
+                var wrap = document.createElement('div');
+                wrap.style.cssText = 'margin:14px 0;padding:12px;border:1px solid #e5e9f2;border-radius:12px;background:#fff';
+                var im = document.createElement('img');
+                im.src = url;
+                im.alt = 'صفحة ' + pageNum;
+                im.style.cssText = 'max-width:100%;border-radius:8px;display:block;margin:0 auto';
+                var a = document.createElement('a');
+                a.href = url;
+                a.download = fname + '-page-' + pageNum + '.png';
+                a.className = 'btn';
+                a.textContent = 'تحميل صفحة ' + pageNum;
+                a.style.cssText = 'margin-top:10px;display:inline-block;text-decoration:none';
+                var cap = document.createElement('div');
+                cap.textContent = 'صفحة ' + pageNum;
+                cap.style.cssText = 'font-weight:700;margin-bottom:8px';
+                wrap.appendChild(cap);
+                wrap.appendChild(im);
+                wrap.appendChild(a);
+                outBox.appendChild(wrap);
+              });
+            });
+          });
+        })(p);
+      }
+      return chain.then(function () {
+        statusBox.textContent = 'تم التحويل بنجاح ✓ (' + pdf.numPages + ' صفحات)';
+        goBtn.disabled = false;
+      });
+    }).catch(function () {
+      statusBox.textContent = 'تعذر قراءة الملف. تأكد أنه ملف PDF سليم وحاول مرة أخرى.';
+      goBtn.disabled = false;
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
