@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>دمج الصور أونلاين مجاناً | أدواتي</title>
+<meta name="description" content="ادمج صورتين أو أكثر أفقياً أو عمودياً أو شبكياً مجاناً داخل المتصفح.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / دمج الصور</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>🖼️ دمج الصور</h2>
+    <div class="desc">ادمج من صورتين إلى 4 صور في صورة واحدة — أفقياً أو عمودياً أو شبكياً.</div>
+
+    <div class="drop-zone" onclick="document.getElementById('mgFiles').click()">
+      اضغط هنا لاختيار الصور (2 إلى 4 صور)
+      <input type="file" id="mgFiles" accept="image/*" multiple>
+    </div>
+    <div class="result" id="mgThumbs"></div>
+
+    <div id="mgControls" style="display:none">
+      <label>طريقة الدمج</label>
+      <div style="margin-bottom:12px">
+        <label style="display:inline-block;margin-left:16px"><input type="radio" name="mgLayout" value="h" checked style="width:auto"> أفقي (جنباً إلى جنب)</label>
+        <label style="display:inline-block;margin-left:16px"><input type="radio" name="mgLayout" value="v" style="width:auto"> عمودي (فوق بعض)</label>
+        <label style="display:inline-block"><input type="radio" name="mgLayout" value="grid" style="width:auto"> شبكي (2×2)</label>
+      </div>
+      <label for="mgGap">مسافة بين الصور: <span id="mgGapVal">10</span> بكسل</label>
+      <input type="range" id="mgGap" min="0" max="60" value="10">
+      <label for="mgGapColor">لون المسافة</label>
+      <input type="color" id="mgGapColor" value="#ffffff" style="width:60px;height:40px;padding:2px;margin-bottom:12px">
+
+      <div class="result show" style="text-align:center">
+        <div style="font-weight:700;margin-bottom:8px">معاينة</div>
+        <canvas id="mgCanvas" style="max-width:100%;border-radius:12px;border:1px solid #e5e9f2"></canvas>
+      </div>
+      <button class="btn" id="mgDownload" style="margin-top:12px">تحميل الصورة المدمجة</button>
+    </div>
+  </div>
+
+  <div class="tool-box how">
+    <h3>كيف تدمج الصور؟</h3>
+    <ol>
+      <li>اختر من صورتين إلى 4 صور.</li>
+      <li>اختر طريقة الدمج والمسافة ولونها.</li>
+      <li>شاهد المعاينة ثم حمّل النتيجة.</li>
+    </ol>
+  </div>
+
+  <div class="tool-box faq">
+    <h3>أسئلة شائعة</h3>
+    <details><summary>هل تُرفع صوري إلى خادم؟</summary><p>لا. الدمج يتم بالكامل داخل متصفحك.</p></details>
+    <details><summary>ماذا لو اختلفت أحجام الصور؟</summary><p>تُنسَّق الصور تلقائياً لتتساوى في الارتفاع (أفقي) أو العرض (عمودي).</p></details>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  var images = [];
+  var canvas = document.getElementById('mgCanvas');
+  var ctx = canvas.getContext('2d');
+
+  function layout() { return document.querySelector('input[name="mgLayout"]:checked').value; }
+
+  function draw() {
+    if (images.length < 2) return;
+    var gap = parseInt(document.getElementById('mgGap').value, 10);
+    var gapColor = document.getElementById('mgGapColor').value;
+    var L = layout(), n = images.length;
+    var W, H, cells = [];
+
+    if (L === 'h') {
+      H = Math.max.apply(null, images.map(function (im) { return im.naturalHeight; }));
+      var widths = images.map(function (im) { return Math.round(im.naturalWidth * H / im.naturalHeight); });
+      W = widths.reduce(function (a, b) { return a + b; }, 0) + gap * (n - 1);
+      var x = 0;
+      images.forEach(function (im, i) {
+        cells.push({ im: im, x: x, y: 0, w: widths[i], h: H });
+        x += widths[i] + gap;
+      });
+    } else if (L === 'v') {
+      W = Math.max.apply(null, images.map(function (im) { return im.naturalWidth; }));
+      var heights = images.map(function (im) { return Math.round(im.naturalHeight * W / im.naturalWidth); });
+      H = heights.reduce(function (a, b) { return a + b; }, 0) + gap * (n - 1);
+      var y = 0;
+      images.forEach(function (im, i) {
+        cells.push({ im: im, x: 0, y: y, w: W, h: heights[i] });
+        y += heights[i] + gap;
+      });
+    } else {
+      var cols = 2, rows = Math.ceil(n / cols);
+      var cw = 0, ch = 0;
+      images.forEach(function (im) {
+        cw = Math.max(cw, im.naturalWidth); ch = Math.max(ch, im.naturalHeight);
+      });
+      var s = Math.min(1200 / (cols * cw), 1200 / (rows * ch), 1);
+      cw = Math.round(cw * s); ch = Math.round(ch * s);
+      W = cols * cw + gap * (cols - 1);
+      H = rows * ch + gap * (rows - 1);
+      images.forEach(function (im, i) {
+        var iw = Math.round(im.naturalWidth * Math.min(cw / im.naturalWidth, ch / im.naturalHeight));
+        var ih = Math.round(im.naturalHeight * Math.min(cw / im.naturalWidth, ch / im.naturalHeight));
+        var cx = (i % cols) * (cw + gap), cy = Math.floor(i / cols) * (ch + gap);
+        cells.push({ im: im, x: cx + (cw - iw) / 2, y: cy + (ch - ih) / 2, w: iw, h: ih });
+      });
+    }
+
+    canvas.width = W; canvas.height = H;
+    ctx.fillStyle = gapColor;
+    ctx.fillRect(0, 0, W, H);
+    cells.forEach(function (c) { ctx.drawImage(c.im, c.x, c.y, c.w, c.h); });
+  }
+
+  document.getElementById('mgFiles').addEventListener('change', function () {
+    var files = Array.prototype.slice.call(this.files, 0, 4);
+    if (files.length < 2) { alert('اختر صورتين على الأقل.'); return; }
+    images = [];
+    var box = document.getElementById('mgThumbs');
+    box.innerHTML = ''; box.classList.add('show');
+    var loaded = 0;
+    files.forEach(function (f) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        var im = new Image();
+        im.onload = function () {
+          images.push(im);
+          var t = document.createElement('img');
+          t.src = im.src;
+          t.style.cssText = 'width:70px;height:70px;object-fit:cover;border-radius:8px;margin:4px;border:1px solid #e5e9f2';
+          box.appendChild(t);
+          if (++loaded === files.length) {
+            document.getElementById('mgControls').style.display = 'block';
+            draw();
+          }
+        };
+        im.src = e.target.result;
+      };
+      reader.readAsDataURL(f);
+    });
+    this.value = '';
+  });
+
+  document.querySelectorAll('input[name="mgLayout"]').forEach(function (el) {
+    el.addEventListener('change', draw);
+  });
+  ['mgGap', 'mgGapColor'].forEach(function (id) {
+    document.getElementById(id).addEventListener('input', function () {
+      if (id === 'mgGap') document.getElementById('mgGapVal').textContent = this.value;
+      draw();
+    });
+  });
+
+  document.getElementById('mgDownload').addEventListener('click', function () {
+    var a = document.createElement('a');
+    a.href = canvas.toDataURL('image/png');
+    a.download = 'adawati-merged.png';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  });
+})();
+</script>
+
+</body>
+</html>
