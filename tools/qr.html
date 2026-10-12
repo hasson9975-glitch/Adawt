@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مولد رمز QR أونلاين مجاناً | أدواتي</title>
+<meta name="description" content="ولّد رمز QR لأي رابط أو نص مجاناً داخل المتصفح وحمّله كصورة.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / مولد رمز QR</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>📱 مولد رمز QR</h2>
+    <div class="desc">حوّل أي رابط أو نص إلى رمز QR وحمّله كصورة — مثالي للمنشورات والمطاعم والمتاجر.</div>
+
+    <label for="qrText">الرابط أو النص</label>
+    <input type="text" id="qrText" placeholder="مثال: https://example.com" style="display:block;width:100%;padding:12px;border:1px solid #d8dee9;border-radius:10px;font-family:inherit;margin-bottom:12px;direction:ltr;text-align:left">
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <div style="flex:1;min-width:140px">
+        <label for="qrSize">الحجم: <span id="qrSizeVal">256</span> بكسل</label>
+        <input type="range" id="qrSize" min="128" max="1024" step="64" value="256">
+      </div>
+      <div>
+        <label for="qrDark">لون الرمز</label>
+        <input type="color" id="qrDark" value="#000000" style="width:60px;height:40px;padding:2px">
+      </div>
+      <div>
+        <label for="qrLight">الخلفية</label>
+        <input type="color" id="qrLight" value="#ffffff" style="width:60px;height:40px;padding:2px">
+      </div>
+    </div>
+
+    <button class="btn" id="qrMake" style="margin-top:12px">توليد الرمز</button>
+    <div class="result" id="qrStatus"></div>
+
+    <div class="result" id="qrOut" style="text-align:center">
+      <div id="qrBox" style="display:inline-block;padding:14px;background:#fff;border-radius:12px;border:1px solid #e5e9f2"></div>
+      <div><button class="btn" id="qrDownload" style="margin-top:12px">تحميل كصورة PNG</button></div>
+    </div>
+  </div>
+
+  <div class="tool-box how">
+    <h3>كيف تولّد رمز QR؟</h3>
+    <ol>
+      <li>اكتب الرابط أو النص.</li>
+      <li>اختر الحجم والألوان ثم اضغط "توليد الرمز".</li>
+      <li>حمّل الصورة واستخدمها أينما تشاء.</li>
+    </ol>
+  </div>
+
+  <div class="tool-box faq">
+    <h3>أسئلة شائعة</h3>
+    <details><summary>هل يعمل الرمز مع أي قارئ QR؟</summary><p>نعم، الرموز المولّدة معيارية وتعمل مع كل التطبيقات.</p></details>
+    <details><summary>هل تُرفع بياناتي إلى خادم؟</summary><p>لا. التوليد يتم داخل متصفحك بالكامل.</p></details>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  var qr = null;
+  var box = document.getElementById('qrBox');
+  var statusBox = document.getElementById('qrStatus');
+
+  if (!window.QRCode) {
+    document.addEventListener('DOMContentLoaded', function () {
+      statusBox.classList.add('show');
+      statusBox.textContent = 'تعذر تحميل مكتبة التوليد — تحقق من اتصال الإنترنت ثم حدّث الصفحة.';
+    });
+  }
+
+  document.getElementById('qrSize').addEventListener('input', function () {
+    document.getElementById('qrSizeVal').textContent = this.value;
+  });
+
+  document.getElementById('qrMake').addEventListener('click', function () {
+    if (!window.QRCode) return;
+    var text = document.getElementById('qrText').value.trim();
+    if (!text) { alert('اكتب الرابط أو النص أولاً.'); return; }
+    var size = parseInt(document.getElementById('qrSize').value, 10);
+    box.innerHTML = '';
+    qr = new QRCode(box, {
+      text: text,
+      width: size,
+      height: size,
+      colorDark: document.getElementById('qrDark').value,
+      colorLight: document.getElementById('qrLight').value,
+      correctLevel: QRCode.CorrectLevel.M
+    });
+    document.getElementById('qrOut').classList.add('show');
+    statusBox.classList.remove('show');
+  });
+
+  document.getElementById('qrDownload').addEventListener('click', function () {
+    var img = box.querySelector('img');
+    var cv = box.querySelector('canvas');
+    var a = document.createElement('a');
+    a.download = 'adawati-qr.png';
+    if (img && img.src) { a.href = img.src; }
+    else if (cv) { a.href = cv.toDataURL('image/png'); }
+    else return;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  });
+})();
+</script>
+
+</body>
+</html>
