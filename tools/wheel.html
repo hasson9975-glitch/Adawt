@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>عجلة الحظ أونلاين مجاناً | أدواتي</title>
+<meta name="description" content="عجلة الحظ الدوارة للسحوبات والمسابقات مجاناً — أضف الأسماء وأدر العجلة.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / عجلة الحظ</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box" style="text-align:center">
+    <h2>🎲 عجلة الحظ</h2>
+    <div class="desc">مثالية للسحوبات والمسابقات واختيار عشوائي عادل.</div>
+
+    <div style="position:relative;display:inline-block">
+      <canvas id="whCanvas" width="320" height="320" style="max-width:100%"></canvas>
+      <div style="position:absolute;top:-8px;left:50%;transform:translateX(-50%);font-size:2rem">🔻</div>
+    </div>
+
+    <div class="result" id="whWinner" style="font-size:1.4rem;font-weight:800"></div>
+
+    <div style="max-width:420px;margin:16px auto;text-align:right">
+      <label for="whNames">الأسماء (اسم في كل سطر)</label>
+      <textarea id="whNames" rows="5" placeholder="أحمد&#10;محمد&#10;سارة&#10;ليلى" style="display:block;width:100%;padding:12px;border:1px solid #d8dee9;border-radius:10px;font-family:inherit;margin-bottom:8px"></textarea>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn" id="whSpin">أدر العجلة 🎡</button>
+        <button class="btn" id="whShuffle" style="background:#eef1f7;color:var(--navy)">خلط الألوان 🎨</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="tool-box how">
+    <h3>كيف تستخدم العجلة؟</h3>
+    <ol>
+      <li>اكتب الأسماء — اسم في كل سطر.</li>
+      <li>اضغط "أدر العجلة" وانتظر توقفها.</li>
+      <li>الفائز هو الاسم الذي يشير إليه السهم.</li>
+    </ol>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  var canvas = document.getElementById('whCanvas');
+  var ctx = canvas.getContext('2d');
+  var names = [];
+  var angle = 0, spinning = false;
+  var COLORS = ['#f0a92e', '#1a2a6c', '#e4572e', '#2e9e6b', '#7b5fc7', '#e48ec7', '#2e9ec7', '#c7a52e'];
+  var colorShift = 0;
+
+  function getNames() {
+    return document.getElementById('whNames').value.split('\n')
+      .map(function (s) { return s.trim(); }).filter(Boolean).slice(0, 20);
+  }
+
+  function draw() {
+    names = getNames();
+    var n = Math.max(names.length, 2);
+    var R = 160, cx = 160, cy = 160;
+    ctx.clearRect(0, 0, 320, 320);
+    for (var i = 0; i < n; i++) {
+      var a0 = angle + (i * 2 * Math.PI / n);
+      var a1 = angle + ((i + 1) * 2 * Math.PI / n);
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.arc(cx, cy, R, a0, a1);
+      ctx.closePath();
+      ctx.fillStyle = COLORS[(i + colorShift) % COLORS.length];
+      ctx.fill();
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      // النص
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(a0 + (a1 - a0) / 2);
+      ctx.textAlign = 'right';
+      ctx.fillStyle = '#fff';
+      ctx.font = 'bold 14px Tajawal, sans-serif';
+      var label = (names[i] || ((document.documentElement.lang === 'en' ? 'Option ' : 'خيار ') + (i + 1)));
+      if (label.length > 12) label = label.slice(0, 12) + '…';
+      ctx.fillText(label, R - 12, 5);
+      ctx.restore();
+    }
+    // المركز
+    ctx.beginPath();
+    ctx.arc(cx, cy, 26, 0, 2 * Math.PI);
+    ctx.fillStyle = '#fff';
+    ctx.fill();
+    ctx.strokeStyle = '#1a2a6c';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+    ctx.fillStyle = '#1a2a6c';
+    ctx.font = 'bold 13px Tajawal, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(document.documentElement.lang === 'en' ? 'Spin' : 'أدر', cx, cy + 5);
+  }
+
+  function winner() {
+    var n = Math.max(names.length, 2);
+    // السهم في الأعلى (زاوية -90°). نحسب أي قطاع تحته
+    var pointerAngle = -Math.PI / 2;
+    var rel = ((pointerAngle - angle) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI);
+    var idx = Math.floor(rel / (2 * Math.PI / n)) % n;
+    var en = document.documentElement.lang === 'en';
+    return names[idx] || ((en ? 'Option ' : 'خيار ') + (idx + 1));
+  }
+
+  document.getElementById('whSpin').addEventListener('click', function () {
+    names = getNames();
+    if (names.length < 2) { alert('أضف اسمين على الأقل.'); return; }
+    if (spinning) return;
+    spinning = true;
+    document.getElementById('whWinner').classList.remove('show');
+    var startAngle = angle;
+    var spins = 5 + Math.random() * 4;
+    var target = startAngle + spins * 2 * Math.PI + Math.random() * 2 * Math.PI;
+    var dur = 4500 + Math.random() * 1500;
+    var t0 = performance.now();
+    function frame(t) {
+      var p = Math.min(1, (t - t0) / dur);
+      var e = 1 - Math.pow(1 - p, 4);
+      angle = startAngle + (target - startAngle) * e;
+      draw();
+      if (p < 1) requestAnimationFrame(frame);
+      else {
+        spinning = false;
+        var w = document.getElementById('whWinner');
+        w.textContent = '🎉 الفائز: ' + winner();
+        w.classList.add('show');
+      }
+    }
+    requestAnimationFrame(frame);
+  });
+
+  document.getElementById('whShuffle').addEventListener('click', function () {
+    colorShift = (colorShift + 3) % COLORS.length;
+    draw();
+  });
+  document.getElementById('whNames').addEventListener('input', draw);
+  draw();
+})();
+</script>
+
+<script src="../assets/i18n.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>صانع فيديو من الصور أونلاين مجاناً | أدواتي</title>
+<meta name="description" content="حوّل صورك إلى فيديو سلايدشو متحرك مجاناً داخل المتصفح.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / صانع الفيديو</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>🎞️ صانع فيديو من الصور</h2>
+    <div class="desc">حوّل مجموعة صور إلى فيديو سلايدشو (WebM) — مثالي للحالات والمنشورات.</div>
+
+    <div class="drop-zone" onclick="document.getElementById('svFiles').click()">
+      اضغط هنا لاختيار الصور (2 إلى 12)
+      <input type="file" id="svFiles" accept="image/*" multiple>
+    </div>
+
+    <div id="svControls" style="display:none">
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <div style="flex:1;min-width:140px">
+          <label for="svDur">مدة كل صورة: <span id="svDurVal">3</span> ثوانٍ</label>
+          <input type="range" id="svDur" min="1" max="8" value="3">
+        </div>
+        <div style="flex:1;min-width:140px">
+          <label for="svSize">دقة الفيديو</label>
+          <select id="svSize">
+            <option value="1280x720">HD (1280×720)</option>
+            <option value="720x1280">عمودي (720×1280)</option>
+            <option value="1920x1080">FHD (1920×1080)</option>
+          </select>
+        </div>
+      </div>
+      <div class="result" id="svList" style="font-size:.9rem"></div>
+      <button class="btn" id="svMake">إنشاء الفيديو 🎬</button>
+      <div class="result" id="svStatus"></div>
+      <div class="result" id="svOut" style="text-align:center">
+        <video id="svVideo" controls style="max-width:100%;border-radius:12px"></video>
+        <div><button class="btn" id="svDownload" style="margin-top:12px">تحميل الفيديو</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tool-box how">
+    <h3>كيف تصنع فيديو؟</h3>
+    <ol>
+      <li>اختر الصور بالترتيب الذي تريده.</li>
+      <li>حدد مدة كل صورة ودقة الفيديو.</li>
+      <li>اضغط "إنشاء الفيديو" وانتظر، ثم حمّله.</li>
+    </ol>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  var images = [];
+  var videoUrl = null;
+
+  function status(t) {
+    var s = document.getElementById('svStatus');
+    s.classList.add('show'); s.textContent = t;
+  }
+
+  document.getElementById('svDur').addEventListener('input', function () {
+    document.getElementById('svDurVal').textContent = this.value;
+  });
+
+  document.getElementById('svFiles').addEventListener('change', function () {
+    var files = Array.prototype.slice.call(this.files, 0, 12);
+    if (files.length < 2) { alert('اختر صورتين على الأقل.'); return; }
+    status('جاري تجهيز الصور...');
+    images = [];
+    var done = 0;
+    files.forEach(function (f, i) {
+      var r = new FileReader();
+      r.onload = function (e) {
+        var im = new Image();
+        im.onload = function () {
+          images[i] = im;
+          done++;
+          if (done === files.length) {
+            images = images.filter(Boolean);
+            var l = document.getElementById('svList');
+            l.classList.add('show');
+            l.textContent = 'تم تجهيز ' + images.length + ' صور ✓';
+            document.getElementById('svControls').style.display = 'block';
+            status('');
+            document.getElementById('svStatus').classList.remove('show');
+          }
+        };
+        im.src = e.target.result;
+      };
+      r.readAsDataURL(f);
+    });
+    this.value = '';
+  });
+
+  document.getElementById('svMake').addEventListener('click', function () {
+    if (images.length < 2) { alert('اختر الصور أولاً.'); return; }
+    if (!window.MediaRecorder) { status('متصفحك لا يدعم إنشاء الفيديو.'); return; }
+    var dims = document.getElementById('svSize').value.split('x');
+    var W = parseInt(dims[0], 10), H = parseInt(dims[1], 10);
+    var perSlide = parseInt(document.getElementById('svDur').value, 10) * 1000;
+    status('جاري إنشاء الفيديو... لا تغلق الصفحة ⏳');
+    document.getElementById('svOut').classList.remove('show');
+    if (videoUrl) URL.revokeObjectURL(videoUrl);
+
+    var canvas = document.createElement('canvas');
+    canvas.width = W; canvas.height = H;
+    var ctx = canvas.getContext('2d');
+    var stream = canvas.captureStream(30);
+    var mime = MediaRecorder.isTypeSupported('video/webm;codecs=vp9') ? 'video/webm;codecs=vp9' : 'video/webm';
+    var rec;
+    try { rec = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 5000000 }); }
+    catch (e) { status('تعذر بدء التسجيل في متصفحك.'); return; }
+    var chunks = [];
+    rec.ondataavailable = function (e) { if (e.data.size) chunks.push(e.data); };
+    rec.onstop = function () {
+      var blob = new Blob(chunks, { type: 'video/webm' });
+      videoUrl = URL.createObjectURL(blob);
+      document.getElementById('svVideo').src = videoUrl;
+      document.getElementById('svOut').classList.add('show');
+      status('تم إنشاء الفيديو بنجاح ✓');
+    };
+
+    function drawCover(im) {
+      var s = Math.max(W / im.naturalWidth, H / im.naturalHeight);
+      var dw = im.naturalWidth * s, dh = im.naturalHeight * s;
+      ctx.fillStyle = '#000';
+      ctx.fillRect(0, 0, W, H);
+      ctx.drawImage(im, (W - dw) / 2, (H - dh) / 2, dw, dh);
+    }
+
+    var idx = 0, start = null;
+    drawCover(images[0]);
+    rec.start(250);
+    function tick(t) {
+      if (!start) start = t;
+      var slide = Math.floor((t - start) / perSlide);
+      if (slide >= images.length) { rec.stop(); return; }
+      if (slide !== idx) { idx = slide; drawCover(images[idx]); }
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  });
+
+  document.getElementById('svDownload').addEventListener('click', function () {
+    if (!videoUrl) return;
+    var a = document.createElement('a');
+    a.href = videoUrl;
+    a.download = 'adawati-slideshow.webm';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  });
+})();
+</script>
+
+<script src="../assets/i18n.js"></script>
+
+</body>
+</html>

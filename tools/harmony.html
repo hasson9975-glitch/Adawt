@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مولد لوحات الألوان المتناسقة أونلاين | أدواتي</title>
+<meta name="description" content="ولّد لوحات ألوان متناسقة (مكملة، متجاورة، ثلاثية) مجاناً — للمصممين.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / لوحات الألوان</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box" style="text-align:center">
+    <h2>🎨 مولد لوحات الألوان</h2>
+    <div class="desc">لوحات متناسقة جاهزة بضغطة واحدة — اضغط أي لون لنسخ كوده.</div>
+
+    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:14px">
+      <button class="btn rule-btn" data-rule="analogous" style="margin-top:0">متجاورة</button>
+      <button class="btn rule-btn" data-rule="complementary" style="margin-top:0;background:#eef1f7;color:var(--navy)">مكملة</button>
+      <button class="btn rule-btn" data-rule="triadic" style="margin-top:0;background:#eef1f7;color:var(--navy)">ثلاثية</button>
+      <button class="btn rule-btn" data-rule="mono" style="margin-top:0;background:#eef1f7;color:var(--navy)">أحادية</button>
+    </div>
+
+    <div id="hmPalette" style="display:flex;border-radius:14px;overflow:hidden;border:1px solid #e5e9f2;max-width:640px;margin:0 auto;cursor:pointer"></div>
+    <div style="margin-top:10px"><button class="btn" id="hmNew">لوحة جديدة 🎲</button></div>
+    <div class="result" id="hmCopied" style="max-width:640px;margin-left:auto;margin-right:auto"></div>
+  </div>
+
+  <div class="tool-box how">
+    <h3>كيف تولّد لوحة؟</h3>
+    <ol>
+      <li>اختر نوع التناسق اللوني.</li>
+      <li>اضغط "لوحة جديدة" حتى تعجبك النتيجة.</li>
+      <li>اضغط أي لون لنسخ كود HEX.</li>
+    </ol>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  var rule = 'analogous';
+  var current = [];
+
+  function hsl(h, s, l) {
+    h = ((h % 360) + 360) % 360;
+    s = Math.max(0, Math.min(100, s)); l = Math.max(0, Math.min(100, l));
+    s /= 100; l /= 100;
+    var k = function (n) { return (n + h / 30) % 12; };
+    var a = s * Math.min(l, 1 - l);
+    var f = function (n) { return l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1))); };
+    var to = function (x) { return ('0' + Math.round(x * 255).toString(16)).slice(-2).toUpperCase(); };
+    return '#' + to(f(0)) + to(f(8)) + to(f(4));
+  }
+
+  function generate() {
+    var base = Math.floor(Math.random() * 360);
+    var sat = 55 + Math.floor(Math.random() * 30);
+    var hues;
+    if (rule === 'complementary') hues = [0, 180, 0, 180, 0];
+    else if (rule === 'triadic') hues = [0, 120, 240, 0, 120];
+    else if (rule === 'mono') hues = [0, 0, 0, 0, 0];
+    else hues = [-40, -20, 0, 20, 40];
+    current = hues.map(function (dh, i) {
+      var l = rule === 'mono' ? 25 + i * 12 : 38 + ((i * 37) % 30);
+      return hsl(base + dh, sat, l);
+    });
+    var wrap = document.getElementById('hmPalette');
+    wrap.innerHTML = '';
+    current.forEach(function (hex) {
+      var d = document.createElement('div');
+      d.style.cssText = 'flex:1;height:120px;background:' + hex + ';display:flex;align-items:flex-end;justify-content:center';
+      d.innerHTML = '<span style="background:rgba(255,255,255,.85);font-size:.75rem;padding:2px 8px;border-radius:99px;margin-bottom:8px;font-family:monospace;direction:ltr">' + hex + '</span>';
+      d.title = 'اضغط للنسخ';
+      d.addEventListener('click', function () {
+        if (navigator.clipboard) navigator.clipboard.writeText(hex);
+        var r = document.getElementById('hmCopied');
+        r.classList.add('show');
+        r.textContent = 'تم نسخ ' + hex + ' ✓';
+      });
+      wrap.appendChild(d);
+    });
+  }
+
+  document.querySelectorAll('.rule-btn').forEach(function (b) {
+    b.addEventListener('click', function () {
+      rule = b.getAttribute('data-rule');
+      document.querySelectorAll('.rule-btn').forEach(function (x) {
+        x.style.background = '#eef1f7'; x.style.color = 'var(--navy)';
+      });
+      b.style.background = ''; b.style.color = '';
+      generate();
+    });
+  });
+  document.getElementById('hmNew').addEventListener('click', generate);
+  generate();
+})();
+</script>
+
+<script src="../assets/i18n.js"></script>
+
+</body>
+</html>

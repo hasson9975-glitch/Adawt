@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مولد النص التجريبي العربي أونلاين | أدواتي</title>
+<meta name="description" content="ولّد نصوصاً عربية تجريبية للتصاميم والمواقع مجاناً — بديل Lorem Ipsum بالعربية.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / النص التجريبي</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>📝 مولد النص التجريبي العربي</h2>
+    <div class="desc">نصوص عربية جاهزة لملء التصاميم والمواقع قبل المحتوى النهائي.</div>
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end">
+      <div style="flex:1;min-width:130px">
+        <label for="loCount">عدد الفقرات: <span id="loCountVal">3</span></label>
+        <input type="range" id="loCount" min="1" max="10" value="3">
+      </div>
+      <button class="btn" id="loGen">توليد النص</button>
+      <button class="btn" id="loCopy" style="background:#eef1f7;color:var(--navy)">نسخ النص</button>
+    </div>
+
+    <div class="result" id="loOut">
+      <div id="loText" style="line-height:2"></div>
+    </div>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  var SENTENCES = [
+    'هذا نص تجريبي يستخدم لملء الفراغات في التصاميم قبل اعتماد المحتوى النهائي.',
+    'يمكنك استبدال هذا النص بأي محتوى حقيقي عندما يصبح جاهزاً للنشر.',
+    'التصميم الجيد يعتمد على التوازن بين النصوص والصور والمساحات الفارغة.',
+    'اختيار الخط المناسب يمنح التصميم شخصية مميزة ويعزز readability المحتوى.',
+    'الألوان المتناسقة تخلق تجربة بصرية مريحة وتوجه عين القارئ نحو الأهم.',
+    'قبل الطباعة تأكد من مراجعة النصوص والألوان ودقة الصور المستخدمة.',
+    'المحتوى العربي يحتاج عناية خاصة باتجاه الكتابة ومواضع علامات الترقيم.',
+    'التجربة والمراجعة المستمرة هما سر الوصول إلى تصميم احترافي متكامل.',
+    'لا تتردد في تجربة عدة نسخ من التصميم قبل الاستقرار على الشكل النهائي.',
+    'البساطة في التصميم غالباً ما تكون أكثر تأثيراً من الزخرفة المفرطة.',
+    'احرص على أن تكون النصوص واضحة ومقروءة على جميع أحجام الشاشات.',
+    'التباين الجيد بين النص والخلفية يضمن وصول رسالتك إلى كل قارئ.'
+  ];
+
+  function generate() {
+    var n = parseInt(document.getElementById('loCount').value, 10);
+    var html = '';
+    for (var p = 0; p < n; p++) {
+      var count = 3 + Math.floor(Math.random() * 3);
+      var used = [];
+      var para = [];
+      for (var i = 0; i < count; i++) {
+        var idx;
+        do { idx = Math.floor(Math.random() * SENTENCES.length); } while (used.indexOf(idx) !== -1);
+        used.push(idx);
+        para.push(SENTENCES[idx]);
+      }
+      html += '<p style="margin-bottom:12px">' + para.join(' ') + '</p>';
+    }
+    document.getElementById('loText').innerHTML = html;
+    document.getElementById('loOut').classList.add('show');
+  }
+
+  document.getElementById('loCount').addEventListener('input', function () {
+    document.getElementById('loCountVal').textContent = this.value;
+  });
+  document.getElementById('loGen').addEventListener('click', generate);
+  document.getElementById('loCopy').addEventListener('click', function () {
+    var t = document.getElementById('loText').innerText;
+    if (!t) { alert('ولّد النص أولاً.'); return; }
+    var b = this;
+    function done() { b.textContent = 'تم النسخ ✓'; setTimeout(function () { b.textContent = 'نسخ النص'; }, 1200); }
+    if (navigator.clipboard) navigator.clipboard.writeText(t).then(done, done);
+    else done();
+  });
+  generate();
+})();
+</script>
+
+<script src="../assets/i18n.js"></script>
+
+</body>
+</html>
