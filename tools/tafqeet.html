@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تفقيط الأرقام وتحويلها إلى حروف عربية أونلاين | أدواتي</title>
+<meta name="description" content="حوّل الأرقام إلى كلمات عربية مجاناً — مثالي للفواتير والشيكات والعقود.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / تفقيط الأرقام</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>📝 تفقيط الأرقام</h2>
+    <div class="desc">حوّل أي مبلغ إلى كلمات عربية — للفواتير والشيكات والعقود.</div>
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <div style="flex:2;min-width:180px">
+        <label for="tfNum">المبلغ</label>
+        <input type="number" id="tfNum" min="0" step="any" placeholder="مثال: 1250" style="display:block;width:100%;padding:12px;border:1px solid #d8dee9;border-radius:10px;font-family:inherit;margin-bottom:12px">
+      </div>
+      <div style="flex:1;min-width:140px">
+        <label for="tfCur">العملة</label>
+        <select id="tfCur">
+          <option value="دينار">دينار ليبي</option>
+          <option value="ريال">ريال سعودي</option>
+          <option value="جنيه">جنيه مصري</option>
+          <option value="درهم">درهم إماراتي</option>
+          <option value="دولار">دولار أمريكي</option>
+          <option value="">بدون عملة</option>
+        </select>
+      </div>
+    </div>
+    <label><input type="checkbox" id="tfOnly" checked style="width:auto"> إضافة "فقط لا غير"</label>
+
+    <div class="result" id="tfOut" style="font-size:1.25rem;font-weight:700;line-height:2"></div>
+    <button class="btn" id="tfCopy" style="background:#eef1f7;color:var(--navy)">نسخ النص</button>
+  </div>
+
+  <div class="tool-box how">
+    <h3>كيف تفقّط مبلغاً؟</h3>
+    <ol>
+      <li>اكتب المبلغ واختر العملة.</li>
+      <li>انسخ النص الجاهز والصقه في الفاتورة أو الشيك.</li>
+    </ol>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  var ONES = ['', 'واحد', 'اثنان', 'ثلاثة', 'أربعة', 'خمسة', 'ستة', 'سبعة', 'ثمانية', 'تسعة',
+    'عشرة', 'أحد عشر', 'اثنا عشر'];
+  var TENS = ['', '', 'عشرون', 'ثلاثون', 'أربعون', 'خمسون', 'ستون', 'سبعون', 'ثمانون', 'تسعون'];
+  var HUND = ['', 'مائة', 'مائتان', 'ثلاثمائة', 'أربعمائة', 'خمسمائة', 'ستمائة', 'سبعمائة', 'ثمانمائة', 'تسعمائة'];
+
+  function three(n) {
+    var p = [];
+    var h = Math.floor(n / 100), t = n % 100;
+    if (h) p.push(HUND[h]);
+    if (t) {
+      if (t <= 12) p.push(ONES[t]);
+      else if (t < 20) p.push(ONES[t - 10] + ' عشر');
+      else {
+        var o = t % 10, tt = Math.floor(t / 10);
+        p.push(o ? ONES[o] + ' و' + TENS[tt] : TENS[tt]);
+      }
+    }
+    return p.join(' و');
+  }
+  function scale(n, one, two, few, many) {
+    if (n === 1) return one;
+    if (n === 2) return two;
+    if (n <= 10) return three(n) + ' ' + few;
+    return three(n) + ' ' + many;
+  }
+  function tafqeet(num) {
+    if (num === 0) return 'صفر';
+    var groups = [
+      [1e9, 'مليار', 'ملياران', 'مليارات', 'ملياراً'],
+      [1e6, 'مليون', 'مليونان', 'ملايين', 'مليوناً'],
+      [1e3, 'ألف', 'ألفان', 'آلاف', 'ألفاً']
+    ];
+    var parts = [], rest = num;
+    groups.forEach(function (g) {
+      var c = Math.floor(rest / g[0]);
+      if (c) { parts.push(scale(c, g[1], g[2], g[3], g[4])); rest -= c * g[0]; }
+    });
+    if (rest) parts.push(three(rest));
+    return parts.join(' و');
+  }
+
+  // English number-to-words
+  var E_ONES = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine',
+    'ten', 'eleven', 'twelve'];
+  var E_TEENS = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen',
+    'seventeen', 'eighteen', 'nineteen'];
+  var E_TENS = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+  function threeEn(n) {
+    var p = [];
+    var h = Math.floor(n / 100), t = n % 100;
+    if (h) p.push(E_ONES[h] + ' hundred');
+    if (t >= 20) {
+      var o = t % 10, tt = Math.floor(t / 10);
+      p.push(E_TENS[tt] + (o ? '-' + E_ONES[o] : ''));
+    } else if (t >= 10) p.push(E_TEENS[t - 10]);
+    else if (t > 0) p.push(E_ONES[t]);
+    return p.join(' ');
+  }
+  function tafqeetEn(num) {
+    if (num === 0) return 'zero';
+    var groups = [[1e9, 'billion'], [1e6, 'million'], [1e3, 'thousand']];
+    var parts = [], rest = num;
+    groups.forEach(function (g) {
+      var c = Math.floor(rest / g[0]);
+      if (c) { parts.push(threeEn(c) + ' ' + g[1]); rest -= c * g[0]; }
+    });
+    if (rest) parts.push(threeEn(rest));
+    return parts.join(' ');
+  }
+
+  function convert() {
+    var out = document.getElementById('tfOut');
+    var v = document.getElementById('tfNum').value.trim();
+    if (v === '' || isNaN(parseFloat(v))) { out.classList.remove('show'); return; }
+    var en = document.documentElement.lang === 'en';
+    var intPart = Math.floor(Math.abs(parseFloat(v)));
+    var cur = document.getElementById('tfCur').value;
+    var txt;
+    if (en) {
+      var E_CUR = { 'دينار': 'dinars', 'ريال': 'riyals', 'جنيه': 'pounds', 'درهم': 'dirhams', 'دولار': 'dollars', '': '' };
+      txt = tafqeetEn(intPart) + (cur ? ' ' + (E_CUR[cur] || cur) : '');
+      var dec = Math.round((Math.abs(parseFloat(v)) - intPart) * 100);
+      if (dec) txt += ' and ' + tafqeetEn(dec) + ' piasters';
+      if (document.getElementById('tfOnly').checked) txt += ' only';
+    } else {
+      txt = tafqeet(intPart) + (cur ? ' ' + cur : '');
+      var dec = Math.round((Math.abs(parseFloat(v)) - intPart) * 100);
+      if (dec) txt += ' و' + tafqeet(dec) + ' قرشاً';
+      if (document.getElementById('tfOnly').checked) txt += ' فقط لا غير';
+    }
+    out.textContent = txt;
+    out.classList.add('show');
+  }
+  window.i18nRefresh = convert;
+
+  ['tfNum', 'tfCur', 'tfOnly'].forEach(function (id) {
+    var el = document.getElementById(id);
+    el.addEventListener('input', convert);
+    el.addEventListener('change', convert);
+  });
+  document.getElementById('tfCopy').addEventListener('click', function () {
+    var t = document.getElementById('tfOut').textContent.trim();
+    if (!t) { alert('اكتب المبلغ أولاً.'); return; }
+    var b = this;
+    function done() { b.textContent = 'تم النسخ ✓'; setTimeout(function () { b.textContent = 'نسخ النص'; }, 1200); }
+    if (navigator.clipboard) navigator.clipboard.writeText(t).then(done, done);
+    else done();
+  });
+})();
+</script>
+
+<script src="../assets/i18n.js"></script>
+
+</body>
+</html>

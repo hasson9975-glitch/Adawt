@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>حاسبة النوم الذكية أونلاين | أدواتي</title>
+<meta name="description" content="اعرف أفضل وقت للنوم والاستيقاظ بناءً على دورات النوم مجاناً.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / حاسبة النوم</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>💤 حاسبة النوم الذكية</h2>
+    <div class="desc">نم وفق دورات النوم (90 دقيقة) واستيقظ منتعشاً — بدون منبه قاسٍ.</div>
+
+    <div style="margin-bottom:12px">
+      <label style="display:inline-block;margin-left:16px"><input type="radio" name="slMode" value="wake" checked style="width:auto"> أعرف متى أستيقظ ← احسب وقت النوم</label><br>
+      <label style="display:inline-block"><input type="radio" name="slMode" value="now" style="width:auto"> سأنام الآن ← احسب وقت الاستيقاظ</label>
+    </div>
+
+    <div id="slWakeBox">
+      <label for="slWake">وقت الاستيقاظ المطلوب</label>
+      <input type="time" id="slWake" value="07:00" style="display:block;width:100%;padding:12px;border:1px solid #d8dee9;border-radius:10px;font-family:inherit;margin-bottom:12px">
+    </div>
+
+    <button class="btn" id="slGo">احسب 💤</button>
+
+    <div class="result" id="slOut">
+      <div style="font-weight:800;margin-bottom:8px" id="slTitle"></div>
+      <div id="slTimes" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px"></div>
+      <p style="color:var(--muted);font-size:.9rem;margin-top:10px">الأوقات مرتبة من الأفضل. الحساب يشمل 15 دقيقة للاستغراق في النوم.</p>
+    </div>
+  </div>
+
+  <div class="tool-box how">
+    <h3>كيف تعمل الحاسبة؟</h3>
+    <ol>
+      <li>اختر: هل تريد تحديد وقت النوم أم وقت الاستيقاظ؟</li>
+      <li>النوم يمر بدورات مدة كل منها 90 دقيقة — الاستيقاظ بين الدورات يمنحك نشاطاً أفضل.</li>
+    </ol>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  function fmt(d) {
+    var h = d.getHours(), m = d.getMinutes();
+    var ap = h >= 12 ? 'م' : 'ص';
+    h = h % 12; if (h === 0) h = 12;
+    return h + ':' + ('0' + m).slice(-2) + ' ' + ap;
+  }
+  function mode() { return document.querySelector('input[name="slMode"]:checked').value; }
+
+  document.querySelectorAll('input[name="slMode"]').forEach(function (el) {
+    el.addEventListener('change', function () {
+      document.getElementById('slWakeBox').style.display = mode() === 'wake' ? 'block' : 'none';
+    });
+  });
+
+  document.getElementById('slGo').addEventListener('click', function () {
+    var out = document.getElementById('slOut');
+    var wrap = document.getElementById('slTimes');
+    wrap.innerHTML = '';
+    var cycles = [6, 5, 4, 3];
+    var labels = { 6: 'ممتاز (9 ساعات)', 5: 'جيد (7.5 ساعات)', 4: 'مقبول (6 ساعات)', 3: 'طوارئ (4.5 ساعات)' };
+    if (mode() === 'wake') {
+      var v = document.getElementById('slWake').value;
+      if (!v) { alert('حدد وقت الاستيقاظ.'); return; }
+      var p = v.split(':');
+      var wake = new Date();
+      wake.setHours(parseInt(p[0], 10), parseInt(p[1], 10), 0, 0);
+      document.getElementById('slTitle').textContent = 'نم في أحد هذه الأوقات لتستيقظ ' + fmt(wake) + ':';
+      cycles.forEach(function (c) {
+        var bed = new Date(wake.getTime() - (c * 90 + 15) * 60000);
+        var d = document.createElement('div');
+        d.className = 'stat';
+        d.innerHTML = '<span>' + fmt(bed) + '</span><small>' + labels[c] + '</small>';
+        wrap.appendChild(d);
+      });
+    } else {
+      var now = new Date();
+      document.getElementById('slTitle').textContent = 'إذا نمت الآن، استيقظ في أحد هذه الأوقات:';
+      cycles.forEach(function (c) {
+        var w = new Date(now.getTime() + (c * 90 + 15) * 60000);
+        var d = document.createElement('div');
+        d.className = 'stat';
+        d.innerHTML = '<span>' + fmt(w) + '</span><small>' + labels[c] + '</small>';
+        wrap.appendChild(d);
+      });
+    }
+    out.classList.add('show');
+  });
+})();
+</script>
+
+<script src="../assets/i18n.js"></script>
+
+</body>
+</html>

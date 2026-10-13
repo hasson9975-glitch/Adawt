@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>حاسبة الحمل وموعد الولادة أونلاين | أدواتي</title>
+<meta name="description" content="احسبي أسبوع الحمل الحالي وموعد الولادة المتوقع مجاناً.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / حاسبة الحمل</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>🤰 حاسبة الحمل</h2>
+    <div class="desc">أدخلي تاريخ أول يوم من آخر دورة شهرية لمعرفة أسبوع الحمل وموعد الولادة.</div>
+
+    <label for="pgLmp">تاريخ أول يوم من آخر دورة</label>
+    <input type="date" id="pgLmp" style="display:block;width:100%;padding:12px;border:1px solid #d8dee9;border-radius:10px;font-family:inherit;margin-bottom:12px">
+    <button class="btn" id="pgGo">احسبي 🤰</button>
+
+    <div class="result" id="pgOut">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center">
+        <div class="stat"><span id="pgWeek">—</span><small>أسبوع الحمل</small></div>
+        <div class="stat"><span id="pgTri">—</span><small>الثلث</small></div>
+        <div class="stat"><span id="pgLeft">—</span><small>المتبقي للولادة</small></div>
+      </div>
+      <div style="text-align:center;margin-top:12px">
+        <div>موعد الولادة المتوقع:</div>
+        <div style="font-size:1.5rem;font-weight:800;color:var(--navy)" id="pgDue">—</div>
+      </div>
+      <div style="margin-top:12px">
+        <div style="display:flex;justify-content:space-between;font-size:.85rem;color:var(--muted)"><span>التقدم</span><span id="pgPct">0%</span></div>
+        <div style="height:12px;background:#eef1f7;border-radius:99px;overflow:hidden"><div id="pgBar" style="height:100%;width:0%;background:linear-gradient(90deg,var(--gold),#e4572e)"></div></div>
+      </div>
+    </div>
+    <div class="result" id="pgError"></div>
+  </div>
+
+  <div class="tool-box faq">
+    <h3>أسئلة شائعة</h3>
+    <details><summary>كيف يُحسب موعد الولادة؟</summary><p>بإضافة 280 يوماً (40 أسبوعاً) إلى أول يوم من آخر دورة شهرية — وهي الطريقة الطبية المعتمدة.</p></details>
+    <details><summary>هل الحساب دقيق 100%؟</summary><p>تقريبي — 5% فقط من الولادات تحدث في الموعد المتوقع. استشيري طبيبتك للمتابعة الدقيقة.</p></details>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  function fmt(d) {
+    return d.toLocaleDateString('ar', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  }
+  document.getElementById('pgGo').addEventListener('click', function () {
+    var v = document.getElementById('pgLmp').value;
+    var out = document.getElementById('pgOut'), err = document.getElementById('pgError');
+    out.classList.remove('show'); err.classList.remove('show');
+    if (!v) { err.classList.add('show'); err.textContent = 'أدخلي التاريخ أولاً.'; return; }
+    var lmp = new Date(v + 'T00:00:00');
+    var now = new Date();
+    var days = Math.floor((now - lmp) / 86400000);
+    if (days < 0) { err.classList.add('show'); err.textContent = 'التاريخ لا يمكن أن يكون في المستقبل.'; return; }
+    if (days > 310) { err.classList.add('show'); err.textContent = 'التاريخ بعيد جداً — تحققي منه.'; return; }
+    var week = Math.floor(days / 7) + 1;
+    var due = new Date(lmp.getTime() + 280 * 86400000);
+    var left = Math.max(0, 280 - days);
+    var tri = week <= 13 ? 'الأول' : (week <= 27 ? 'الثاني' : 'الثالث');
+    document.getElementById('pgWeek').textContent = 'الأسبوع ' + week;
+    document.getElementById('pgTri').textContent = tri;
+    document.getElementById('pgLeft').textContent = left + ' يوم';
+    document.getElementById('pgDue').textContent = fmt(due);
+    var pct = Math.min(100, Math.round(days / 280 * 100));
+    document.getElementById('pgPct').textContent = pct + '%';
+    document.getElementById('pgBar').style.width = pct + '%';
+    out.classList.add('show');
+  });
+})();
+</script>
+
+<script src="../assets/i18n.js"></script>
+
+</body>
+</html>
