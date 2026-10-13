@@ -9,6 +9,203 @@ DICT['فاتح مشرق'] = 'Bright';
 DICT['تحسين الوصف تلقائياً ✨ (نتائج أدق وأجمل)'] = 'Auto-enhance prompt ✨ (more accurate, prettier results)';
 DICT['ملاحظة: التوليد مجاني عبر خدمة Pollinations وقد يستغرق 30-60 ثانية. الصور تحمل علامتها المائية الصغيرة. تجنّب طلب محتوى مخالف.'] = 'Note: generation is free via Pollinations and may take 30-60 seconds. Images carry its small watermark. Avoid requesting violating content.';
 var LANG_KEY = 'adawati_lang';
+DICT['/ اتجاه القبلة'] = '/ Qibla Direction';
+DICT['/ النص التجريبي'] = '/ Dummy Text';
+DICT['/ تفقيط الأرقام'] = '/ Number to Words';
+DICT['/ حاسبة الحمل'] = '/ Pregnancy Calculator';
+DICT['/ حاسبة النوم'] = '/ Sleep Calculator';
+DICT['/ صانع الفيديو'] = '/ Video Maker';
+DICT['/ عجلة الحظ'] = '/ Wheel of Fortune';
+DICT['/ لوحات الألوان'] = '/ Color Palettes';
+DICT['آلاف'] = 'thousands';
+DICT['أحادية'] = 'Monochromatic';
+DICT['أحد عشر'] = 'eleven';
+DICT['أدخل خط العرض وخط الطول.'] = 'Please enter latitude and longitude.';
+DICT['أدخلي التاريخ أولاً.'] = 'Please enter the date first.';
+DICT['أدخلي تاريخ أول يوم من آخر دورة شهرية لمعرفة أسبوع الحمل وموعد الولادة.'] = 'Enter the first day of your last period to see your pregnancy week and due date.';
+DICT['أدر العجلة 🎡'] = 'Spin the wheel 🎡';
+DICT['أربعة'] = 'four';
+DICT['أربعمائة'] = 'four hundred';
+DICT['أربعون'] = 'forty';
+DICT['أسبوع الحمل'] = 'Pregnancy week';
+DICT['أسبوع الحمل وموعد الولادة المتوقع.'] = 'Pregnancy week and expected due date.';
+DICT['أضف اسمين على الأقل.'] = 'Add at least two names.';
+DICT['أعرف متى أستيقظ ← احسب وقت النوم'] = 'I know my wake time ← calculate bedtime';
+DICT['أفضل أوقات النوم والاستيقاظ.'] = 'Best sleep and wake times.';
+DICT['ألف'] = 'thousand';
+DICT['ألفان'] = 'two thousand';
+DICT['ألفاً'] = 'thousand';
+DICT['أو أدخل الإحداثيات يدوياً:'] = 'Or enter coordinates manually:';
+DICT['إذا نمت الآن، استيقظ في أحد هذه الأوقات:'] = 'If you sleep now, wake up at one of these times:';
+DICT['إضافة "فقط لا غير"'] = 'Add "only"';
+DICT['إنشاء الفيديو 🎬'] = 'Create video 🎬';
+DICT['اتجاه القبلة'] = 'Qibla Direction';
+DICT['اتجاه القبلة أونلاين | أدواتي'] = 'Qibla Direction Online | Adawati';
+DICT['اثنا عشر'] = 'twelve';
+DICT['اثنان'] = 'two';
+DICT['احرص على أن تكون النصوص واضحة ومقروءة على جميع أحجام الشاشات.'] = 'Make sure texts are clear and readable on all screen sizes.';
+DICT['احسب 💤'] = 'Calculate 💤';
+DICT['احسبي 🤰'] = 'Calculate 🤰';
+DICT['اختر الصور أولاً.'] = 'Please choose images first.';
+DICT['اختر الصور بالترتيب الذي تريده.'] = 'Choose images in the order you want.';
+DICT['اختر نوع التناسق اللوني.'] = 'Choose the color harmony type.';
+DICT['اختر: هل تريد تحديد وقت النوم أم وقت الاستيقاظ؟'] = 'Choose: set bedtime or wake time?';
+DICT['اختيار الخط المناسب يمنح التصميم شخصية مميزة ويعزز readability المحتوى.'] = 'Choosing the right font gives the design a distinct personality and boosts content readability.';
+DICT['اضغط "أدر العجلة" وانتظر توقفها.'] = 'Press "Spin the wheel" and wait for it to stop.';
+DICT['اضغط "إنشاء الفيديو" وانتظر، ثم حمّله.'] = 'Press "Create video", wait, then download it.';
+DICT['اضغط "لوحة جديدة" حتى تعجبك النتيجة.'] = 'Press "New palette" until you like the result.';
+DICT['اضغط أي لون لنسخ كود HEX.'] = 'Click any color to copy its HEX code.';
+DICT['اضغط هنا لاختيار الصور (2 إلى 12)'] = 'Click here to choose images (2 to 12)';
+DICT['اعرف اتجاه الكعبة من موقعك.'] = 'Find the Kaaba direction from your location.';
+DICT['اكتب الأسماء — اسم في كل سطر.'] = 'Write the names — one per line.';
+DICT['اكتب المبلغ أولاً.'] = 'Please enter the amount first.';
+DICT['اكتب المبلغ واختر العملة.'] = 'Enter the amount and choose the currency.';
+DICT['الأسبوع'] = 'Week';
+DICT['الأسماء (اسم في كل سطر)'] = 'Names (one per line)';
+DICT['الألوان المتناسقة تخلق تجربة بصرية مريحة وتوجه عين القارئ نحو الأهم.'] = 'Harmonious colors create a comfortable visual experience and guide the reader\'s eye to what matters.';
+DICT['الأوقات مرتبة من الأفضل. الحساب يشمل 15 دقيقة للاستغراق في النوم.'] = 'Times are ordered from best. Includes 15 minutes to fall asleep.';
+DICT['الأول'] = 'First';
+DICT['البساطة في التصميم غالباً ما تكون أكثر تأثيراً من الزخرفة المفرطة.'] = 'Simplicity in design is often more impactful than excessive decoration.';
+DICT['التاريخ بعيد جداً — تحققي منه.'] = 'That date is too far — please check it.';
+DICT['التاريخ لا يمكن أن يكون في المستقبل.'] = 'The date cannot be in the future.';
+DICT['التباين الجيد بين النص والخلفية يضمن وصول رسالتك إلى كل قارئ.'] = 'Good contrast between text and background ensures your message reaches every reader.';
+DICT['التجربة والمراجعة المستمرة هما سر الوصول إلى تصميم احترافي متكامل.'] = 'Experimentation and continuous review are the secret to a complete professional design.';
+DICT['التصميم الجيد يعتمد على التوازن بين النصوص والصور والمساحات الفارغة.'] = 'Good design relies on balancing text, images and white space.';
+DICT['التقدم'] = 'Progress';
+DICT['الثالث'] = 'Third';
+DICT['الثاني'] = 'Second';
+DICT['الثلث'] = 'Trimester';
+DICT['الجنوب'] = 'South';
+DICT['الجنوب الشرقي'] = 'Southeast';
+DICT['الجنوب الغربي'] = 'Southwest';
+DICT['الشرق'] = 'East';
+DICT['الشمال'] = 'North';
+DICT['الشمال الشرقي'] = 'Northeast';
+DICT['الشمال الغربي'] = 'Northwest';
+DICT['الغرب'] = 'West';
+DICT['العملة'] = 'Currency';
+DICT['الفائز هو الاسم الذي يشير إليه السهم.'] = 'The winner is the name the arrow points to.';
+DICT['المتبقي للولادة'] = 'Remaining until birth';
+DICT['المحتوى العربي يحتاج عناية خاصة باتجاه الكتابة ومواضع علامات الترقيم.'] = 'Arabic content needs special care with writing direction and punctuation placement.';
+DICT['النوم يمر بدورات مدة كل منها 90 دقيقة — الاستيقاظ بين الدورات يمنحك نشاطاً أفضل.'] = 'Sleep goes through 90-minute cycles — waking between cycles leaves you more refreshed.';
+DICT['انسخ النص الجاهز والصقه في الفاتورة أو الشيك.'] = 'Copy the ready text and paste it into the invoice or check.';
+DICT['بإضافة 280 يوماً (40 أسبوعاً) إلى أول يوم من آخر دورة شهرية — وهي الطريقة الطبية المعتمدة.'] = 'By adding 280 days (40 weeks) to the first day of the last period — the standard medical method.';
+DICT['بدون عملة'] = 'No currency';
+DICT['تاريخ أول يوم من آخر دورة'] = 'First day of last period';
+DICT['تحديد موقعي 📍'] = 'Locate me 📍';
+DICT['تحميل الفيديو'] = 'Download video';
+DICT['تسعة'] = 'nine';
+DICT['تسعمائة'] = 'nine hundred';
+DICT['تسعون'] = 'ninety';
+DICT['تعذر بدء التسجيل في متصفحك.'] = 'Could not start recording in your browser.';
+DICT['تعذر تحديد الموقع — تأكد من تفعيل GPS وأدخل الإحداثيات يدوياً.'] = 'Could not determine location — make sure GPS is on or enter coordinates manually.';
+DICT['تفقيط الأرقام'] = 'Number to Words';
+DICT['تفقيط الأرقام وتحويلها إلى حروف عربية أونلاين | أدواتي'] = 'Convert Numbers to Arabic Words Online | Adawati';
+DICT['تقريبي — 5% فقط من الولادات تحدث في الموعد المتوقع. استشيري طبيبتك للمتابعة الدقيقة.'] = 'Approximate — only 5% of births happen on the due date. Consult your doctor for precise follow-up.';
+DICT['تم إنشاء الفيديو بنجاح ✓'] = 'Video created successfully ✓';
+DICT['توليد النص'] = 'Generate text';
+DICT['ثلاثة'] = 'three';
+DICT['ثلاثمائة'] = 'three hundred';
+DICT['ثلاثون'] = 'thirty';
+DICT['ثلاثية'] = 'Triadic';
+DICT['ثمانمائة'] = 'eight hundred';
+DICT['ثمانون'] = 'eighty';
+DICT['ثمانية'] = 'eight';
+DICT['ثوانٍ'] = 'seconds';
+DICT['جاري إنشاء الفيديو... لا تغلق الصفحة ⏳'] = 'Creating video... don\'t close the page ⏳';
+DICT['حاسبة الحمل'] = 'Pregnancy Calculator';
+DICT['حاسبة الحمل وموعد الولادة أونلاين | أدواتي'] = 'Pregnancy & Due Date Calculator Online | Adawati';
+DICT['حاسبة النوم'] = 'Sleep Calculator';
+DICT['حاسبة النوم الذكية أونلاين | أدواتي'] = 'Smart Sleep Calculator Online | Adawati';
+DICT['حدد مدة كل صورة ودقة الفيديو.'] = 'Set each image\'s duration and the video resolution.';
+DICT['حدد موقعك لمعرفة اتجاه الكعبة المشرفة بدقة.'] = 'Set your location to find the Kaaba direction accurately.';
+DICT['حدد وقت الاستيقاظ.'] = 'Please set the wake time.';
+DICT['حساب'] = 'Calculate';
+DICT['حوّل أي مبلغ إلى كلمات عربية — للفواتير والشيكات والعقود.'] = 'Convert any amount into Arabic words — for invoices, checks and contracts.';
+DICT['حوّل المبالغ إلى كلمات عربية للفواتير.'] = 'Convert amounts into Arabic words for invoices.';
+DICT['حوّل صورك إلى فيديو سلايدشو متحرك.'] = 'Turn your photos into an animated slideshow video.';
+DICT['حوّل مجموعة صور إلى فيديو سلايدشو (WebM) — مثالي للحالات والمنشورات.'] = 'Turn a set of images into a slideshow video (WebM) — perfect for stories and posts.';
+DICT['خط الطول'] = 'Longitude';
+DICT['خط العرض'] = 'Latitude';
+DICT['خلط الألوان 🎨'] = 'Shuffle colors 🎨';
+DICT['خمسة'] = 'five';
+DICT['خمسمائة'] = 'five hundred';
+DICT['خمسون'] = 'fifty';
+DICT['دقة الفيديو'] = 'Video resolution';
+DICT['سأنام الآن ← احسب وقت الاستيقاظ'] = 'I\'ll sleep now ← calculate wake time';
+DICT['سبعة'] = 'seven';
+DICT['سبعمائة'] = 'seven hundred';
+DICT['سبعون'] = 'seventy';
+DICT['ستة'] = 'six';
+DICT['ستمائة'] = 'six hundred';
+DICT['ستون'] = 'sixty';
+DICT['ص'] = 'AM';
+DICT['م'] = 'PM';
+DICT['صانع الفيديو'] = 'Video Maker';
+DICT['صانع فيديو من الصور أونلاين مجاناً | أدواتي'] = 'Make Video from Images Online Free | Adawati';
+DICT['عجلة الحظ'] = 'Wheel of Fortune';
+DICT['عجلة الحظ أونلاين مجاناً | أدواتي'] = 'Wheel of Fortune Online Free | Adawati';
+DICT['عجلة دوارة للسحوبات والمسابقات.'] = 'A spinning wheel for draws and contests.';
+DICT['عدد الفقرات:'] = 'Number of paragraphs:';
+DICT['عشرة'] = 'ten';
+DICT['عشرون'] = 'twenty';
+DICT['عمودي (720×1280)'] = 'Portrait (720×1280)';
+DICT['فقط لا غير'] = 'only';
+DICT['قبل الطباعة تأكد من مراجعة النصوص والألوان ودقة الصور المستخدمة.'] = 'Before printing, review the texts, colors and image resolution.';
+DICT['كيف تستخدم العجلة؟'] = 'How do I use the wheel?';
+DICT['كيف تصنع فيديو؟'] = 'How do I make a video?';
+DICT['كيف تعمل الحاسبة؟'] = 'How does the calculator work?';
+DICT['كيف تفقّط مبلغاً؟'] = 'How do I convert an amount to words?';
+DICT['كيف تولّد لوحة؟'] = 'How do I generate a palette?';
+DICT['كيف يُحسب موعد الولادة؟'] = 'How is the due date calculated?';
+DICT['لا تتردد في تجربة عدة نسخ من التصميم قبل الاستقرار على الشكل النهائي.'] = 'Don\'t hesitate to try several design versions before settling on the final look.';
+DICT['لوحات الألوان'] = 'Color Palettes';
+DICT['لوحات متناسقة جاهزة بضغطة واحدة — اضغط أي لون لنسخ كوده.'] = 'Ready harmonious palettes in one click — click any color to copy its code.';
+DICT['لوحة جديدة 🎲'] = 'New palette 🎲';
+DICT['مائة'] = 'hundred';
+DICT['مائتان'] = 'two hundred';
+DICT['متجاورة'] = 'Analogous';
+DICT['متصفحك لا يدعم إنشاء الفيديو.'] = 'Your browser doesn\'t support video creation.';
+DICT['متصفحك لا يدعم تحديد الموقع. أدخل الإحداثيات يدوياً.'] = 'Your browser doesn\'t support geolocation. Enter coordinates manually.';
+DICT['مثال: 1250'] = 'Example: 1250';
+DICT['مثالية للسحوبات والمسابقات واختيار عشوائي عادل.'] = 'Perfect for draws, contests and fair random picks.';
+DICT['مدة كل صورة:'] = 'Duration per image:';
+DICT['مكملة'] = 'Complementary';
+DICT['ملايين'] = 'millions';
+DICT['مليار'] = 'billion';
+DICT['مليارات'] = 'billions';
+DICT['ملياران'] = 'two billion';
+DICT['ملياراً'] = 'billion';
+DICT['مليون'] = 'million';
+DICT['مليونان'] = 'two million';
+DICT['مليوناً'] = 'million';
+DICT['موعد الولادة المتوقع:'] = 'Expected due date:';
+DICT['مولد النص التجريبي العربي أونلاين | أدواتي'] = 'Arabic Dummy Text Generator Online | Adawati';
+DICT['مولد لوحات الألوان المتناسقة أونلاين | أدواتي'] = 'Harmonious Color Palette Generator Online | Adawati';
+DICT['نص تجريبي عربي'] = 'Arabic Dummy Text';
+DICT['نصوص جاهزة لملء التصاميم والمواقع.'] = 'Ready texts for filling designs and websites.';
+DICT['نصوص عربية جاهزة لملء التصاميم والمواقع قبل المحتوى النهائي.'] = 'Ready Arabic texts for filling designs and websites before the final content.';
+DICT['نم وفق دورات النوم (90 دقيقة) واستيقظ منتعشاً — بدون منبه قاسٍ.'] = 'Sleep in 90-minute cycles and wake up refreshed — no harsh alarm.';
+DICT['هذا نص تجريبي يستخدم لملء الفراغات في التصاميم قبل اعتماد المحتوى النهائي.'] = 'This is dummy text used to fill spaces in designs before the final content is approved.';
+DICT['هل الحساب دقيق 100%؟'] = 'Is the calculation 100% accurate?';
+DICT['واحد'] = 'one';
+DICT['وقت الاستيقاظ المطلوب'] = 'Desired wake time';
+DICT['ولّد النص أولاً.'] = 'Please generate the text first.';
+DICT['ولّد لوحات ألوان متناسقة بضغطة واحدة.'] = 'Generate harmonious color palettes in one click.';
+DICT['يمكنك استبدال هذا النص بأي محتوى حقيقي عندما يصبح جاهزاً للنشر.'] = 'You can replace this text with real content when it\'s ready to publish.';
+DICT['🎞️ صانع فيديو من الصور'] = '🎞️ Make Video from Images';
+DICT['🎨 مولد لوحات الألوان'] = '🎨 Color Palette Generator';
+DICT['🎲 عجلة الحظ'] = '🎲 Wheel of Fortune';
+DICT['💤 حاسبة النوم الذكية'] = '💤 Smart Sleep Calculator';
+DICT['📝 تفقيط الأرقام'] = '📝 Number to Words';
+DICT['📝 مولد النص التجريبي العربي'] = '📝 Arabic Dummy Text Generator';
+DICT['🕌 اتجاه القبلة'] = '🕌 Qibla Direction';
+DICT['🤰 حاسبة الحمل'] = '🤰 Pregnancy Calculator';
+DICT['ممتاز (9 ساعات)'] = 'Excellent (9 hours)';
+DICT['جيد (7.5 ساعات)'] = 'Good (7.5 hours)';
+DICT['مقبول (6 ساعات)'] = 'OK (6 hours)';
+DICT['طوارئ (4.5 ساعات)'] = 'Emergency (4.5 hours)';
+DICT['أحمد\nمحمد\nسارة\nليلى'] = 'Ahmed\nMohammed\nSara\nLaila';
 var curLang = 'ar';
 
 var AR_WEEK = {'الأحد':'Sunday','الاثنين':'Monday','الثلاثاء':'Tuesday','الأربعاء':'Wednesday','الخميس':'Thursday','الجمعة':'Friday','السبت':'Saturday'};
@@ -32,10 +229,26 @@ var RULES = [
   [/^(الأحد|الاثنين|الثلاثاء|الأربعاء|الخميس|الجمعة|السبت)، (\d+) (يناير|فبراير|مارس|أبريل|مايو|يونيو|يوليو|أغسطس|سبتمبر|أكتوبر|نوفمبر|ديسمبر) (\d+) — (\d+) (محرم|صفر|ربيع الأول|ربيع الثاني|جمادى الأولى|جمادى الثانية|رجب|شعبان|رمضان|شوال|ذو القعدة|ذو الحجة) (\d+)هـ$/,
     function (m, wd, d, mo, y, hd, hmo, hy) {
       return AR_WEEK[wd] + ', ' + AR_MONTH[mo] + ' ' + d + ', ' + y + ' — ' + hd + ' ' + AR_HMONTH[hmo] + ' ' + hy + ' AH';
-    }]
+    }],
+  [/^🎉 الفائز: (.*)$/, function (m, name) {
+    var nm = /^خيار (\d+)$/.test(name) ? name.replace(/^خيار (\d+)$/, 'Option $1') : name;
+    return '🎉 Winner: ' + nm;
+  }],
+  [/^تم نسخ (#[0-9A-F]{6}) ✓$/, 'Copied $1 ✓'],
+  [/^نم في أحد هذه الأوقات لتستيقظ (.+):$/, function (m, t) {
+    t = t.replace(/ص/g, 'AM').replace(/م/g, 'PM');
+    return 'Sleep at one of these times to wake up at ' + t + ':';
+  }],
+  [/^الأسبوع ([\d٠-٩]+)$/, 'Week $1'],
+  [new RegExp('^(' + NUM + '+) يوم$'), '$1 days'],
+  [/^(\d+):(\d+) ([صم])$/, function (m, h, mi, ap) { return h + ':' + mi + ' ' + (ap === 'ص' ? 'AM' : 'PM'); }],
+  [/^(الأحد|الاثنين|الثلاثاء|الأربعاء|الخميس|الجمعة|السبت)، (\d+) (يناير|فبراير|مارس|أبريل|مايو|يونيو|يوليو|أغسطس|سبتمبر|أكتوبر|نوفمبر|ديسمبر) (\d+)$/,
+    function (m, wd, d, mo, y) { return AR_WEEK[wd] + ', ' + AR_MONTH[mo] + ' ' + d + ', ' + y; }],
 ];
 
 var HTML_RULES = [
+  [/اتجاه القبلة: <b>([^<]+)<\/b> من الشمال باتجاه عقارب الساعة<br>أي نحو <b>([^<]+)<\/b> 🕋/,
+    function (m, deg, dir) { return 'Qibla direction: <b>' + deg + '</b> clockwise from north<br>toward <b>' + (DICT[dir] || dir) + '</b> 🕋'; }],
   [/^أدوات<span>ي<\/span>$/, 'Adawat<span>i</span>'],
   [/^أدوات عربية <span>مجانية<\/span> تعمل داخل متصفحك$/, '<span>Free</span> Arabic tools that run in your browser'],
   [/الصلاة القادمة: <b>([^<]+)<\/b> بعد (.*)/, function (m, name, rest) {
@@ -170,6 +383,7 @@ function applyLang(lang) {
   document.documentElement.lang = lang;
   document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
   observer.disconnect();
+  if (typeof window.i18nRefresh === 'function') { try { window.i18nRefresh(); } catch (e2) {} }
   if (lang === 'en') {
     applyHtmlToRegistered();
     for (var i = 0; i < textNodes.length; i++) {
