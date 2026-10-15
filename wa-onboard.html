@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ربط رقم واتساب بالبوت الرسمي | AURA</title>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Cairo",sans-serif;background:#0b1329;color:#f8fafc;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;padding:1.5rem;box-sizing:border-box}
+.card{background:#1e293b;padding:2rem;border-radius:1.5rem;max-width:480px;width:100%;border:1px solid #334155;text-align:center;box-shadow:0 20px 40px -10px rgba(0,0,0,.6)}
+h2{margin:0 0 .5rem;font-size:1.4rem}
+p{color:#94a3b8;line-height:1.8;font-size:.95rem}
+button{background:#10b981;color:#fff;border:none;border-radius:.9rem;padding:.9rem 2rem;font-size:1.05rem;font-weight:bold;cursor:pointer;margin-top:1rem}
+button:disabled{background:#475569;cursor:wait}
+.ok{color:#34d399}.warn{color:#facc15}.err{color:#f87171}
+.small{font-size:.8rem;color:#64748b;margin-top:1rem}
+ol{text-align:right;color:#94a3b8;line-height:2;font-size:.9rem}
+</style>
+</head>
+<body>
+<div class="card" id="card">
+<div style="font-size:2.5rem">📱</div>
+<h2>ربط رقم واتساب بالبوت الرسمي</h2>
+<p>هذه الخطوة تربط رقمك <b dir="ltr">0945776251</b> بمنصة واتساب الرسمية<br>مع بقائه يعمل على هاتفك بشكل طبيعي.</p>
+<ol>
+<li>اضغط "ابدأ الربط" وسجّل دخول فيسبوك إذا طُلب منك.</li>
+<li>اختر <b>ربط حساب واتساب الأعمال الحالي</b> (وليس تسجيل رقم جديد).</li>
+<li>أدخل الرقم <b dir="ltr">0945776251</b> وتابع التحقق على هاتفك.</li>
+<li>عندما تصلك رسالة من حساب فيسبوك للأعمال داخل واتساب، اضغط <b>"ربط"</b> ثم <b>"تأكيد"</b>.</li>
+</ol>
+<button id="startBtn" onclick="startOnboarding()">🚀 ابدأ الربط</button>
+<div class="small">AURA Bot — الربط الرسمي عبر Meta</div>
+</div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/ar_AR/sdk.js"></script>
+<script>
+var APP_ID = "2081685412465305";
+var CONFIG_ID = "1368665471760780";
+window.fbAsyncInit = function() {
+  FB.init({ appId: APP_ID, cookie: true, xfbml: false, version: "v23.0" });
+};
+function setCard(html){ document.getElementById("card").innerHTML = html; }
+function startOnboarding(){
+  var btn = document.getElementById("startBtn");
+  btn.disabled = true; btn.innerText = "⏳ جاري فتح نافذة الربط...";
+  if (typeof FB === "undefined") {
+    setCard('<h2 class="err">تعذر تحميل مكتبة فيسبوك</h2><p>تأكد من الاتصال بالإنترنت وأعد تحميل الصفحة.</p>');
+    return;
+  }
+  FB.login(function(response){
+    if (response && response.authResponse) {
+      setCard('<div style="font-size:2.5rem">✅</div><h2 class="ok">تم الربط بنجاح!</h2><p>رقمك الآن مربوط بالمنصة الرسمية.<br>أخبر حسين ليتم تفعيل البوت.</p>');
+    } else {
+      setCard('<div style="font-size:2.5rem">⚠️</div><h2 class="warn">لم يكتمل الربط</h2><p>يبدو أن النافذة أُغلقت قبل إتمام الخطوات.<br><br><button onclick="location.reload()">🔄 إعادة المحاولة</button></p>');
+    }
+  }, {
+    config_id: CONFIG_ID,
+    scope: "whatsapp_business_management,whatsapp_business_messaging",
+    response_type: "code",
+    override_default_response_type: true,
+    extras: { setup: {}, featureType: "whatsapp_business_app_onboarding", sessionInfoVersion: "3" }
+  });
+}
+</script>
+</body>
+</html>
