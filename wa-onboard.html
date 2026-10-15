@@ -22,43 +22,57 @@ ol{text-align:right;color:#94a3b8;line-height:2;font-size:.9rem}
 <h2>ربط رقم واتساب بالبوت الرسمي</h2>
 <p>هذه الخطوة تربط رقمك <b dir="ltr">0945776251</b> بمنصة واتساب الرسمية<br>مع بقائه يعمل على هاتفك بشكل طبيعي.</p>
 <ol>
-<li>اضغط "ابدأ الربط" وسجّل دخول فيسبوك إذا طُلب منك.</li>
+<li>اضغط "ابدأ الربط" — ستنتقل لصفحة فيسبوك الرسمية.</li>
+<li>اضغط <b>"متابعة"</b> ووافق على الصلاحيات.</li>
 <li>اختر <b>ربط حساب واتساب الأعمال الحالي</b> (وليس تسجيل رقم جديد).</li>
 <li>أدخل الرقم <b dir="ltr">0945776251</b> وتابع التحقق على هاتفك.</li>
 <li>عندما تصلك رسالة من حساب فيسبوك للأعمال داخل واتساب، اضغط <b>"ربط"</b> ثم <b>"تأكيد"</b>.</li>
+<li>ستعود تلقائيًا لهذه الصفحة برسالة النجاح.</li>
 </ol>
 <button id="startBtn" onclick="startOnboarding()">🚀 ابدأ الربط</button>
 <div class="small">AURA Bot — الربط الرسمي عبر Meta</div>
 </div>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/ar_AR/sdk.js"></script>
 <script>
 var APP_ID = "2081685412465305";
 var CONFIG_ID = "1368665471760780";
-window.fbAsyncInit = function() {
-  FB.init({ appId: APP_ID, cookie: true, xfbml: false, version: "v23.0" });
-};
+var REDIRECT_URI = "https://hasson9975-glitch.github.io/Adawt/wa-onboard.html";
+var SCOPE = "whatsapp_business_management,whatsapp_business_messaging";
+
 function setCard(html){ document.getElementById("card").innerHTML = html; }
+
 function startOnboarding(){
   var btn = document.getElementById("startBtn");
-  btn.disabled = true; btn.innerText = "⏳ جاري فتح نافذة الربط...";
-  if (typeof FB === "undefined") {
-    setCard('<h2 class="err">تعذر تحميل مكتبة فيسبوك</h2><p>تأكد من الاتصال بالإنترنت وأعد تحميل الصفحة.</p>');
-    return;
-  }
-  FB.login(function(response){
-    if (response && response.authResponse) {
-      setCard('<div style="font-size:2.5rem">✅</div><h2 class="ok">تم الربط بنجاح!</h2><p>رقمك الآن مربوط بالمنصة الرسمية.<br>أخبر حسين ليتم تفعيل البوت.</p>');
-    } else {
-      setCard('<div style="font-size:2.5rem">⚠️</div><h2 class="warn">لم يكتمل الربط</h2><p>يبدو أن النافذة أُغلقت قبل إتمام الخطوات.<br><br><button onclick="location.reload()">🔄 إعادة المحاولة</button></p>');
-    }
-  }, {
-    config_id: CONFIG_ID,
-    scope: "whatsapp_business_management,whatsapp_business_messaging",
-    response_type: "code",
-    override_default_response_type: true,
-    extras: { setup: {}, featureType: "whatsapp_business_app_onboarding", sessionInfoVersion: "3" }
-  });
+  btn.disabled = true; btn.innerText = "⏳ جاري الانتقال لفيسبوك...";
+  var extras = encodeURIComponent(JSON.stringify({
+    setup: {},
+    featureType: "whatsapp_business_app_onboarding",
+    sessionInfoVersion: "3"
+  }));
+  var url = "https://www.facebook.com/v23.0/dialog/oauth"
+    + "?client_id=" + encodeURIComponent(APP_ID)
+    + "&config_id=" + encodeURIComponent(CONFIG_ID)
+    + "&redirect_uri=" + encodeURIComponent(REDIRECT_URI)
+    + "&response_type=code"
+    + "&scope=" + encodeURIComponent(SCOPE)
+    + "&extras=" + extras;
+  // انتقال كامل للصفحة (أنسب للموبايل من النوافذ المنبثقة)
+  window.location.href = url;
 }
+
+(function checkResult(){
+  var q = window.location.search;
+  var code = (q.match(/[?&]code=([^&]+)/) || [])[1];
+  var err = (q.match(/[?&]error=([^&]+)/) || [])[1];
+  if (code) {
+    setCard('<div style="font-size:2.5rem">✅</div>'
+      + '<h2 class="ok">تم الربط بنجاح!</h2>'
+      + '<p>رقمك الآن مربوط بالمنصة الرسمية.<br>أخبر حسين ليتم تفعيل البوت خلال دقائق.</p>');
+  } else if (err) {
+    setCard('<div style="font-size:2.5rem">⚠️</div>'
+      + '<h2 class="warn">لم يكتمل الربط</h2>'
+      + '<p>يبدو أنك ألغيت العملية في صفحة فيسبوك.<br><br><button onclick="location.href=location.pathname">🔄 إعادة المحاولة</button></p>');
+  }
+})();
 </script>
 </body>
 </html>
