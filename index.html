@@ -9,6 +9,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
+<link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+
+
+<meta name="theme-color" content="#0E3B2E">
+<meta property="og:image" content="https://hasson9975-glitch.github.io/Adawt/assets/logo.svg">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ar_LY">
 <meta property="og:site_name" content="أدواتي">
@@ -33,12 +38,13 @@
   }
 }
 </script>
+<script>(function(){function setIcon(rel,b64,type){var l=document.createElement('link');l.rel=rel;if(type)l.type=type;l.href='data:image/png;base64,'+b64;document.head.appendChild(l);}fetch('assets/favicon-32.txt').then(function(r){return r.text();}).then(function(b){setIcon('icon',b.trim(),'image/png');});fetch('assets/apple-touch-icon.txt').then(function(r){return r.text();}).then(function(b){setIcon('apple-touch-icon',b.trim());});})();</script>
 </head>
 <body>
 
 <header class="site">
   <div class="container">
-    <a class="logo" href="index.html">أدوات<span>ي</span></a>
+    <a class="logo" href="index.html"><img class="logo-mark" src="assets/logo.svg" alt="أدواتي" width="34" height="34">أدوات<span>ي</span></a>
     <nav class="main">
       <a href="index.html" class="active">الرئيسية</a>
       <a href="tools/compress.html">ضغط الصور</a>
@@ -48,250 +54,398 @@
 </header>
 
 <section class="hero">
-  <h1>أدوات عربية <span>مجانية</span> تعمل داخل متصفحك</h1>
-  <p>اضغط صورك، حوّل صيغها، احسب كلماتك، وولّد كلمات مرور قوية — كل ذلك بسرعة وأمان تام، فملفاتك لا تغادر جهازك أبداً.</p>
+  <div class="container">
+    <img class="hero-mark" src="assets/logo.svg" alt="أدواتي" width="76" height="76">
+    <h1>أدوات عربية <span>مجانية</span> تعمل داخل متصفحك</h1>
+    <p>اضغط صورك، حوّل صيغها، احسب كلماتك، وولّد كلمات مرور قوية — كل ذلك بسرعة وأمان تام، فملفاتك لا تغادر جهازك أبداً.</p>
+    <div class="hero-search">
+      <input type="search" id="toolSearch" placeholder="ابحث عن أداة… مثلا: ضغط الصور" aria-label="ابحث عن أداة" autocomplete="off">
+    </div>
+  </div>
 </section>
 
 <div class="container">
   <!-- مساحة إعلانية: الصق كود AdSense هنا بعد قبول حسابك -->
+  <p class="no-results" id="noResults" hidden>لا توجد أداة مطابقة لبحثك — جرّب كلمة أخرى.</p>
   <div class="ad-slot">مساحة إعلانية</div>
 
-  <div class="tools-grid">
-    <a class="tool-card" href="tools/compress.html">
+  <div class="tools-grid" id="toolsGrid">
+    <div class="tool-card">
+      <a class="card-link" href="tools/compress.html">
       <div class="icon">🗜️</div>
       <h3>ضغط الصور</h3>
       <p>صغّر حجم صورك مع الحفاظ على الجودة قبل رفعها أو إرسالها.</p>
     </a>
-    <a class="tool-card" href="tools/convert.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/compress.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/convert.html">
       <div class="icon">🔄</div>
       <h3>تحويل صيغ الصور</h3>
       <p>حوّل بين PNG وJPG وWebP بضغطة واحدة.</p>
     </a>
-    <a class="tool-card" href="tools/resize.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/convert.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/resize.html">
       <div class="icon">📐</div>
       <h3>تغيير حجم الصور</h3>
       <p>غيّر أبعاد صورك بالبكسل أو بالنسبة المئوية.</p>
     </a>
-    <a class="tool-card" href="tools/counter.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/resize.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/counter.html">
       <div class="icon">🔢</div>
       <h3>عداد الكلمات والحروف</h3>
       <p>احسب الكلمات والحروف والأسطر في نصوصك العربية لحظياً.</p>
     </a>
-    <a class="tool-card" href="tools/password.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/counter.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/password.html">
       <div class="icon">🔐</div>
       <h3>مولد كلمات المرور</h3>
       <p>ولّد كلمات مرور قوية وعشوائية بمواصفات تختارها.</p>
     </a>
-    <a class="tool-card" href="tools/tashkeel.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/password.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/tashkeel.html">
       <div class="icon">✍️</div>
       <h3>إزالة التشكيل</h3>
       <p>أزل الحركات والتشكيل من النصوص العربية بنقرة واحدة.</p>
     </a>
-    <a class="tool-card" href="tools/img2pdf.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/tashkeel.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/img2pdf.html">
       <div class="icon">📄</div>
       <h3>تحويل الصور إلى PDF</h3>
       <p>ادمج صورك في ملف PDF واحد بضغطة واحدة.</p>
     </a>
-    <a class="tool-card" href="tools/pdf2img.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/img2pdf.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/pdf2img.html">
       <div class="icon">🖼️</div>
       <h3>تحويل PDF إلى صور</h3>
       <p>حوّل صفحات ملف PDF إلى صور PNG عالية الجودة.</p>
     </a>
-    <a class="tool-card" href="tools/watermark.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/pdf2img.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/watermark.html">
       <div class="icon">©️</div>
       <h3>العلامة المائية</h3>
       <p>أضف علامة نصية أو شعارك لصورك مع معاينة فورية.</p>
     </a>
-    <a class="tool-card" href="tools/bgremove.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/watermark.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/bgremove.html">
       <div class="icon">✂️</div>
       <h3>إزالة خلفية الصور</h3>
       <p>أزل الخلفية بالذكاء الاصطناعي — للأشخاص والمنتجات والسيارات.</p>
     </a>
-    <a class="tool-card" href="tools/colorpicker.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/bgremove.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/colorpicker.html">
       <div class="icon">🎨</div>
       <h3>منتقي الألوان</h3>
       <p>استخرج أكواد الألوان HEX وRGB من أي صورة.</p>
     </a>
-    <a class="tool-card" href="tools/merge.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/colorpicker.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/merge.html">
       <div class="icon">🖼️</div>
       <h3>دمج الصور</h3>
       <p>ادمج صورتين أو أكثر أفقياً أو عمودياً أو شبكياً.</p>
     </a>
-    <a class="tool-card" href="tools/filters.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/merge.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/filters.html">
       <div class="icon">🎭</div>
       <h3>فلاتر الصور</h3>
       <p>أضف فلاتر احترافية لصورك بضغطة واحدة.</p>
     </a>
-    <a class="tool-card" href="tools/crop.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/filters.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/crop.html">
       <div class="icon">✂️</div>
       <h3>قص الصور</h3>
       <p>قص أي جزء من صورتك بحرية بالسحب.</p>
     </a>
-    <a class="tool-card" href="tools/textonimage.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/crop.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/textonimage.html">
       <div class="icon">🔤</div>
       <h3>نص على الصور</h3>
       <p>أضف نصوصاً عربية أنيقة على صورك.</p>
     </a>
-    <a class="tool-card" href="tools/gradient.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/textonimage.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/gradient.html">
       <div class="icon">🌈</div>
       <h3>مولد التدرجات</h3>
       <p>صمّم تدرجات لونية وانسخ كود CSS أو حمّلها.</p>
     </a>
-    <a class="tool-card" href="tools/editor.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/gradient.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/editor.html">
       <div class="icon">🛠️</div>
       <h3>محرر الصور</h3>
       <p>سطوع وتباين وتشبع وتدوير وقلب — محرر متكامل.</p>
     </a>
-    <a class="tool-card" href="tools/qr.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/editor.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/qr.html">
       <div class="icon">📱</div>
       <h3>مولد رمز QR</h3>
       <p>حوّل أي رابط أو نص إلى رمز QR وحمّله.</p>
     </a>
-    <a class="tool-card" href="tools/age.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/qr.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/age.html">
       <div class="icon">🎂</div>
       <h3>حاسبة العمر</h3>
       <p>احسب عمرك الدقيق بالسنوات والشهور والأيام.</p>
     </a>
-    <a class="tool-card" href="tools/hijri.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/age.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/hijri.html">
       <div class="icon">📅</div>
       <h3>محول التاريخ</h3>
       <p>حوّل التاريخ بين الهجري والميلادي.</p>
     </a>
-    <a class="tool-card" href="tools/videoframes.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/hijri.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/videoframes.html">
       <div class="icon">🎬</div>
       <h3>صور من الفيديو</h3>
       <p>استخرج لقطات عالية الجودة من أي فيديو.</p>
     </a>
-    <a class="tool-card" href="tools/covermaker.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/videoframes.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/covermaker.html">
       <div class="icon">🖌️</div>
       <h3>صانع الأغلفة</h3>
       <p>صمّم أغلفة يوتيوب ومنشورات سوشيال ميديا.</p>
     </a>
-    <a class="tool-card" href="tools/aigenerate.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/covermaker.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/aigenerate.html">
       <div class="icon">🤖</div>
       <h3>مولد الصور AI</h3>
       <p>ولّد صوراً بالذكاء الاصطناعي من وصف نصي.</p>
     </a>
-    <a class="tool-card" href="tools/gifmaker.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/aigenerate.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/gifmaker.html">
       <div class="icon">🎞️</div>
       <h3>صانع GIF</h3>
       <p>حوّل صورك أو فيديوهاتك إلى صور متحركة.</p>
     </a>
-    <a class="tool-card" href="tools/palette.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/gifmaker.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/palette.html">
       <div class="icon">🎨</div>
       <h3>لوحة الألوان</h3>
       <p>استخرج الألوان الغالبة من أي صورة تلقائياً.</p>
     </a>
-    <a class="tool-card" href="tools/frames.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/palette.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/frames.html">
       <div class="icon">🖼️</div>
       <h3>إطارات الصور</h3>
       <p>أضف إطارات وزوايا دائرية أنيقة لصورك.</p>
     </a>
-    <a class="tool-card" href="tools/compare.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/frames.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/compare.html">
       <div class="icon">🔍</div>
       <h3>قبل وبعد</h3>
       <p>قارن بين صورتين بسلايدر تفاعلي.</p>
     </a>
-    <a class="tool-card" href="tools/currency.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/compare.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/currency.html">
       <div class="icon">💱</div>
       <h3>محول العملات</h3>
       <p>أسعار صرف حية لأكثر من 15 عملة.</p>
     </a>
-    <a class="tool-card" href="tools/discount.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/currency.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/discount.html">
       <div class="icon">🧮</div>
       <h3>حاسبة الخصم</h3>
       <p>احسب السعر بعد الخصم أو نسبة الخصم.</p>
     </a>
-    <a class="tool-card" href="tools/tts.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/discount.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/tts.html">
       <div class="icon">🔊</div>
       <h3>نص إلى كلام</h3>
       <p>استمع لأي نص عربي صوتياً مجاناً.</p>
     </a>
-    <a class="tool-card" href="tools/prayer.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/tts.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/prayer.html">
       <div class="icon">🕌</div>
       <h3>مواقيت الصلاة</h3>
       <p>مواقيت اليوم حسب مدينتك.</p>
     </a>
-    <a class="tool-card" href="tools/wheel.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/prayer.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/wheel.html">
       <div class="icon">🎲</div>
       <h3>عجلة الحظ</h3>
       <p>عجلة دوارة للسحوبات والمسابقات.</p>
     </a>
-    <a class="tool-card" href="tools/lorem.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/wheel.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/lorem.html">
       <div class="icon">📝</div>
       <h3>نص تجريبي عربي</h3>
       <p>نصوص جاهزة لملء التصاميم والمواقع.</p>
     </a>
-    <a class="tool-card" href="tools/harmony.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/lorem.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/harmony.html">
       <div class="icon">🎨</div>
       <h3>لوحات الألوان</h3>
       <p>ولّد لوحات ألوان متناسقة بضغطة واحدة.</p>
     </a>
-    <a class="tool-card" href="tools/slideshow.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/harmony.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/slideshow.html">
       <div class="icon">🎞️</div>
       <h3>صانع الفيديو</h3>
       <p>حوّل صورك إلى فيديو سلايدشو متحرك.</p>
     </a>
-    <a class="tool-card" href="tools/tafqeet.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/slideshow.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/tafqeet.html">
       <div class="icon">🔢</div>
       <h3>تفقيط الأرقام</h3>
       <p>حوّل المبالغ إلى كلمات عربية للفواتير.</p>
     </a>
-    <a class="tool-card" href="tools/qibla.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/tafqeet.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/qibla.html">
       <div class="icon">🧭</div>
       <h3>اتجاه القبلة</h3>
       <p>اعرف اتجاه الكعبة من موقعك.</p>
     </a>
-    <a class="tool-card" href="tools/pregnancy.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/qibla.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/pregnancy.html">
       <div class="icon">🤰</div>
       <h3>حاسبة الحمل</h3>
       <p>أسبوع الحمل وموعد الولادة المتوقع.</p>
     </a>
-    <a class="tool-card" href="tools/sleep.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/pregnancy.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/sleep.html">
       <div class="icon">💤</div>
       <h3>حاسبة النوم</h3>
       <p>أفضل أوقات النوم والاستيقاظ.</p>
     </a>
-    <a class="tool-card" href="tools/tasbih.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/sleep.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/tasbih.html">
       <div class="icon">📿</div>
       <h3>السبحة الإلكترونية</h3>
       <p>عداد أذكار إلكتروني مع أدعية جاهزة.</p>
     </a>
-    <a class="tool-card" href="tools/zakat.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/tasbih.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/zakat.html">
       <div class="icon">💰</div>
       <h3>حاسبة الزكاة</h3>
       <p>احسب زكاة المال والذهب.</p>
     </a>
-    <a class="tool-card" href="tools/countdown.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/zakat.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/countdown.html">
       <div class="icon">⏳</div>
       <h3>العد التنازلي</h3>
       <p>كم باقي على رمضان والعيد؟</p>
     </a>
-    <a class="tool-card" href="tools/cv.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/countdown.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/cv.html">
       <div class="icon">📄</div>
       <h3>صانع السيرة الذاتية</h3>
       <p>أنشئ سيرتك الذاتية واطبعها PDF.</p>
     </a>
-    <a class="tool-card" href="tools/dictation.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/cv.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/dictation.html">
       <div class="icon">🎤</div>
       <h3>إملاء صوتي</h3>
       <p>حوّل كلامك إلى نص مكتوب.</p>
     </a>
-    <a class="tool-card" href="tools/units.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/dictation.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/units.html">
       <div class="icon">📏</div>
       <h3>محول الوحدات</h3>
       <p>طول ووزن وحرارة ومساحة.</p>
     </a>
-    <a class="tool-card" href="tools/loan.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/units.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/loan.html">
       <div class="icon">💸</div>
       <h3>حاسبة القروض</h3>
       <p>القسط الشهري وإجمالي الفوائد.</p>
     </a>
-    <a class="tool-card" href="tools/scicalc.html">
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/loan.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
+    <div class="tool-card">
+      <a class="card-link" href="tools/scicalc.html">
       <div class="icon">🧮</div>
       <h3>حاسبة علمية</h3>
       <p>دوال ومعادلات متقدمة.</p>
     </a>
+      <button type="button" class="share-btn" data-url="https://hasson9975-glitch.github.io/Adawt/tools/scicalc.html" aria-label="مشاركة عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg><span>مشاركة</span></button>
+    </div>
   </div>
 
   <div class="tool-box">
@@ -315,6 +469,7 @@
 </footer>
 
 <script src="assets/i18n.js"></script>
+<script src="assets/home.js"></script>
 
 </body>
 </html>
