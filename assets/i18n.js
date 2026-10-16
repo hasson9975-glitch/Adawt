@@ -627,4 +627,10 @@ DICT['محول الوحدات'] = 'Unit Converter';
 DICT['حاسبة القروض'] = 'Loan Calculator';
 DICT['حاسبة علمية'] = 'Scientific Calculator';
 
+DICT['مشاركة'] = 'Share';
+DICT['ابحث عن أداة… مثلا: ضغط الصور'] = 'Search tools… e.g.: image compress';
+DICT['ابحث عن أداة'] = 'Search for a tool';
+DICT['لا توجد أداة مطابقة لبحثك — جرّب كلمة أخرى.'] = 'No tool matches your search — try another word.';
+DICT['مشاركة عبر واتساب'] = 'Share via WhatsApp';
+
 })();
