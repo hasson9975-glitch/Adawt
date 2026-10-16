@@ -8,6 +8,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+
+
+<meta name="theme-color" content="#0E3B2E">
+<meta property="og:image" content="https://hasson9975-glitch.github.io/Adawt/assets/logo.svg">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ar_LY">
 <meta property="og:site_name" content="أدواتي">
@@ -35,12 +40,13 @@
   }
 }
 </script>
+<script>(function(){function setIcon(rel,b64,type){var l=document.createElement('link');l.rel=rel;if(type)l.type=type;l.href='data:image/png;base64,'+b64;document.head.appendChild(l);}fetch('../assets/favicon-32.txt').then(function(r){return r.text();}).then(function(b){setIcon('icon',b.trim(),'image/png');});fetch('../assets/apple-touch-icon.txt').then(function(r){return r.text();}).then(function(b){setIcon('apple-touch-icon',b.trim());});})();</script>
 </head>
 <body>
 
 <header class="site">
   <div class="container">
-    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <a class="logo" href="../index.html"><img class="logo-mark" src="../assets/logo.svg" alt="أدواتي" width="34" height="34">أدوات<span>ي</span></a>
     <nav class="main">
       <a href="../index.html">الرئيسية</a>
       <a href="compress.html">ضغط الصور</a>
@@ -59,7 +65,7 @@
     <div class="desc">حدد موقعك لمعرفة اتجاه الكعبة المشرفة بدقة.</div>
 
     <div style="position:relative;width:240px;height:240px;margin:10px auto">
-      <div style="position:absolute;inset:0;border-radius:50%;border:3px solid var(--navy);background:#fbfcff"></div>
+      <div style="position:absolute;inset:0;border-radius:50%;border:3px solid var(--pine);background:#fbfcff"></div>
       <div style="position:absolute;top:6px;left:50%;transform:translateX(-50%);font-weight:800">N</div>
       <div style="position:absolute;bottom:6px;left:50%;transform:translateX(-50%);font-weight:800;color:var(--muted)">S</div>
       <div style="position:absolute;left:10px;top:50%;transform:translateY(-50%);font-weight:800;color:var(--muted)">W</div>
