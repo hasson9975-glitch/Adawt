@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="أدواتي">
+  <title>أدواتي</title>
+  <!-- الصامولة: شكل سداسي يرمز للعدّة -->
+  <path d="M32 4 56.7 18.2v27.6L32 60 7.3 45.8V18.2Z" fill="#0E3B2E"/>
+  <path d="M32 4 56.7 18.2v27.6L32 60 7.3 45.8V18.2Z" fill="none" stroke="#F0A92E" stroke-width="2"/>
+  <!-- حرف الألف المجرّد: عمود + همزة معينية -->
+  <rect x="27.5" y="27" width="9" height="24" rx="4.5" fill="#FFFFFF"/>
+  <path d="M32 11.5 37.5 17 32 22.5 26.5 17Z" fill="#F0A92E"/>
+</svg>
