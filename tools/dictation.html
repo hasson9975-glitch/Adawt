@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>إملاء صوتي | أدواتي</title>
+<meta name="description" content="حوّل كلامك إلى نص مكتوب: إملاء صوتي بالعربية والإنجليزية مجاناً داخل المتصفح.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+.dc-mic{width:96px;height:96px;border-radius:50%;border:0;background:#0f2037;color:#fff;font-size:40px;cursor:pointer;display:block;margin:16px auto;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.dc-mic.live{background:#c0392b;animation:pulse 1.2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(192,57,43,.5)}70%{box-shadow:0 0 0 18px rgba(192,57,43,0)}100%{box-shadow:0 0 0 0 rgba(192,57,43,0)}}
+.dc-status{text-align:center;font-weight:700;margin:8px 0;min-height:26px}
+#dcText{display:block;width:100%;min-height:180px;padding:14px;border:1px solid #d8dee9;border-radius:12px;font-family:inherit;font-size:16px;line-height:2;resize:vertical}
+.dc-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0}
+.dc-row select{padding:10px;border:1px solid #d8dee9;border-radius:10px;font-family:inherit}
+</style>
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ar_LY">
+<meta property="og:site_name" content="أدواتي">
+<meta property="og:url" content="https://hasson9975-glitch.github.io/Adawt/tools/dictation.html">
+<meta property="og:title" content="إملاء صوتي | أدواتي">
+<meta property="og:description" content="حوّل كلامك إلى نص مكتوب: إملاء صوتي بالعربية والإنجليزية مجاناً داخل المتصفح.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="إملاء صوتي | أدواتي">
+<meta name="twitter:description" content="حوّل كلامك إلى نص مكتوب: إملاء صوتي بالعربية والإنجليزية مجاناً داخل المتصفح.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "إملاء صوتي",
+  "description": "حوّل كلامك إلى نص مكتوب: إملاء صوتي بالعربية والإنجليزية مجاناً داخل المتصفح.",
+  "url": "https://hasson9975-glitch.github.io/Adawt/tools/dictation.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Web",
+  "inLanguage": "ar",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "LYD"
+  }
+}
+</script>
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / إملاء صوتي</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>🎤 إملاء صوتي</h2>
+    <div class="desc">تحدث وسيُكتب كلامك نصاً تلقائياً — بالعربية أو الإنجليزية. يعمل في متصفح كروم والأجهزة الحديثة.</div>
+
+    <div class="dc-row" style="justify-content:center">
+      <label for="dcLang">لغة التحدث:</label>
+      <select id="dcLang">
+        <option value="ar-SA">العربية</option>
+        <option value="en-US">English</option>
+      </select>
+    </div>
+
+    <button class="dc-mic" id="dcMic" aria-label="ابدأ التحدث">🎤</button>
+    <div class="dc-status" id="dcStatus">اضغط على الميكروفون وابدأ التحدث</div>
+
+    <textarea id="dcText" placeholder="سيظهر النص هنا..."></textarea>
+
+    <div class="dc-row">
+      <button class="btn" id="dcCopy">📋 نسخ النص</button>
+      <button class="btn secondary" id="dcClear">مسح</button>
+      <span id="dcCopied" style="color:#1a7f37;font-weight:700"></span>
+    </div>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  var mic = document.getElementById('dcMic');
+  var status = document.getElementById('dcStatus');
+  var text = document.getElementById('dcText');
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  var rec = null, listening = false, baseText = '';
+
+  function setStatus(s) { status.textContent = s; }
+
+  if (!SR) {
+    setStatus('عذراً، متصفحك لا يدعم التعرف الصوتي — جرّب متصفح كروم');
+    mic.disabled = true;
+    mic.style.opacity = '.4';
+  }
+
+  function start() {
+    rec = new SR();
+    rec.lang = document.getElementById('dcLang').value;
+    rec.interimResults = true;
+    rec.continuous = true;
+    baseText = text.value ? text.value.replace(/\s+$/, '') + ' ' : '';
+    rec.onresult = function (e) {
+      var interim = '';
+      for (var i = 0; i < e.results.length; i++) {
+        if (e.results[i].isFinal) baseText += e.results[i][0].transcript + ' ';
+        else interim += e.results[i][0].transcript;
+      }
+      text.value = baseText + interim;
+    };
+    rec.onerror = function (e) {
+      if (e.error === 'not-allowed') setStatus('تم رفض إذن الميكروفون — اسمح بالوصول من إعدادات المتصفح');
+      else if (e.error !== 'aborted') setStatus('حدث خطأ: ' + e.error);
+    };
+    rec.onend = function () {
+      if (listening) { try { rec.start(); } catch (x) {} }
+    };
+    try {
+      rec.start();
+      listening = true;
+      mic.classList.add('live');
+      setStatus('أستمع الآن... تحدث بوضوح');
+    } catch (x) { setStatus('تعذر بدء الاستماع'); }
+  }
+
+  function stop() {
+    listening = false;
+    if (rec) { try { rec.stop(); } catch (x) {} }
+    mic.classList.remove('live');
+    setStatus('اضغط على الميكروفون وابدأ التحدث');
+  }
+
+  mic.addEventListener('click', function () {
+    if (!SR) return;
+    if (listening) stop(); else start();
+  });
+
+  document.getElementById('dcCopy').addEventListener('click', function () {
+    var done = function () {
+      document.getElementById('dcCopied').textContent = 'تم النسخ ✓';
+      setTimeout(function () { document.getElementById('dcCopied').textContent = ''; }, 2000);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text.value).then(done, done);
+    } else { text.select(); try { document.execCommand('copy'); } catch (x) {} done(); }
+  });
+  document.getElementById('dcClear').addEventListener('click', function () { text.value = ''; });
+})();
+</script>
+
+<script src="../assets/i18n.js"></script>
+
+</body>
+</html>

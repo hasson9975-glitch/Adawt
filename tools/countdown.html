@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>العد التنازلي لرمضان والأعياد | أدواتي</title>
+<meta name="description" content="كم باقي على رمضان وعيد الفطر وعيد الأضحى؟ عدّاد تنازلي حي باليوم والساعة والدقيقة.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+.cd-hero{text-align:center;padding:22px 10px;background:linear-gradient(135deg,#0f2037,#1e3a5f);color:#fff;border-radius:14px;margin-bottom:16px}
+.cd-hero .cd-name{font-size:26px;font-weight:800;color:var(--gold)}
+.cd-hero .cd-date{opacity:.9;margin:6px 0 12px}
+.cd-units{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.cd-unit{background:rgba(255,255,255,.1);border-radius:10px;padding:10px 16px;min-width:74px}
+.cd-unit b{font-size:30px;display:block}
+.cd-unit span{font-size:13px;opacity:.85}
+.cd-row{display:flex;justify-content:space-between;align-items:center;padding:12px 4px;border-bottom:1px solid #eef1f6}
+.cd-row:last-child{border-bottom:0}
+.cd-note{font-size:13px;color:#7a8499;margin-top:12px}
+</style>
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ar_LY">
+<meta property="og:site_name" content="أدواتي">
+<meta property="og:url" content="https://hasson9975-glitch.github.io/Adawt/tools/countdown.html">
+<meta property="og:title" content="العد التنازلي لرمضان والأعياد | أدواتي">
+<meta property="og:description" content="كم باقي على رمضان وعيد الفطر وعيد الأضحى؟ عدّاد تنازلي حي باليوم والساعة والدقيقة.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="العد التنازلي لرمضان والأعياد | أدواتي">
+<meta name="twitter:description" content="كم باقي على رمضان وعيد الفطر وعيد الأضحى؟ عدّاد تنازلي حي باليوم والساعة والدقيقة.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "العد التنازلي لرمضان والأعياد",
+  "description": "كم باقي على رمضان وعيد الفطر وعيد الأضحى؟ عدّاد تنازلي حي باليوم والساعة والدقيقة.",
+  "url": "https://hasson9975-glitch.github.io/Adawt/tools/countdown.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Web",
+  "inLanguage": "ar",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "LYD"
+  }
+}
+</script>
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / العد التنازلي</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>⏳ العد التنازلي لرمضان والأعياد</h2>
+    <div class="desc">كم باقي على رمضان وعيد الفطر وعيد الأضحى؟ العدّاد يتحدث كل ثانية.</div>
+
+    <div class="cd-hero">
+      <div class="cd-name" id="cdName">—</div>
+      <div class="cd-date" id="cdDate">—</div>
+      <div class="cd-units">
+        <div class="cd-unit"><b id="cdD">—</b><span>يوم</span></div>
+        <div class="cd-unit"><b id="cdH">—</b><span>ساعة</span></div>
+        <div class="cd-unit"><b id="cdM">—</b><span>دقيقة</span></div>
+        <div class="cd-unit"><b id="cdS">—</b><span>ثانية</span></div>
+      </div>
+    </div>
+
+    <h3 style="margin:6px 0 4px">المناسبات القادمة</h3>
+    <div id="cdList"></div>
+    <div class="cd-note">ملاحظة: التواريخ تقريبية وقد تختلف بيوم حسب رؤية الهلال.</div>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  /* تواريخ تقريبية (بداية رمضان، عيد الفطر ≈ رمضان+30 يوم، عيد الأضحى ≈ رمضان+98 يوم) */
+  var EVENTS = [
+    { name: '🌙 شهر رمضان', dates: [[2026,1,18],[2027,1,7],[2028,0,28],[2029,0,17],[2030,0,6],[2030,11,26],[2031,11,15],[2032,11,4]] },
+    { name: '🎉 عيد الفطر', dates: [[2026,2,20],[2027,2,8],[2028,1,27],[2029,1,16],[2030,1,5],[2031,0,25],[2032,0,14],[2033,0,3]] },
+    { name: '🕋 عيد الأضحى', dates: [[2026,4,27],[2027,4,16],[2028,4,3],[2029,3,25],[2030,3,14],[2031,3,3],[2032,2,22],[2033,2,12]] }
+  ];
+  var AR_MONTHS = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+
+  function fmtDate(d) {
+    return d.getDate() + ' ' + AR_MONTHS[d.getMonth()] + ' ' + d.getFullYear();
+  }
+
+  function upcoming() {
+    var now = new Date(), out = [];
+    EVENTS.forEach(function (ev) {
+      for (var i = 0; i < ev.dates.length; i++) {
+        var d = new Date(ev.dates[i][0], ev.dates[i][1], ev.dates[i][2]);
+        if (d.getTime() > now.getTime() - 86400000) { out.push({ name: ev.name, date: d }); break; }
+      }
+    });
+    out.sort(function (a, b) { return a.date - b.date; });
+    return out;
+  }
+
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+
+  function tick() {
+    var list = upcoming();
+    var html = '';
+    list.slice(0, 6).forEach(function (ev) {
+      var diff = ev.date - new Date();
+      var days = Math.max(0, Math.floor(diff / 86400000));
+      html += '<div class="cd-row"><div><b>' + ev.name + '</b><br><small>' + fmtDate(ev.date) + '</small></div>' +
+        '<div><b>' + days.toLocaleString('ar') + '</b> <small>يوم</small></div></div>';
+    });
+    document.getElementById('cdList').innerHTML = html;
+
+    var next = list[0];
+    if (next) {
+      document.getElementById('cdName').textContent = 'متبقٍّ على ' + next.name;
+      document.getElementById('cdDate').textContent = fmtDate(next.date);
+      var diff = Math.max(0, next.date - new Date());
+      document.getElementById('cdD').textContent = Math.floor(diff / 86400000).toLocaleString('ar');
+      document.getElementById('cdH').textContent = pad(Math.floor(diff / 3600000) % 24);
+      document.getElementById('cdM').textContent = pad(Math.floor(diff / 60000) % 60);
+      document.getElementById('cdS').textContent = pad(Math.floor(diff / 1000) % 60);
+    }
+  }
+
+  tick();
+  setInterval(tick, 1000);
+})();
+</script>
+
+<script src="../assets/i18n.js"></script>
+
+</body>
+</html>
