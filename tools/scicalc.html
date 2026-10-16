@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>حاسبة علمية | أدواتي</title>
+<meta name="description" content="حاسبة علمية مجانية: الدوال المثلثية واللوغاريتمات والجذور والقوى داخل المتصفح.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+.sc-wrap{max-width:420px;margin:0 auto}
+.sc-display{background:#0f2037;color:#fff;border-radius:12px;padding:16px 18px;margin-bottom:12px;min-height:96px;text-align:left;direction:ltr;overflow-x:auto}
+.sc-expr{font-size:18px;opacity:.75;min-height:26px;word-break:break-all}
+.sc-res{font-size:34px;font-weight:800;color:var(--gold);word-break:break-all}
+.sc-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.sc-grid button{padding:14px 4px;font-size:16px;font-weight:700;border:1px solid #d8dee9;border-radius:10px;background:#fff;cursor:pointer;font-family:inherit}
+.sc-grid button:hover{background:#eef1f6}
+.sc-grid button.op{background:#e9eef7}
+.sc-grid button.eq{background:var(--gold);color:#0f2037;font-size:20px}
+.sc-grid button.fn{background:#f4f6fa;font-size:14px}
+.sc-grid button:active{transform:scale(.96)}
+</style>
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ar_LY">
+<meta property="og:site_name" content="أدواتي">
+<meta property="og:url" content="https://hasson9975-glitch.github.io/Adawt/tools/scicalc.html">
+<meta property="og:title" content="حاسبة علمية | أدواتي">
+<meta property="og:description" content="حاسبة علمية مجانية: الدوال المثلثية واللوغاريتمات والجذور والقوى داخل المتصفح.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="حاسبة علمية | أدواتي">
+<meta name="twitter:description" content="حاسبة علمية مجانية: الدوال المثلثية واللوغاريتمات والجذور والقوى داخل المتصفح.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "حاسبة علمية",
+  "description": "حاسبة علمية مجانية: الدوال المثلثية واللوغاريتمات والجذور والقوى داخل المتصفح.",
+  "url": "https://hasson9975-glitch.github.io/Adawt/tools/scicalc.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Web",
+  "inLanguage": "ar",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "LYD"
+  }
+}
+</script>
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / حاسبة علمية</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>🧮 حاسبة علمية</h2>
+    <div class="desc">دوال مثلثية ولوغاريتمات وجذور وقوى — للدراسة والهندسة.</div>
+
+    <div class="sc-wrap">
+      <div class="sc-display">
+        <div class="sc-expr" id="scExpr">&nbsp;</div>
+        <div class="sc-res" id="scRes">0</div>
+      </div>
+      <div style="margin-bottom:10px;text-align:center">
+        <button class="btn secondary" id="scMode" style="padding:8px 22px">الوضع: درجات</button>
+      </div>
+      <div class="sc-grid" id="scKeys">
+        <button class="fn" data-k="sin(">sin</button>
+        <button class="fn" data-k="cos(">cos</button>
+        <button class="fn" data-k="tan(">tan</button>
+        <button class="fn" data-k="π">π</button>
+        <button data-k="C" class="op">C</button>
+        <button class="fn" data-k="asin(">sin⁻¹</button>
+        <button class="fn" data-k="acos(">cos⁻¹</button>
+        <button class="fn" data-k="atan(">tan⁻¹</button>
+        <button class="fn" data-k="e">e</button>
+        <button data-k="⌫" class="op">⌫</button>
+        <button class="fn" data-k="√(">√</button>
+        <button class="fn" data-k="^2">x²</button>
+        <button class="fn" data-k="^">xʸ</button>
+        <button class="fn" data-k="log(">log</button>
+        <button data-k="(" class="op">(</button>
+        <button class="fn" data-k="!">n!</button>
+        <button class="fn" data-k="ln(">ln</button>
+        <button class="fn" data-k="1/(">x⁻¹</button>
+        <button class="fn" data-k="%">%</button>
+        <button data-k=")" class="op">)</button>
+        <button data-k="7">7</button>
+        <button data-k="8">8</button>
+        <button data-k="9">9</button>
+        <button data-k="÷" class="op">÷</button>
+        <button data-k="(" class="op" style="visibility:hidden"></button>
+        <button data-k="4">4</button>
+        <button data-k="5">5</button>
+        <button data-k="6">6</button>
+        <button data-k="×" class="op">×</button>
+        <button data-k="(" class="op" style="visibility:hidden"></button>
+        <button data-k="1">1</button>
+        <button data-k="2">2</button>
+        <button data-k="3">3</button>
+        <button data-k="−" class="op">−</button>
+        <button data-k="(" class="op" style="visibility:hidden"></button>
+        <button data-k="0">0</button>
+        <button data-k=".">.</button>
+        <button data-k="±" class="op">±</button>
+        <button data-k="+" class="op">+</button>
+        <button data-k="=" class="eq">=</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  var expr = '';
+  var deg = true;
+  var exprEl = document.getElementById('scExpr');
+  var resEl = document.getElementById('scRes');
+
+  function fact(n) {
+    n = Math.round(n);
+    if (n < 0 || n > 170 || n !== Math.floor(n)) return NaN;
+    var r = 1;
+    for (var i = 2; i <= n; i++) r *= i;
+    return r;
+  }
+  function trig(f) {
+    return function (x) { var a = deg ? x * Math.PI / 180 : x; return Math[f](a); };
+  }
+  function atrig(f) {
+    return function (x) { var a = Math[f](x); return deg ? a * 180 / Math.PI : a; };
+  }
+
+  function evaluate(src) {
+    var js = src
+      .replace(/π/g, 'PI')
+      .replace(/√/g, 'sqrt')
+      .replace(/×/g, '*').replace(/÷/g, '/').replace(/−/g, '-')
+      .replace(/\^/g, '**');
+    if (/[^0-9+\-*/(). %*!a-zA-Z]/.test(js)) throw new Error('bad');
+    var scope = {
+      PI: Math.PI, e: Math.E,
+      sin: trig('sin'), cos: trig('cos'), tan: trig('tan'),
+      asin: atrig('asin'), acos: atrig('acos'), atan: atrig('atan'),
+      sqrt: Math.sqrt, log: function (x) { return Math.log10(x); },
+      ln: Math.log, fact: fact, inv: function (x) { return 1 / x; }
+    };
+    var withScope = 'with(this){return(' + js
+      .replace(/sin\(/g, 'this.sin(').replace(/cos\(/g, 'this.cos(').replace(/tan\(/g, 'this.tan(')
+      .replace(/asin\(/g, 'this.asin(').replace(/acos\(/g, 'this.acos(').replace(/atan\(/g, 'this.atan(')
+      .replace(/sqrt\(/g, 'this.sqrt(').replace(/log\(/g, 'this.log(').replace(/ln\(/g, 'this.ln(')
+      .replace(/inv\(/g, 'this.inv(')
+      .replace(/(\d+(?:\.\d+)?)!/g, 'this.fact($1)') + ');}';
+    return Function(withScope).call(scope);
+  }
+
+  function render(live) {
+    exprEl.textContent = expr || ' ';
+    if (live && expr) {
+      try {
+        var v = evaluate(expr);
+        resEl.textContent = (typeof v === 'number' && isFinite(v))
+          ? Number(v.toPrecision(10)).toLocaleString('en') : 'خطأ';
+      } catch (e) { resEl.textContent = '…'; }
+    } else if (!expr) {
+      resEl.textContent = '0';
+    }
+  }
+
+  document.getElementById('scKeys').addEventListener('click', function (e) {
+    var b = e.target.closest('button');
+    if (!b || !b.getAttribute('data-k')) return;
+    var k = b.getAttribute('data-k');
+    if (k === 'C') { expr = ''; render(false); return; }
+    if (k === '⌫') { expr = expr.slice(0, -1); render(true); return; }
+    if (k === '±') { expr = expr ? '-(' + expr + ')' : expr; render(true); return; }
+    if (k === '=') {
+      try {
+        var v = evaluate(expr);
+        resEl.textContent = (typeof v === 'number' && isFinite(v))
+          ? Number(v.toPrecision(10)).toLocaleString('en') : 'خطأ';
+        if (isFinite(v)) expr = String(Number(v.toPrecision(10)));
+      } catch (e) { resEl.textContent = 'خطأ'; }
+      render(false);
+      exprEl.textContent = expr || ' ';
+      return;
+    }
+    if (k === '1/(') { expr += 'inv('; render(true); return; }
+    expr += k;
+    render(true);
+  });
+
+  document.getElementById('scMode').addEventListener('click', function () {
+    deg = !deg;
+    this.textContent = deg ? 'الوضع: درجات' : 'الوضع: راديان';
+    render(true);
+  });
+
+  render(false);
+})();
+</script>
+
+<script src="../assets/i18n.js"></script>
+
+</body>
+</html>
