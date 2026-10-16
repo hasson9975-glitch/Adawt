@@ -1,14 +1,14 @@
 /* أدواتي - ملف التنسيقات المشترك */
 :root {
-  --navy: #101f3c;
-  --navy-light: #1a2f55;
+  --pine: #0E3B2E;
+  --pine-light: #1A5A48;
   --gold: #f0a92e;
-  --gold-dark: #d18f1a;
-  --bg: #f4f6fb;
+  --gold-dark: #c9871a;
+  --bg: #f4f6f5;
   --card: #ffffff;
-  --text: #1e2a3a;
-  --muted: #556274; /* 5.74:1 على --bg — يحقق WCAG AA للنص العادي */
-  --border: #e2e8f2;
+  --text: #1e2b25;
+  --muted: #5a6b62; /* 5.9:1 على --bg — يحقق WCAG AA للنص العادي */
+  --border: #dfe8e1;
   --radius: 14px;
 }
 
@@ -25,7 +25,7 @@ body {
 
 /* الترويسة */
 header.site {
-  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  background: linear-gradient(135deg, var(--pine), var(--pine-light));
   color: #fff;
   padding: 18px 0;
   position: sticky;
@@ -34,10 +34,12 @@ header.site {
   box-shadow: 0 2px 12px rgba(0,0,0,.15);
 }
 header.site .container { display: flex; align-items: center; justify-content: space-between; }
-.logo { font-size: 1.6rem; font-weight: 800; color: #fff; text-decoration: none; }
+.logo { font-size: 1.6rem; font-weight: 800; color: #fff; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 10px; }
+.logo-mark { width: 34px; height: 34px; flex: none; display: block; }
 .logo span { color: var(--gold); }
 nav.main a {
-  color: #dbe4f3; text-decoration: none; margin-inline-start: 22px; font-weight: 500;
+  color: #d7e5dd; text-decoration: none; margin-inline-start: 22px; font-weight: 500;
   display: inline-block; padding: 10px 4px; /* هدف لمس ≥ 44px */
 }
 nav.main a:hover, nav.main a.active { color: var(--gold); }
@@ -55,12 +57,19 @@ textarea:focus-visible, summary:focus-visible, [tabindex]:focus-visible {
 
 /* البطل */
 .hero {
-  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 70%);
+  background: linear-gradient(135deg, var(--pine) 0%, var(--pine-light) 70%);
   color: #fff; text-align: center; padding: 70px 20px 60px;
 }
 .hero h1 { font-size: 2.4rem; margin-bottom: 12px; }
 .hero h1 span { color: var(--gold); }
-.hero p { color: #c6d2e8; font-size: 1.15rem; max-width: 640px; margin: 0 auto; }
+.hero p { color: #c3d6cb; font-size: 1.15rem; max-width: 640px; margin: 0 auto; }
+.hero-mark { width: 76px; height: 76px; margin-bottom: 14px; filter: drop-shadow(0 6px 18px rgba(0,0,0,.35)); }
+.hero-search { max-width: 520px; margin: 26px auto 0; }
+.hero-search input { width: 100%; padding: 14px 20px; font-size: 1.05rem; font-family: inherit;
+  border: 2px solid rgba(255,255,255,.25); border-radius: 99px; background: rgba(255,255,255,.12);
+  color: #fff; outline: none; }
+.hero-search input::placeholder { color: #b9c9c0; }
+.hero-search input:focus { border-color: var(--gold); background: rgba(255,255,255,.18); }
 
 /* شبكة الأدوات */
 .tools-grid {
@@ -69,10 +78,22 @@ textarea:focus-visible, summary:focus-visible, [tabindex]:focus-visible {
 }
 .tool-card {
   background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
-  padding: 26px 22px; text-decoration: none; color: var(--text);
+  padding: 26px 22px 20px; color: var(--text);
   transition: transform .2s, box-shadow .2s;
-  display: block;
+  display: flex; flex-direction: column; position: relative;
 }
+.card-link { text-decoration: none; color: inherit; display: block; flex: 1; }
+.share-btn {
+  align-self: flex-start; margin-top: 14px;
+  display: inline-flex; align-items: center; gap: 7px;
+  background: #e9f2ec; color: var(--pine); border: 1px solid var(--border);
+  border-radius: 99px; padding: 8px 16px; min-height: 44px;
+  font-family: inherit; font-weight: 700; font-size: .92rem; cursor: pointer;
+  transition: background .2s, color .2s;
+}
+.share-btn:hover { background: var(--pine); color: #fff; }
+.share-btn svg { width: 17px; height: 17px; flex: none; }
+.no-results { text-align: center; color: var(--muted); padding: 30px 0; font-size: 1.1rem; }
 .tool-card:hover { transform: translateY(-4px); box-shadow: 0 10px 28px rgba(16,31,60,.12); }
 .tool-card .icon { font-size: 2.2rem; margin-bottom: 10px; }
 .tool-card h3 { font-size: 1.2rem; margin-bottom: 6px; }
@@ -95,14 +116,14 @@ textarea { min-height: 160px; resize: vertical; }
 input[type="range"] { width: 100%; accent-color: var(--gold-dark); }
 
 .btn {
-  display: inline-block; background: var(--gold); color: var(--navy);
+  display: inline-block; background: var(--gold); color: var(--pine);
   border: none; padding: 12px 34px; font-size: 1.05rem; font-weight: 800;
   border-radius: 10px; cursor: pointer; font-family: inherit; margin-top: 16px;
   transition: background .2s;
 }
-.btn:hover { background: var(--gold-dark); color: var(--navy); /* أبيض على ذهبي داكن = 2.74:1 (فشل) */ }
-.btn.secondary { background: var(--navy); color: #fff; }
-.btn.secondary:hover { background: var(--navy-light); }
+.btn:hover { background: var(--gold-dark); color: var(--pine); /* أبيض على ذهبي داكن = 2.74:1 (فشل) */ }
+.btn.secondary { background: var(--pine); color: #fff; }
+.btn.secondary:hover { background: var(--pine-light); }
 .btn:disabled { opacity: .5; cursor: not-allowed; }
 
 .result {
@@ -121,7 +142,7 @@ input[type="range"] { width: 100%; accent-color: var(--gold-dark); }
   text-decoration: none; margin-inline-start: 22px; font-family: inherit;
   background: transparent; cursor: pointer; min-height: 44px; /* هدف لمس */
 }
-.lang-btn:hover { background: var(--gold); color: var(--navy); }
+.lang-btn:hover { background: var(--gold); color: var(--pine); }
 
 .drop-zone {
   border: 2px dashed var(--border); border-radius: var(--radius);
@@ -146,11 +167,11 @@ input[type="range"] { width: 100%; accent-color: var(--gold-dark); }
 .faq summary { font-weight: 700; cursor: pointer; }
 
 /* التذييل */
-footer.site { background: var(--navy); color: #aeb9cf; text-align: center; padding: 30px 20px; margin-top: 40px; }
+footer.site { background: var(--pine); color: #b9c9c0; text-align: center; padding: 30px 20px; margin-top: 40px; }
 footer.site a { color: var(--gold); text-decoration: none; }
 
 .breadcrumb { padding: 18px 0 0; color: var(--muted); font-size: .95rem; }
-.breadcrumb a { color: var(--navy); text-decoration: none; font-weight: 700; }
+.breadcrumb a { color: var(--pine); text-decoration: none; font-weight: 700; }
 
 @media (max-width: 640px) {
   .hero h1 { font-size: 1.7rem; }
