@@ -8,7 +8,34 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/style.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" integrity="sha384-/1qUCSGwTur9vjf/z9lmu/eCUYbpOTgSjmpbMQZ1/CtX2v/WcAIKqRv+U1DUCG6e" crossorigin="anonymous"></script>
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ar_LY">
+<meta property="og:site_name" content="أدواتي">
+<meta property="og:url" content="https://hasson9975-glitch.github.io/Adawt/tools/pdf2img.html">
+<meta property="og:title" content="تحويل PDF إلى صور PNG أونلاين مجاناً | أدواتي">
+<meta property="og:description" content="حوّل صفحات ملف PDF إلى صور PNG عالية الجودة مجاناً داخل المتصفح. سريع وآمن، ملفاتك لا تغادر جهازك.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="تحويل PDF إلى صور PNG أونلاين مجاناً | أدواتي">
+<meta name="twitter:description" content="حوّل صفحات ملف PDF إلى صور PNG عالية الجودة مجاناً داخل المتصفح. سريع وآمن، ملفاتك لا تغادر جهازك.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "تحويل PDF إلى صور PNG أونلاين مجاناً",
+  "description": "حوّل صفحات ملف PDF إلى صور PNG عالية الجودة مجاناً داخل المتصفح. سريع وآمن، ملفاتك لا تغادر جهازك.",
+  "url": "https://hasson9975-glitch.github.io/Adawt/tools/pdf2img.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Web",
+  "inLanguage": "ar",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "LYD"
+  }
+}
+</script>
 </head>
 <body>
 
@@ -65,15 +92,42 @@
 <script>
 (function () {
   'use strict';
-  if (window.pdfjsLib) {
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-  } else {
+  var PARTS = ['b64-01.txt', 'b64-02.txt', 'b64-03.txt', 'b64-04.txt', 'b64-05.txt'];
+  function b64ToBytes(b64) {
+    var bin = atob(b64.replace(/\s+/g, ''));
+    var bytes = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return bytes;
+  }
+  function workerFail(msg) {
     document.addEventListener('DOMContentLoaded', function () {
       var s = document.getElementById('pdf2imgStatus');
       s.classList.add('show');
-      s.textContent = 'تعذر تحميل مكتبة التحويل — تحقق من اتصال الإنترنت ثم حدّث الصفحة.';
+      s.textContent = msg;
     });
   }
+  function loadWorker() {
+    if (!window.pdfjsLib) { workerFail('تعذر تحميل مكتبة التحويل — تحقق من اتصال الإنترنت ثم حدّث الصفحة.'); return; }
+    if (typeof DecompressionStream === 'undefined') { workerFail('متصفحك لا يدعم فك الضغط — حدّث المتصفح ثم أعد المحاولة.'); return; }
+    Promise.all(PARTS.map(function (p) {
+      return fetch('../assets/pdfworker/' + p).then(function (r) { if (!r.ok) throw 0; return r.text(); });
+    })).then(function (texts) {
+      var chunks = texts.map(function (t) { return b64ToBytes(t); });
+      var total = chunks.reduce(function (n, b) { return n + b.length; }, 0);
+      var cat = new Uint8Array(total), off = 0;
+      chunks.forEach(function (b) { cat.set(b, off); off += b.length; });
+      var ds = new DecompressionStream('gzip');
+      var stream = new Blob([cat]).stream().pipeThrough(ds);
+      return new Response(stream).arrayBuffer();
+    }).then(function (jsBuf) {
+      var url = URL.createObjectURL(new Blob([jsBuf], { type: 'application/javascript' }));
+      pdfjsLib.GlobalWorkerOptions.workerSrc = url;
+    }).catch(function () {
+      workerFail('تعذر تحميل عامل التحويل — تحقق من اتصال الإنترنت ثم حدّث الصفحة.');
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', loadWorker);
+  else loadWorker();
   var buf = null, fname = 'page';
   var fileInput = document.getElementById('pdfFile');
   var goBtn = document.getElementById('pdf2imgBtn');
