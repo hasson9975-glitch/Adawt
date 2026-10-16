@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://hasson9975-glitch.github.io/Adawt/sitemap.xml

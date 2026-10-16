@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>حاسبة القروض | أدواتي</title>
+<meta name="description" content="احسب القسط الشهري للقرض وإجمالي الفوائد والمبلغ الكلي مجاناً داخل المتصفح.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+.ln-big{font-size:36px;font-weight:800;text-align:center;color:#0f2037}
+.ln-lbl{display:block;font-weight:700;margin:0 0 6px;font-size:14px}
+.ln-in{display:block;width:100%;padding:12px;border:1px solid #d8dee9;border-radius:10px;font-family:inherit;margin-bottom:12px}
+</style>
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ar_LY">
+<meta property="og:site_name" content="أدواتي">
+<meta property="og:url" content="https://hasson9975-glitch.github.io/Adawt/tools/loan.html">
+<meta property="og:title" content="حاسبة القروض | أدواتي">
+<meta property="og:description" content="احسب القسط الشهري للقرض وإجمالي الفوائد والمبلغ الكلي مجاناً داخل المتصفح.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="حاسبة القروض | أدواتي">
+<meta name="twitter:description" content="احسب القسط الشهري للقرض وإجمالي الفوائد والمبلغ الكلي مجاناً داخل المتصفح.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "حاسبة القروض",
+  "description": "احسب القسط الشهري للقرض وإجمالي الفوائد والمبلغ الكلي مجاناً داخل المتصفح.",
+  "url": "https://hasson9975-glitch.github.io/Adawt/tools/loan.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Web",
+  "inLanguage": "ar",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "LYD"
+  }
+}
+</script>
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / حاسبة القروض</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>💸 حاسبة القروض</h2>
+    <div class="desc">احسب القسط الشهري وإجمالي الفوائد قبل أن تقترض — أدخل المبلغ والفائدة والمدة.</div>
+
+    <label class="ln-lbl" for="lnAmount">مبلغ القرض (بعملتك)</label>
+    <input class="ln-in" type="number" id="lnAmount" min="0" step="any" placeholder="مثال: 100000">
+
+    <label class="ln-lbl" for="lnRate">معدل الفائدة السنوي: <span id="lnRateVal">5</span>%</label>
+    <input type="range" id="lnRate" min="0" max="30" step="0.1" value="5" style="margin-bottom:12px">
+
+    <label class="ln-lbl" for="lnYears">مدة القرض: <span id="lnYearsVal">5</span> سنوات</label>
+    <input type="range" id="lnYears" min="1" max="30" step="1" value="5" style="margin-bottom:12px">
+
+    <div class="result" id="lnOut">
+      <div class="ln-big" id="lnMonthly">—</div>
+      <div style="text-align:center;color:#5b6478;margin-bottom:10px">القسط الشهري</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center">
+        <div class="stat"><span id="lnA">—</span><small>إجمالي الفوائد</small></div>
+        <div class="stat"><span id="lnB">—</span><small>إجمالي المدفوعات</small></div>
+        <div class="stat"><span id="lnC">—</span><small>عدد الأقساط</small></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  function fmt(n) { return n.toLocaleString('ar', { maximumFractionDigits: 2 }); }
+
+  function calc() {
+    var P = parseFloat(document.getElementById('lnAmount').value) || 0;
+    var annual = parseFloat(document.getElementById('lnRate').value) || 0;
+    var years = parseInt(document.getElementById('lnYears').value, 10) || 1;
+    document.getElementById('lnRateVal').textContent = annual.toLocaleString('ar');
+    document.getElementById('lnYearsVal').textContent = years.toLocaleString('ar');
+    var n = years * 12;
+    var r = annual / 100 / 12;
+    var M = r > 0 ? P * r / (1 - Math.pow(1 + r, -n)) : P / n;
+    var total = M * n;
+    document.getElementById('lnMonthly').textContent = fmt(M);
+    document.getElementById('lnA').textContent = fmt(total - P);
+    document.getElementById('lnB').textContent = fmt(total);
+    document.getElementById('lnC').textContent = n.toLocaleString('ar');
+    document.getElementById('lnOut').classList.add('show');
+  }
+
+  ['lnAmount', 'lnRate', 'lnYears'].forEach(function (id) {
+    document.getElementById(id).addEventListener('input', calc);
+  });
+  calc();
+})();
+</script>
+
+<script src="../assets/i18n.js"></script>
+
+</body>
+</html>

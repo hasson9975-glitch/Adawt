@@ -7,7 +7,7 @@
   --bg: #f4f6fb;
   --card: #ffffff;
   --text: #1e2a3a;
-  --muted: #6b7a90;
+  --muted: #556274; /* 5.74:1 على --bg — يحقق WCAG AA للنص العادي */
   --border: #e2e8f2;
   --radius: 14px;
 }
@@ -38,8 +38,20 @@ header.site .container { display: flex; align-items: center; justify-content: sp
 .logo span { color: var(--gold); }
 nav.main a {
   color: #dbe4f3; text-decoration: none; margin-inline-start: 22px; font-weight: 500;
+  display: inline-block; padding: 10px 4px; /* هدف لمس ≥ 44px */
 }
 nav.main a:hover, nav.main a.active { color: var(--gold); }
+
+/* مؤشر تركيز مرئي للوحة المفاتيح (WCAG 2.4.7) */
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible,
+textarea:focus-visible, summary:focus-visible, [tabindex]:focus-visible {
+  outline: 3px solid var(--gold); outline-offset: 2px; border-radius: 6px;
+}
+
+/* احترام تقليل الحركة (WCAG 2.3.3) */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001s !important; transition-duration: .001s !important; }
+}
 
 /* البطل */
 .hero {
@@ -88,7 +100,7 @@ input[type="range"] { width: 100%; accent-color: var(--gold-dark); }
   border-radius: 10px; cursor: pointer; font-family: inherit; margin-top: 16px;
   transition: background .2s;
 }
-.btn:hover { background: var(--gold-dark); color: #fff; }
+.btn:hover { background: var(--gold-dark); color: var(--navy); /* أبيض على ذهبي داكن = 2.74:1 (فشل) */ }
 .btn.secondary { background: var(--navy); color: #fff; }
 .btn.secondary:hover { background: var(--navy-light); }
 .btn:disabled { opacity: .5; cursor: not-allowed; }
@@ -105,9 +117,9 @@ input[type="range"] { width: 100%; accent-color: var(--gold-dark); }
 /* زر تبديل اللغة */
 .lang-btn {
   display: inline-block; color: var(--gold); border: 1px solid var(--gold);
-  border-radius: 99px; padding: 4px 16px; font-weight: 800; font-size: .9rem;
+  border-radius: 99px; padding: 10px 20px; font-weight: 800; font-size: .9rem;
   text-decoration: none; margin-inline-start: 22px; font-family: inherit;
-  background: transparent;
+  background: transparent; cursor: pointer; min-height: 44px; /* هدف لمس */
 }
 .lang-btn:hover { background: var(--gold); color: var(--navy); }
 
@@ -122,7 +134,7 @@ input[type="range"] { width: 100%; accent-color: var(--gold-dark); }
 /* أماكن الإعلانات */
 .ad-slot {
   background: #eef1f6; border: 1px dashed #c3ccd9; border-radius: 10px;
-  color: #9aa7bd; text-align: center; padding: 26px 10px; margin: 28px 0; font-size: .9rem;
+  color: #5f6b7e; /* 4.77:1 — يحقق WCAG AA */ text-align: center; padding: 26px 10px; margin: 28px 0; font-size: .9rem;
 }
 
 /* خطوات وشرح */
