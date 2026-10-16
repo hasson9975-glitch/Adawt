@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>صانع السيرة الذاتية | أدواتي</title>
+<meta name="description" content="أنشئ سيرتك الذاتية مجاناً: املأ بياناتك وشاهد المعاينة ثم اطبعها أو احفظها PDF.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+.cv-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:820px){.cv-grid{grid-template-columns:1fr}}
+.cv-form label{display:block;font-weight:700;margin:10px 0 4px;font-size:14px}
+.cv-form input,.cv-form textarea{display:block;width:100%;padding:10px;border:1px solid #d8dee9;border-radius:10px;font-family:inherit}
+.cv-form textarea{min-height:76px;resize:vertical}
+.cv-preview{background:#fff;border:1px solid #e3e8f0;border-radius:12px;padding:26px;box-shadow:0 6px 24px rgba(0,0,0,.08)}
+.cv-preview .cv-name{font-size:26px;font-weight:800;color:#0f2037;margin:0}
+.cv-preview .cv-title{color:#b78a2e;font-weight:700;margin:2px 0 8px}
+.cv-preview .cv-contact{font-size:13px;color:#5b6478;margin-bottom:14px}
+.cv-preview h4{margin:16px 0 6px;color:#0f2037;border-bottom:2px solid #e9c46a;display:inline-block;padding-bottom:2px}
+.cv-preview p,.cv-preview li{font-size:14px;line-height:1.9;white-space:pre-line}
+.cv-preview ul{margin:4px 0;padding-right:18px}
+@media print{
+  header.site,footer.site,.breadcrumb,.ad-slot,.cv-form,.tool-box>h2,.tool-box>.desc,.no-print{display:none!important}
+  .cv-grid{display:block}
+  .cv-preview{box-shadow:none;border:0}
+  .container{max-width:100%}
+}
+</style>
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ar_LY">
+<meta property="og:site_name" content="أدواتي">
+<meta property="og:url" content="https://hasson9975-glitch.github.io/Adawt/tools/cv.html">
+<meta property="og:title" content="صانع السيرة الذاتية | أدواتي">
+<meta property="og:description" content="أنشئ سيرتك الذاتية مجاناً: املأ بياناتك وشاهد المعاينة ثم اطبعها أو احفظها PDF.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="صانع السيرة الذاتية | أدواتي">
+<meta name="twitter:description" content="أنشئ سيرتك الذاتية مجاناً: املأ بياناتك وشاهد المعاينة ثم اطبعها أو احفظها PDF.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "صانع السيرة الذاتية",
+  "description": "أنشئ سيرتك الذاتية مجاناً: املأ بياناتك وشاهد المعاينة ثم اطبعها أو احفظها PDF.",
+  "url": "https://hasson9975-glitch.github.io/Adawt/tools/cv.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Web",
+  "inLanguage": "ar",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "LYD"
+  }
+}
+</script>
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / صانع السيرة الذاتية</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>📄 صانع السيرة الذاتية</h2>
+    <div class="desc">املأ بياناتك في النموذج وشاهد السيرة تُبنى أمامك مباشرة، ثم اطبعها أو احفظها PDF.</div>
+
+    <div class="cv-grid">
+      <div class="cv-form">
+        <label for="cvName">الاسم الكامل</label>
+        <input id="cvName" placeholder="مثال: أحمد محمد">
+        <label for="cvJob">المسمى الوظيفي</label>
+        <input id="cvJob" placeholder="مثال: مصمم جرافيك">
+        <label for="cvPhone">الهاتف</label>
+        <input id="cvPhone" placeholder="مثال: 0912345678" dir="ltr" style="text-align:right">
+        <label for="cvEmail">البريد الإلكتروني</label>
+        <input id="cvEmail" placeholder="name@email.com" dir="ltr" style="text-align:right">
+        <label for="cvCity">المدينة</label>
+        <input id="cvCity" placeholder="مثال: طرابلس">
+        <label for="cvAbout">نبذة تعريفية</label>
+        <textarea id="cvAbout" placeholder="نبذة قصيرة عنك وعن خبراتك..."></textarea>
+        <label for="cvExp">الخبرات (سطر لكل وظيفة)</label>
+        <textarea id="cvExp" placeholder="مصمم جرافيك — شركة النور (2022 - الآن)"></textarea>
+        <label for="cvEdu">التعليم</label>
+        <textarea id="cvEdu" placeholder="بكالوريوس تصميم — جامعة طرابلس (2020)"></textarea>
+        <label for="cvSkills">المهارات (افصل بفاصلة)</label>
+        <input id="cvSkills" placeholder="فوتوشوب، تصميم شعارات، إدارة وقت">
+        <div class="no-print" style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn" id="cvPrint">🖨️ طباعة / حفظ PDF</button>
+          <button class="btn secondary" id="cvClear">مسح البيانات</button>
+        </div>
+      </div>
+      <div>
+        <div class="cv-preview" id="cvPrev">
+          <p class="cv-name" id="pName">الاسم الكامل</p>
+          <p class="cv-title" id="pJob">المسمى الوظيفي</p>
+          <p class="cv-contact" id="pContact"></p>
+          <h4>نبذة تعريفية</h4><p id="pAbout">—</p>
+          <h4>الخبرات</h4><ul id="pExp"><li>—</li></ul>
+          <h4>التعليم</h4><ul id="pEdu"><li>—</li></ul>
+          <h4>المهارات</h4><p id="pSkills">—</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  function val(id) { return document.getElementById(id).value.trim(); }
+  function lines(id) {
+    return val(id).split('\n').map(function (s) { return s.trim(); }).filter(Boolean);
+  }
+  function render() {
+    document.getElementById('pName').textContent = val('cvName') || 'الاسم الكامل';
+    document.getElementById('pJob').textContent = val('cvJob') || 'المسمى الوظيفي';
+    var c = [val('cvPhone'), val('cvEmail'), val('cvCity')].filter(Boolean).join(' · ');
+    document.getElementById('pContact').textContent = c;
+    document.getElementById('pAbout').textContent = val('cvAbout') || '—';
+    var exp = lines('cvExp'), edu = lines('cvEdu');
+    document.getElementById('pExp').innerHTML = exp.length ? exp.map(function (x) { return '<li></li>'; }).join('') : '<li>—</li>';
+    Array.prototype.forEach.call(document.querySelectorAll('#pExp li'), function (li, i) { if (exp[i]) li.textContent = exp[i]; });
+    document.getElementById('pEdu').innerHTML = edu.length ? edu.map(function () { return '<li></li>'; }).join('') : '<li>—</li>';
+    Array.prototype.forEach.call(document.querySelectorAll('#pEdu li'), function (li, i) { if (edu[i]) li.textContent = edu[i]; });
+    document.getElementById('pSkills').textContent = val('cvSkills') || '—';
+  }
+  ['cvName','cvJob','cvPhone','cvEmail','cvCity','cvAbout','cvExp','cvEdu','cvSkills'].forEach(function (id) {
+    document.getElementById(id).addEventListener('input', render);
+  });
+  document.getElementById('cvPrint').addEventListener('click', function () { window.print(); });
+  document.getElementById('cvClear').addEventListener('click', function () {
+    ['cvName','cvJob','cvPhone','cvEmail','cvCity','cvAbout','cvExp','cvEdu','cvSkills'].forEach(function (id) {
+      document.getElementById(id).value = '';
+    });
+    render();
+  });
+  render();
+})();
+</script>
+
+<script src="../assets/i18n.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>حاسبة الزكاة | أدواتي</title>
+<meta name="description" content="احسب زكاة المال والذهب: تحقق من بلوغ النصاب واحسب الزكاة المستحقة (2.5%) مجاناً.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ar_LY">
+<meta property="og:site_name" content="أدواتي">
+<meta property="og:url" content="https://hasson9975-glitch.github.io/Adawt/tools/zakat.html">
+<meta property="og:title" content="حاسبة الزكاة | أدواتي">
+<meta property="og:description" content="احسب زكاة المال والذهب: تحقق من بلوغ النصاب واحسب الزكاة المستحقة (2.5%) مجاناً.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="حاسبة الزكاة | أدواتي">
+<meta name="twitter:description" content="احسب زكاة المال والذهب: تحقق من بلوغ النصاب واحسب الزكاة المستحقة (2.5%) مجاناً.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "حاسبة الزكاة",
+  "description": "احسب زكاة المال والذهب: تحقق من بلوغ النصاب واحسب الزكاة المستحقة (2.5%) مجاناً.",
+  "url": "https://hasson9975-glitch.github.io/Adawt/tools/zakat.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Web",
+  "inLanguage": "ar",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "LYD"
+  }
+}
+</script>
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="../index.html">أدوات<span>ي</span></a>
+    <nav class="main">
+      <a href="../index.html">الرئيسية</a>
+      <a href="compress.html">ضغط الصور</a>
+      <a href="counter.html">عداد الكلمات</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb"><a href="../index.html">الرئيسية</a> / حاسبة الزكاة</div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+
+  <div class="tool-box">
+    <h2>💰 حاسبة الزكاة</h2>
+    <div class="desc">احسب زكاة أموالك أو ذهبك. الزكاة 2.5% عند بلوغ النصاب (85 غرام ذهب) وحولان الحول.</div>
+
+    <div style="margin-bottom:12px">
+      <label style="display:inline-block;margin-left:16px"><input type="radio" name="zkMode" value="money" checked style="width:auto"> زكاة المال</label>
+      <label style="display:inline-block"><input type="radio" name="zkMode" value="gold" style="width:auto"> زكاة الذهب</label>
+    </div>
+
+    <div id="zkMoney">
+      <label for="zkAmount">مبلغ المال (بعملتك)</label>
+      <input type="number" id="zkAmount" min="0" step="any" placeholder="مثال: 50000" style="display:block;width:100%;padding:12px;border:1px solid #d8dee9;border-radius:10px;font-family:inherit;margin-bottom:12px">
+      <label for="zkGoldPrice">سعر غرام الذهب عيار 24 (بعملتك)</label>
+      <input type="number" id="zkGoldPrice" min="0" step="any" placeholder="مثال: 450" style="display:block;width:100%;padding:12px;border:1px solid #d8dee9;border-radius:10px;font-family:inherit;margin-bottom:12px">
+    </div>
+
+    <div id="zkGold" style="display:none">
+      <label for="zkWeight">وزن الذهب (غرام)</label>
+      <input type="number" id="zkWeight" min="0" step="any" placeholder="مثال: 120" style="display:block;width:100%;padding:12px;border:1px solid #d8dee9;border-radius:10px;font-family:inherit;margin-bottom:12px">
+      <label for="zkKarat">العيار</label>
+      <select id="zkKarat" style="display:block;width:100%;padding:12px;border:1px solid #d8dee9;border-radius:10px;font-family:inherit;margin-bottom:12px">
+        <option value="24">24 (ذهب خالص)</option>
+        <option value="22">22</option>
+        <option value="21" selected>21</option>
+        <option value="18">18</option>
+      </select>
+      <label for="zkGoldPrice2">سعر غرام الذهب عيار 24 (بعملتك)</label>
+      <input type="number" id="zkGoldPrice2" min="0" step="any" placeholder="مثال: 450" style="display:block;width:100%;padding:12px;border:1px solid #d8dee9;border-radius:10px;font-family:inherit;margin-bottom:12px">
+    </div>
+
+    <div class="result" id="zkOut">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center">
+        <div class="stat"><span id="zkA">—</span><small>الزكاة المستحقة</small></div>
+        <div class="stat"><span id="zkB">—</span><small>قيمة النصاب</small></div>
+        <div class="stat"><span id="zkC">—</span><small>الحالة</small></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ad-slot">مساحة إعلانية</div>
+</div>
+
+<footer class="site"><div class="container"><p>أدواتي © 2026 — <a href="../index.html">الرئيسية</a> · <a href="../about.html">من نحن</a> · <a href="../privacy.html">سياسة الخصوصية</a> · <a href="../contact.html">اتصل بنا</a></p></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  var NISAB_GRAMS = 85;
+  function fmt(n) { return n.toLocaleString('ar', { maximumFractionDigits: 2 }); }
+  function mode() { return document.querySelector('input[name="zkMode"]:checked').value; }
+
+  function calc() {
+    var zakat = 0, nisabVal = 0, reached = false;
+    if (mode() === 'money') {
+      var amount = parseFloat(document.getElementById('zkAmount').value) || 0;
+      var gp = parseFloat(document.getElementById('zkGoldPrice').value) || 0;
+      nisabVal = NISAB_GRAMS * gp;
+      reached = gp > 0 && amount >= nisabVal && amount > 0;
+      zakat = reached ? amount * 0.025 : 0;
+    } else {
+      var w = parseFloat(document.getElementById('zkWeight').value) || 0;
+      var karat = parseFloat(document.getElementById('zkKarat').value) || 24;
+      var gp2 = parseFloat(document.getElementById('zkGoldPrice2').value) || 0;
+      var pure = w * karat / 24;
+      nisabVal = NISAB_GRAMS * gp2;
+      reached = gp2 > 0 && pure >= NISAB_GRAMS && w > 0;
+      zakat = reached ? pure * gp2 * 0.025 : 0;
+    }
+    document.getElementById('zkA').textContent = fmt(zakat);
+    document.getElementById('zkB').textContent = fmt(nisabVal);
+    document.getElementById('zkC').textContent = reached ? 'تجب الزكاة ✅' : 'لا تجب الزكاة';
+    document.getElementById('zkOut').classList.add('show');
+  }
+
+  document.querySelectorAll('input[name="zkMode"]').forEach(function (el) {
+    el.addEventListener('change', function () {
+      var m = mode() === 'money';
+      document.getElementById('zkMoney').style.display = m ? 'block' : 'none';
+      document.getElementById('zkGold').style.display = m ? 'none' : 'block';
+      calc();
+    });
+  });
+  ['zkAmount', 'zkGoldPrice', 'zkWeight', 'zkKarat', 'zkGoldPrice2'].forEach(function (id) {
+    document.getElementById(id).addEventListener('input', calc);
+    document.getElementById(id).addEventListener('change', calc);
+  });
+  calc();
+})();
+</script>
+
+<script src="../assets/i18n.js"></script>
+
+</body>
+</html>
